@@ -195,6 +195,10 @@
     <string name="Downloads">Downloads</string>
     <string name="OnLine">OnLine</string>
 
+    <string name="Copy">Copy</string>
+    <string name="Speak">Speak</string>
+    <string name="Save">Save</string>
+    <string name="忘记">Forget</string>
 
     <string name="刚刚">lately</string>
     <string name="分钟前">_minutes ago</string>

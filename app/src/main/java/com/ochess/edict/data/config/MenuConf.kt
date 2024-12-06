@@ -75,7 +75,7 @@ class MenuConf {
 
         fun modeNow(id:Int=-1): mode {
             if(id == -1) {
-                val index = UserStatus().get("default_view_mode")
+                var index = UserStatus().get("default_view_mode",1)
                 val m = mode.values().get(index)
                 return m
             }

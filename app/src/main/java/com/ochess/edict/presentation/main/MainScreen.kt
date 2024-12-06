@@ -143,7 +143,7 @@ fun MainScreen(
         .fillMaxSize()
         .offset(x = px2dp(dragDistance.toInt()))
         .draggable(
-            enabled = dragAble && nowRoute!="Home",
+            enabled = dragAble && ! nowRoute.startsWith("Home"),
             state = rememberDraggableState(onDelta = {
                 dragEvent.move(it)
             }),
@@ -262,7 +262,10 @@ fun MainScreen(
                     defaultValue = 0
                 })
         ) {
-//            BookMark.changePid(it.arguments!!.getInt("pid"))
+            val pid = it.arguments?.getInt("pid",0)
+            if (pid != null) {
+                BookMark.changePid(pid)
+            }
             BookmarkScreen()
 //            BookmarkScreen(bookmarkViewModel) { index ->
 //                navController.navigate("${NavScreen.HomeScreen.route}?wordIndex=$index?fromPage=$PAGE_FROM_BOOKMARK?level=${-1}") {

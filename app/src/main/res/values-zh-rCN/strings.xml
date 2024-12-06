@@ -93,6 +93,12 @@
     <string name="Downloads">外部下载的</string>
     <string name="OnLine">外部课本</string>
 
+    <string name="Copy">复制</string>
+    <string name="Speak">读音</string>
+    <string name="Save">保存</string>
+    <string name="忘记">忘记</string>
+
+
     <string name="添加分类">添加分类</string>
     <string name="添加文件">添加文件</string>
     <string name="选择">选择</string>

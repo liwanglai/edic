@@ -282,4 +282,10 @@ data class BookConf(
         initByData(rows)
     }
 
+    fun cid(): Int {
+        if(id ==0) return 0
+        val article = Article.find(id)
+        return article?.cid ?: 0
+    }
+
 }

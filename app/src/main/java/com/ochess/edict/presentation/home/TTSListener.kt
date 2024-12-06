@@ -198,9 +198,9 @@ class TTSListener(context: Context, private var onSpeechCompleted: () -> Unit) :
                     }
                 }
                 ProgressDialog.close()
-                ActivityRun.runOnUiThread {
-                    function(okSize)
-                }
+//                ActivityRun.runOnUiThread {
+//                    function(okSize)
+//                }
                 for (word in words!!) {
                     imgsCreate(word)
                 }
@@ -216,6 +216,9 @@ class TTSListener(context: Context, private var onSpeechCompleted: () -> Unit) :
                 }
 
             }.start()
+            ActivityRun.runOnUiThread {
+                function(1)
+            }
         }
 
     }

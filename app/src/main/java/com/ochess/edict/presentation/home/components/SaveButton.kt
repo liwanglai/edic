@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
 import kotlinx.coroutines.launch
+import com.ochess.edict.presentation.main.extend.MText as Text
 
 @Composable
 fun SaveButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {

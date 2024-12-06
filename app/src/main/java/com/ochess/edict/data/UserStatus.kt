@@ -38,9 +38,9 @@ class UserStatus() {
         editor.putString(k,v.toString())
         editor.apply()
     }
-    fun get(k:String) :Int{
+    fun get(k:String,def:Int=0) :Int{
         val v = getString(k)
-        return if(!v.equals(""))  v.toInt() else 0
+        return if(!v.equals(""))  v.toInt() else def
     }
 
 

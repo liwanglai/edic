@@ -90,6 +90,12 @@
     <string name="Downloads">外部下載的</string>
     <string name="OnLine">外部課本</string>
 
+
+    <string name="Copy">復製</string>
+    <string name="Speak">讀音</string>
+    <string name="Save">保存</string>
+    <string name="忘记">忘記</string>
+
     <string name="刚刚">剛剛</string>
     <string name="分钟前">分鐘前</string>
     <string name="小时前">小時前</string>

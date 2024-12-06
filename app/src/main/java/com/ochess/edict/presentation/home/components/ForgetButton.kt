@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
+import com.ochess.edict.presentation.main.extend.MText as Text
 
 @Composable
 fun ForgetButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
@@ -45,8 +46,8 @@ fun ForgetButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
 //            )
             Text(
                 text = "忘记",
-                color = MaterialTheme.colors.onBackground,
-                style = MaterialTheme.typography.subtitle2
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleSmall
             )
         }
     }

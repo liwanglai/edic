@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
+import com.ochess.edict.presentation.main.extend.MText as Text
 
 @Composable
 @Preview

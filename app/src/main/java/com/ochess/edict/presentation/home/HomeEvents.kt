@@ -1,5 +1,6 @@
 package com.ochess.edict.presentation.home
 
+import androidx.activity.result.ActivityResult
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
@@ -14,7 +15,11 @@ import com.ochess.edict.util.media.Audio
 class HomeEvents {
     companion object {
         lateinit var showMainPage: (name:String) -> Unit
+        val events = Events()
         fun onback(){
+            if(!events.onBackPressed()){
+                return
+            }
             when(nowBookShowType){
                 "word_shows" -> {
                     nowBookShowType="book_shows"
@@ -23,11 +28,23 @@ class HomeEvents {
                 }
                 "book_shows" -> {
                     nowBookShowType = "word_shows"
-                    NavScreen.BookmarkScreen.open()
+                    val pid = BookConf.instance.cid()
+                    if(pid>0){
+                        NavScreen.BookmarkScreen.open("?pid="+pid)
+                    }
+
                     false
                 }
                 else -> false
             }
+        }
+
+        fun onBackBefore(backfun:()->Boolean) {
+            events.onBackPressed = backfun
+        }
+
+        class Events{
+            var onBackPressed: () -> Boolean = {true}
         }
     }
     object SwitchMainPage {

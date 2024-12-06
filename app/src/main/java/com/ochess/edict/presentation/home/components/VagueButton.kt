@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.ochess.edict.presentation.main.extend.MText as Text
 
 @Composable
 fun VagueButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
@@ -34,7 +36,7 @@ fun VagueButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
             modifier = modifier
                 .background(Color.Yellow)
                 .padding(16.dp,8.dp,16.dp,8.dp)
-                .size(48.dp)
+                .size(55.dp,48.dp)
         ) {
 //            Icon(
 //                painterResource(id = R.drawable.save),
@@ -43,8 +45,9 @@ fun VagueButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
 //            )
             Text(
                 text = "模糊",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleSmall
+
             )
         }
     }

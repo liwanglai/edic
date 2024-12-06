@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.ochess.edict.presentation.main.extend.MText as Text
 
 @Composable
 fun KnowButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
@@ -43,8 +44,8 @@ fun KnowButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
 //            )
             Text(
                 text = "认识",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleSmall
             )
         }
     }

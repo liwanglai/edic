@@ -71,10 +71,10 @@ fun BookGrid() {
                 Item2(item)
                 //初始化mp3文件的进度条
                 if (!item.inited ) {
-                    Text(
-                            item.initStatusText, color = Color.Red, modifier = Modifier.align(Alignment.TopCenter)
-                            .padding(top = 10.dp)
-                    )
+//                    Text(
+//                            item.initStatusText, color = Color.Red, modifier = Modifier.align(Alignment.TopCenter)
+//                            .padding(top = 10.dp)
+//                    )
 
                     if (ProgressDialog.size.value>0 && BookMarkEvent.openItem!=null && BookMarkEvent.openItem!! == item) {
                         Text(text = "" + ProgressDialog.pos.value + "/" + ProgressDialog.size.value,

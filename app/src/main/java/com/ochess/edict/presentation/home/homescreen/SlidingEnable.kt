@@ -31,10 +31,14 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.TAG
+import com.ochess.edict.presentation.home.nowBookShowType
+import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.presentation.main.components.Display.px2dp
+import com.ochess.edict.presentation.navigation.NavScreen
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlin.math.abs
@@ -57,6 +61,13 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
     var scrollPercent = remember { mutableStateOf(0f) }
     //当前显示的页面 (0 1 2)
     var showPageIndex by remember { mutableStateOf(1) }
+    HomeEvents.onBackBefore{
+        val rt = showPageIndex!=0
+        if(!rt) {
+            showPageIndex=1
+        }
+        rt
+    }
     //显示加载页
     var showLoadingPage by remember { mutableStateOf(false) }
     //尝试展示的页面
@@ -78,6 +89,9 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                     Display.setBitMapByPageScreen(it)
                 }, 200)
             }
+            nowBookShowType="word_shows"
+            viewMode = MenuConf.mode.wordStudy
+            NavScreen.openHome(0)
         }
     }
 
@@ -163,7 +177,7 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
 //        }
 
         boxTop = when (showPageIndex) {
-                    0 -> fHeight
+                    0 -> fHeight-100
                     1 -> 0f
                     2 -> -fHeight
                     else -> 0f

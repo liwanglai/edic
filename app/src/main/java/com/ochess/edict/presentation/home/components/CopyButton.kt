@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
+import com.ochess.edict.presentation.main.extend.MText as Text
 
 @Composable
 fun CopyButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
