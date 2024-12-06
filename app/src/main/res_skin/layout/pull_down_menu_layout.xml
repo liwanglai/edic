@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:ellipsize="marquee" android:gravity="center|left" android:layout_gravity="right" android:id="@id/tvPullDown" android:paddingLeft="@dimen/x40" android:paddingRight="@dimen/x19" android:clickable="true" android:layout_width="wrap_content" android:layout_height="fill_parent" android:text="Unit 1" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" />
+    <ImageView android:id="@id/iv_arrow" android:layout_width="@dimen/y30" android:layout_height="@dimen/y17" android:layout_marginRight="@dimen/x40" android:src="@drawable/arrow_down" />
+</LinearLayout>

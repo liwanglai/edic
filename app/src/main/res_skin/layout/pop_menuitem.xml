@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/pop_menu_bg" android:layout_width="fill_parent" android:layout_height="@dimen/y100">
+        <TextView android:id="@id/menuid" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <TextView android:textSize="@dimen/x36" android:textColor="@color/black" android:id="@id/menuitem" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x40" android:text="Unit 1" android:layout_weight="1.0" />
+        <TextView android:textSize="@dimen/x36" android:textColor="@color/black" android:id="@id/studied" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x40" android:layout_marginRight="@dimen/x20" android:text="已学" />
+        <ImageView android:id="@id/checked" android:background="@drawable/checked" android:layout_width="@dimen/x36" android:layout_height="@dimen/y24" android:layout_marginLeft="@dimen/x30" android:layout_marginRight="@dimen/x40" />
+    </LinearLayout>
+    <View android:background="#ffdddddd" android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_marginLeft="@dimen/x40" android:layout_marginRight="@dimen/x40" />
+</LinearLayout>

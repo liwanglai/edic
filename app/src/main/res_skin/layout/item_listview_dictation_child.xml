@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/item_line" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <CheckBox android:id="@id/word_check" android:background="@drawable/checkbox_child_selector" android:layout_width="@dimen/x60" android:layout_height="@dimen/x60" android:layout_marginLeft="@dimen/x40" android:button="@null" />
+        <TextView android:textSize="@dimen/x32" android:textColor="#ff353535" android:gravity="center_vertical" android:id="@id/word_name" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x20" android:layout_marginRight="@dimen/x20" android:minHeight="@dimen/y80" android:text="good" />
+    </LinearLayout>
+    <View android:id="@id/divider" android:background="#ffdddddd" android:layout_width="fill_parent" android:layout_height="@dimen/y3" />
+</LinearLayout>

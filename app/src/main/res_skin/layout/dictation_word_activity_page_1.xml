@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/page_1" android:background="@drawable/bg_main" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout android:id="@id/page1_title" android:background="@drawable/bg_title" android:layout_width="fill_parent" android:layout_height="@dimen/y100">
+            <RelativeLayout android:id="@id/rl_back1"  android:layout_width="wrap_content" android:layout_height="fill_parent" >
+                <ImageButton android:id="@id/ib_back1" android:background="@drawable/back" android:layout_width="@dimen/x70" android:layout_height="@dimen/x70" android:layout_marginLeft="@dimen/x40" android:layout_marginRight="@dimen/x40" android:layout_centerVertical="true" />
+                <TextView android:textSize="@dimen/y32" android:textColor="@color/white" android:gravity="center" android:id="@+id/tv_config" android:background="@drawable/bg_blue" android:layout_width="@dimen/y180" android:layout_height="@dimen/x60" android:layout_marginRight="@dimen/y140" android:text="@string/Setting" android:layout_alignParentLeft="true" android:layout_centerVertical="true" />
+            </RelativeLayout>
+            <TextView android:textSize="@dimen/y36" android:textColor="#ff353535" android:id="@id/page1_tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/button_top" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y180" android:layout_centerHorizontal="true">
+            <android.widget.Button android:textSize="@dimen/x36" android:textColor="@drawable/switch_button_dictation_color_selector" android:gravity="center" android:id="@id/b_english" android:background="@drawable/switch_button_dictation_left_selector" android:layout_width="@dimen/x200" android:layout_height="@dimen/y100" android:text="@string/报英文" />
+            <android.widget.Button android:textSize="@dimen/x36" android:textColor="@drawable/switch_button_dictation_color_selector" android:gravity="center" android:id="@id/b_chinese" android:background="@drawable/switch_button_dictation_right_selector" android:layout_width="@dimen/x200" android:layout_height="@dimen/y100" android:text="@string/报中文" />
+        </LinearLayout>
+        <RelativeLayout android:id="@id/page_number" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y340" android:layout_centerHorizontal="true">
+            <ImageView android:background="@drawable/bj_dtb" android:layout_width="@dimen/x800" android:layout_height="@dimen/y471" android:layout_centerHorizontal="true" />
+            <TextView android:textSize="@dimen/y85" android:textStyle="bold" android:textColor="@color/white" android:id="@id/tv_index_number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="01/20" android:layout_centerInParent="true" android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+        <RelativeLayout android:id="@id/page_fill" android:layout_width="fill_parent" android:layout_height="@dimen/y900" android:layout_marginLeft="@dimen/y60" android:layout_marginTop="@dimen/x340" android:layout_marginRight="@dimen/y60">
+            <TextView android:textSize="@dimen/y40" android:textColor="#ff666666" android:gravity="center" android:id="@id/tv_index_number_fill" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="02/20" android:layout_centerHorizontal="true" />
+            <LinearLayout android:gravity="center" android:id="@id/letter_line_out" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x70" android:layout_centerHorizontal="true">
+                <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/letter_line" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <ImageView android:id="@+id/iv_result_reset" android:layout_width="@dimen/y50" android:layout_height="@dimen/y50" android:layout_marginLeft="@dimen/y50" android:src="@drawable/reset_ico" />
+                <ImageView android:id="@id/iv_result_wrong" android:layout_width="@dimen/y50" android:layout_height="@dimen/y50" android:layout_marginLeft="@dimen/y50" android:src="@drawable/wrong_image" />
+                <ImageView android:id="@id/iv_result_correct" android:layout_width="@dimen/y68" android:layout_height="@dimen/y50" android:layout_marginLeft="@dimen/y50" android:src="@drawable/correct_image" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/line_your_answer" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x20" android:layout_below="@id/letter_line_out" android:layout_centerHorizontal="true">
+                <TextView android:textSize="@dimen/x32" android:textColor="#ff999999" android:id="@id/correct_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/正确答案" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:id="@id/letter_result" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/答案" />
+            </LinearLayout>
+            <include layout="@layout/input_select_keyboard" ></include>
+            <include layout="@layout/input_select_keyboard_smt" ></include>
+        </RelativeLayout>
+        <LinearLayout android:gravity="center" android:orientation="horizontal" android:id="@id/ll_controller" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/y40" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true">
+            <ImageButton android:id="@id/ib_left" android:background="@drawable/switch_left_selector" android:visibility="invisible" android:layout_width="@dimen/x80" android:layout_height="@dimen/x80" />
+            <ImageButton android:id="@id/ib_play" android:background="@drawable/pause" android:layout_width="@dimen/x120" android:layout_height="@dimen/x120" android:layout_marginLeft="@dimen/x136" android:layout_marginRight="@dimen/x136" />
+            <ImageButton android:id="@id/ib_right" android:background="@drawable/switch_right_selector" android:layout_width="@dimen/x80" android:layout_height="@dimen/x80" />
+        </LinearLayout>
+        <ProgressBar android:id="@id/progressbar" android:layout_width="@dimen/y1300" android:layout_height="@dimen/y20" android:layout_marginTop="@dimen/y1280" android:layout_marginBottom="@dimen/y40" android:max="30" android:progress="10" android:progressDrawable="@drawable/progress" android:layout_above="@id/ll_controller" android:layout_centerHorizontal="true" style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+        <LinearLayout android:orientation="vertical" android:id="@id/ll_text_interval_sequence" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/y40"  android:layout_alignTop="@id/button_top">
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/重复次数" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@id/interval" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y180" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="3次" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y60">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/字母大小写" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@id/mode" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y180" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="@string/大写" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y60">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/输入框样式" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@+id/in_mode" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y180" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="@string/方框" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:id="@id/ll_machine_interval_sequence" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/x181" android:layout_alignTop="@id/button_top" android:layout_alignParentRight="true">
+            <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/听写间隔" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@id/interval_machine" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y180" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="3S" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y60">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/播报顺序" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@id/mode_machine" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y280" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="@string/顺序" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y60">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/配置保存" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@+id/config_save" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y280" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="@string/保存" />
+            </LinearLayout>
+
+
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y60">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="
+@string/输入方式" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@+id/input_type" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y280" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="
+@string/打乱字母" />
+            </LinearLayout>
+        </LinearLayout>
+        <FrameLayout android:id="@id/fl_count_down" android:background="#63000000" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <ImageView android:layout_gravity="center" android:layout_width="@dimen/y400" android:layout_height="@dimen/y400" android:src="@drawable/bj_djs" />
+            <TextView android:textSize="@dimen/y200" android:textStyle="bold" android:textColor="#ff08bbff" android:layout_gravity="center" android:id="@id/tv_count_down" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3" />
+        </FrameLayout>
+    </RelativeLayout>
+</merge>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <FrameLayout android:id="@id/fl_container" android:background="@drawable/shape_study_container_bg" android:paddingTop="@dimen/y31" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/y84">
+            <include layout="@layout/word_type_content1" />
+            <include layout="@layout/word_type_content2" />
+            <include layout="@layout/word_type_content3" />
+            <include layout="@layout/word_type_content7" />
+            <include layout="@layout/word_type_content8" />
+            <include layout="@layout/word_type_content5" />
+            <include layout="@layout/word_type_content4" />
+        </FrameLayout>
+        <ImageView android:background="@drawable/img_jx" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="@dimen/y87" />
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <RadioGroup android:orientation="horizontal" android:id="@id/rg_tab" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x1">
+                <RadioButton android:id="@id/rb_shiyi" android:checked="true" android:text="释义" style="@style/study_word_tab" />
+                <RadioButton android:id="@id/rb_liju" android:text="例句" style="@style/study_word_tab" />
+                <RadioButton android:id="@id/rb_duanyudapei" android:text="短语搭配" style="@style/study_word_tab" />
+                <RadioButton android:id="@id/rb_tongyici" android:text="同义词" style="@style/study_word_tab" />
+                <RadioButton android:id="@id/rb_fanyici" android:text="反义词" style="@style/study_word_tab" />
+                <RadioButton android:id="@id/rb_yanshegnci" android:text="衍生词" style="@style/study_word_tab" />
+                <RadioButton android:id="@id/rb_shitai" android:text="时态" style="@style/study_word_tab" />
+            </RadioGroup>
+            <LinearLayout android:orientation="horizontal" android:id="@id/ll_triangle" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <FrameLayout android:visibility="visible" android:layout_width="@dimen/y200" android:layout_height="@dimen/y31">
+                    <ImageView android:layout_gravity="center_horizontal" android:layout_width="@dimen/x64" android:layout_height="@dimen/y31" android:layout_marginTop="-1.0dip" android:src="@drawable/icon_zncd_sj" />
+                </FrameLayout>
+                <FrameLayout android:visibility="visible" android:layout_width="@dimen/y200" android:layout_height="@dimen/y31">
+                    <ImageView android:visibility="gone" android:layout_gravity="center_horizontal" android:layout_width="@dimen/x64" android:layout_height="@dimen/y31" android:layout_marginTop="-1.0dip" android:src="@drawable/icon_zncd_sj" />
+                </FrameLayout>
+                <FrameLayout android:visibility="visible" android:layout_width="@dimen/y200" android:layout_height="@dimen/y31">
+                    <ImageView android:visibility="gone" android:layout_gravity="center_horizontal" android:layout_width="@dimen/x64" android:layout_height="@dimen/y31" android:layout_marginTop="-1.0dip" android:src="@drawable/icon_zncd_sj" />
+                </FrameLayout>
+                <FrameLayout android:visibility="visible" android:layout_width="@dimen/y200" android:layout_height="@dimen/y31">
+                    <ImageView android:visibility="gone" android:layout_gravity="center_horizontal" android:layout_width="@dimen/x64" android:layout_height="@dimen/y31" android:layout_marginTop="-1.0dip" android:src="@drawable/icon_zncd_sj" />
+                </FrameLayout>
+                <FrameLayout android:visibility="visible" android:layout_width="@dimen/y200" android:layout_height="@dimen/y31">
+                    <ImageView android:visibility="gone" android:layout_gravity="center_horizontal" android:layout_width="@dimen/x64" android:layout_height="@dimen/y31" android:layout_marginTop="-1.0dip" android:src="@drawable/icon_zncd_sj" />
+                </FrameLayout>
+                <FrameLayout android:visibility="visible" android:layout_width="@dimen/y200" android:layout_height="@dimen/y31">
+                    <ImageView android:visibility="gone" android:layout_gravity="center_horizontal" android:layout_width="@dimen/x64" android:layout_height="@dimen/y31" android:layout_marginTop="-1.0dip" android:src="@drawable/icon_zncd_sj" />
+                </FrameLayout>
+                <FrameLayout android:visibility="visible" android:layout_width="@dimen/y200" android:layout_height="@dimen/y31">
+                    <ImageView android:visibility="gone" android:layout_gravity="center_horizontal" android:layout_width="@dimen/x64" android:layout_height="@dimen/y31" android:layout_marginTop="-1.0dip" android:src="@drawable/icon_zncd_sj" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

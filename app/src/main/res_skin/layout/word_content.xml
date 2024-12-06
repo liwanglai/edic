@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingTop="@dimen/y10" android:paddingBottom="@dimen/y10" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/x32" android:textColor="#ff01b9ff" android:gravity="center" android:id="@id/word_type_name" android:background="@drawable/word_type_shape" android:layout_width="@dimen/y130" android:layout_height="@dimen/x60" />
+    <TextView android:textSize="@dimen/x32" android:textColor="#ff353535" android:id="@id/word_fanyi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="9.0dip" android:layout_marginTop="3.0dip" android:layout_marginRight="30.0dip" android:layout_toRightOf="@id/word_type_name" />
+</RelativeLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center_vertical" android:orientation="vertical" android:id="@+id/line_your_input_smt" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x40" android:layout_below="@id/letter_line_out" android:layout_centerHorizontal="true">
+    <LinearLayout  android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x10" android:id="@+id/smt_row">
+    <TextView android:textSize="@dimen/x72"  android:id="@+id/s_letter" android:padding="5dp" android:layout_marginRight="10dp" android:background="@drawable/bg_blue" android:layout_width="wrap_content" android:minWidth="50.dp" android:layout_height="wrap_content" android:text="space" android:textAlignment="center" />
+    <TextView android:textSize="@dimen/x72"  android:id="@+id/s_letter2" android:padding="5dp" android:layout_marginRight="10dp" android:background="@drawable/bg_blue" android:layout_width="wrap_content" android:minWidth="50.dp" android:layout_height="wrap_content" android:text="space" android:textAlignment="center" />
+    </LinearLayout>
+</LinearLayout>

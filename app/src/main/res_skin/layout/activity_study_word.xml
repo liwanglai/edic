@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/bg_study" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="@dimen/y100" android:visibility="gone">
+        <RelativeLayout android:id="@id/rl_back"  android:layout_width="wrap_content" android:layout_height="fill_parent" >
+            <ImageButton android:id="@id/back" android:background="@drawable/icon_back_white" android:layout_width="@dimen/x70" android:layout_height="@dimen/x70" android:layout_marginLeft="@dimen/x40" android:layout_marginRight="@dimen/x40" android:layout_centerVertical="true" />
+        </RelativeLayout>
+        <TextView android:textSize="@dimen/x36" android:textColor="#ffffffff" android:id="@id/tv_title" android:focusable="true" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:layout_centerHorizontal="true" android:layout_centerVertical="true" />
+        <TextView android:textSize="@dimen/y32" android:textColor="#ff01b9ff" android:gravity="center" android:id="@id/ib_set_word" android:background="@drawable/bg_white_seletor" android:visibility="gone" android:layout_width="@dimen/y180" android:layout_height="@dimen/x60" android:layout_marginRight="@dimen/y40" android:text="@string/set_book" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    </RelativeLayout>
+<!--    <RelativeLayout android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/y100" android:layout_marginLeft="@dimen/x40" android:layout_marginTop="@dimen/y135" android:layout_marginRight="@dimen/x40">-->
+<!--        <com.ochess.edict.view.skin.view.PullDownMenu android:gravity="center" android:id="@id/pop_unit" android:background="@drawable/bg_white_xdc" android:layout_width="fill_parent" android:layout_height="fill_parent" />-->
+<!--    </RelativeLayout>-->
+    <LinearLayout  android:visibility="gone" android:id="@id/ll_unit" android:gravity="center" android:background="@drawable/bg_white_xdc" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/y100" android:layout_marginLeft="@dimen/x40" android:layout_marginTop="@dimen/y15" android:layout_marginRight="@dimen/x40">
+        <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:ellipsize="marquee" android:gravity="center|left" android:layout_gravity="right" android:id="@id/tv_unit" android:paddingLeft="@dimen/x40" android:paddingRight="@dimen/x19" android:layout_width="wrap_content" android:layout_height="fill_parent" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" />
+        <ImageView
+            android:id="@id/iv_arrow_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/x40"
+            android:src="@drawable/arrow_down" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/y15">
+
+        <ListView android:id="@id/list_view_study" android:visibility="visible" android:background="@drawable/bg_white_xdc" android:layout_width="@dimen/x280" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/x40" android:layout_marginBottom="@dimen/y40" android:dividerHeight="0.30000007dip" />
+        <LinearLayout android:orientation="vertical" android:background="@drawable/bg_white_xdc" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/x20" android:layout_marginRight="@dimen/x40" android:layout_marginBottom="@dimen/y40">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="@dimen/x260">
+                <RelativeLayout android:id="@id/page_right_up" android:background="@drawable/bg_opacity_0_1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <RelativeLayout android:id="@id/wordname_bg" android:layout_width="@dimen/x480" android:layout_height="@dimen/y140" android:layout_marginLeft="@dimen/y50">
+                        <View android:id="@id/line1" android:background="#4d01b9ff" android:layout_width="fill_parent" android:layout_height="@dimen/y8" />
+                        <View android:id="@id/line2" android:background="#4d01b9ff" android:layout_width="fill_parent" android:layout_height="@dimen/y2" android:layout_marginTop="@dimen/y48" android:layout_below="@id/line1" />
+                        <View android:id="@id/line3" android:background="#4d01b9ff" android:layout_width="fill_parent" android:layout_height="@dimen/y2" android:layout_marginTop="@dimen/y98" />
+                        <View android:id="@id/line4" android:background="#4d01b9ff" android:layout_width="fill_parent" android:layout_height="@dimen/y8" android:layout_alignParentBottom="true" />
+                        <TextView android:textSize="@dimen/y72" android:textStyle="bold" android:textColor="#ff353535" android:id="@id/word_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:layout_centerInParent="true" />
+                    </RelativeLayout>
+                </RelativeLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/y270">
+<!--                    <RelativeLayout android:id="@id/fl_vocab" android:background="@drawable/voice_kuang_shape_sheng_ci_ben" android:paddingLeft="@dimen/y37" android:paddingRight="@dimen/y20" android:clickable="true" android:layout_width="wrap_content" android:layout_height="@dimen/x60" android:minWidth="@dimen/y260">-->
+<!--                        <ImageButton android:layout_gravity="center_vertical" android:id="@id/vocab" android:background="@drawable/add_word" android:clickable="true" android:layout_width="@dimen/x30" android:layout_height="@dimen/x30" android:layout_centerVertical="true" />-->
+<!--                        <TextView android:textSize="@dimen/x32" android:textColor="@color/white" android:layout_gravity="center" android:id="@id/tv_vocab" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x40" android:text="加入生词本" android:layout_centerVertical="true" />-->
+<!--                    </RelativeLayout>-->
+                    <RelativeLayout android:id="@id/kypc" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y27">
+                        <RelativeLayout android:id="@id/kypc_btn" android:background="@drawable/voicekypc_kuang_shape" android:paddingLeft="@dimen/y37" android:paddingRight="@dimen/y20" android:layout_width="wrap_content" android:layout_height="@dimen/x60" android:minWidth="@dimen/y260" android:layout_centerVertical="true">
+                            <TextView android:textSize="@dimen/x32" android:textColor="#ffffffff" android:id="@id/kypc_txt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x40" android:text="口语评测" android:layout_centerVertical="true" />
+                            <ImageView android:background="@drawable/voice" android:layout_width="@dimen/x26" android:layout_height="@dimen/y36" android:layout_centerVertical="true" />
+                        </RelativeLayout>
+                        <ImageView android:background="@drawable/zr_title" android:visibility="invisible" android:layout_width="@dimen/x26" android:layout_height="@dimen/x36" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <Space android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0" />
+
+                <com.ochess.edict.view.skin.view.GifView android:layout_gravity="center|right" android:id="@id/wordGif" android:layout_width="@dimen/x180" android:layout_height="@dimen/x180" android:layout_marginLeft="@dimen/x220" android:layout_marginRight="@dimen/x80" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x32" android:layout_marginBottom="@dimen/x40" android:layout_below="@id/wordname_bg">
+                <RelativeLayout android:id="@id/yin" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x50">
+                    <RelativeLayout android:id="@id/voicey_btn" android:background="@drawable/voice_kuang_shape" android:paddingLeft="@dimen/y84" android:paddingRight="@dimen/y10" android:layout_width="wrap_content" android:layout_height="@dimen/x60" android:layout_centerVertical="true">
+                        <TextView android:textSize="@dimen/x36" android:textColor="#ffffffff" android:id="@id/fayin_y" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" />
+                        <ImageView android:background="@drawable/voice_y" android:layout_width="@dimen/y40" android:layout_height="@dimen/x33" android:layout_marginLeft="@dimen/y30" android:layout_toRightOf="@id/fayin_y" android:layout_centerVertical="true" />
+                    </RelativeLayout>
+                    <ImageView android:id="@id/iv_yin" android:background="@drawable/ytitle" android:layout_width="@dimen/x60" android:layout_height="@dimen/x60" />
+                </RelativeLayout>
+                <RelativeLayout android:id="@id/mei" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/y60">
+                    <RelativeLayout android:id="@id/voicem_btn" android:background="@drawable/voicem_kuang_shape" android:paddingLeft="@dimen/y84" android:paddingRight="@dimen/y10" android:layout_width="wrap_content" android:layout_height="@dimen/x60" android:layout_centerVertical="true">
+                        <TextView android:textSize="@dimen/x36" android:textColor="#ffffffff" android:id="@id/fayin_m" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" />
+                        <ImageView android:background="@drawable/voice_y" android:layout_width="@dimen/y40" android:layout_height="@dimen/x33" android:layout_marginLeft="@dimen/y30" android:layout_toRightOf="@id/fayin_m" android:layout_centerVertical="true" />
+                    </RelativeLayout>
+                    <ImageView android:background="@drawable/mtitle" android:layout_width="@dimen/x60" android:layout_height="@dimen/x60" />
+                </RelativeLayout>
+                    <RelativeLayout android:id="@id/ziran" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x60">
+                    <RelativeLayout android:id="@id/voicezr_btn" android:background="@drawable/voicezr_kuang_shape" android:paddingLeft="@dimen/y64" android:paddingRight="@dimen/y10" android:layout_width="wrap_content" android:layout_height="@dimen/x60" android:layout_centerVertical="true">
+                        <TextView android:textSize="@dimen/x36" android:textColor="#ffffffff" android:id="@id/fayin_zr" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="自然拼读" android:layout_centerVertical="true" />
+                        <ImageView android:background="@drawable/voice_y" android:layout_width="@dimen/y40" android:layout_height="@dimen/x33" android:layout_marginLeft="@dimen/y30" android:layout_toRightOf="@id/fayin_zr" android:layout_centerVertical="true" />
+                    </RelativeLayout>
+                    <ImageView android:background="@drawable/zr_title" android:layout_width="@dimen/x60" android:layout_height="@dimen/x60" />
+                    </RelativeLayout>
+
+                <RelativeLayout android:id="@id/fl_vocab" android:background="@drawable/voice_kuang_shape_sheng_ci_ben" android:paddingLeft="@dimen/y37" android:layout_marginLeft="@dimen/x60" android:paddingRight="@dimen/y20" android:clickable="true" android:layout_width="wrap_content" android:layout_height="@dimen/x60" android:minWidth="@dimen/y260">
+                    <ImageButton android:layout_gravity="center_vertical" android:id="@id/vocab" android:background="@drawable/add_word" android:clickable="true" android:layout_width="@dimen/x30" android:layout_height="@dimen/x30" android:layout_centerVertical="true" />
+                    <TextView android:textSize="@dimen/x32" android:textColor="@color/white" android:layout_gravity="center" android:id="@id/tv_vocab" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x40" android:text="加入生词本" android:layout_centerVertical="true" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <include layout="@layout/include_study_word_tab" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true">
+        <ImageView  android:id="@+id/word_img" android:layout_gravity="right|top" android:layout_marginTop="10dp" android:layout_marginRight="50dp"  android:background="@drawable/zr_title" android:layout_width="@dimen/x500" android:layout_height="@dimen/x400" />
+    </FrameLayout>
+</RelativeLayout>

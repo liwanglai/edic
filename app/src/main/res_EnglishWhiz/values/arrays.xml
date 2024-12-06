@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tsy">
+        <item>不要气馁，坚持就是胜利！</item>
+        <item>失败是成功之母</item>
+        <item>加油努力</item>
+        <item>好好学习，天天先上</item>
+        <item>离胜利只差一步之遥</item>
+        <item>不错，都及格了，比我厉害！</item>
+        <item>良好</item>
+        <item>超过了大多数人</item>
+        <item>优秀</item>
+        <item>完美</item>
+    </string-array>
+</resources>

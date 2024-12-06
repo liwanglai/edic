@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ochess.edict.view.AutoLinefeedLayout android:orientation="horizontal" android:paddingLeft="@dimen/x40" android:paddingTop="@dimen/y30" android:paddingRight="@dimen/x40" android:paddingBottom="@dimen/y30" android:layout_width="fill_parent" android:layout_height="wrap_content" android:divider="@drawable/divider_tyc" android:showDividers="middle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textbox"
+        >
+    <TextView android:textSize="@dimen/x32" android:paddingHorizontal="10.dp" android:textColor="#ffffffff" android:layout_margin="15.dp" android:gravity="center" android:id="@id/text1" android:background="@drawable/ysc_shape" android:layout_width="0.0dip" android:layout_height="@dimen/x80" android:layout_weight="1.0" />
+    </LinearLayout>
+    <TextView android:textSize="@dimen/x32" android:textColor="#ffffffff" android:gravity="center" android:id="@id/text2" android:background="@drawable/ysc_shape" android:layout_width="0.0dip" android:layout_height="@dimen/x80" android:layout_weight="1.0" />
+    <TextView android:textSize="@dimen/x32" android:textColor="#ffffffff" android:gravity="center" android:id="@id/text3" android:background="@drawable/ysc_shape" android:layout_width="0.0dip" android:layout_height="@dimen/x80" android:layout_weight="1.0" />
+    <TextView android:textSize="@dimen/x32" android:textColor="#ffffffff" android:gravity="center" android:id="@id/text4" android:background="@drawable/ysc_shape" android:layout_width="0.0dip" android:layout_height="@dimen/x80" android:layout_weight="1.0" />
+    <TextView android:textSize="@dimen/x32" android:textColor="#ffffffff" android:gravity="center" android:id="@id/text5" android:background="@drawable/ysc_shape" android:layout_width="0.0dip" android:layout_height="@dimen/x80" android:layout_weight="1.0" />
+    <TextView android:textSize="@dimen/x32" android:textColor="#ffffffff" android:gravity="center" android:id="@id/text6" android:background="@drawable/ysc_shape" android:layout_width="0.0dip" android:layout_height="@dimen/x80" android:layout_weight="1.0" />
+</com.ochess.edict.view.AutoLinefeedLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:background="@drawable/bg_main" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:background="@drawable/bg_title" android:layout_width="fill_parent" android:layout_height="@dimen/y100">
+        <RelativeLayout android:id="@id/rl_back"  android:layout_width="wrap_content" android:layout_height="fill_parent" >
+            <ImageButton android:id="@id/back" android:background="@drawable/back" android:layout_width="@dimen/x70" android:layout_height="@dimen/x70" android:layout_marginLeft="@dimen/x40" android:layout_marginRight="@dimen/x40" android:layout_centerVertical="true" />
+        </RelativeLayout>
+        <TextView android:textSize="@dimen/y36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name" android:layout_centerInParent="true" />
+        <TextView android:textSize="@dimen/y32" android:textColor="@color/white" android:gravity="center" android:id="@id/ib_set_word" android:background="@drawable/bg_blue" android:layout_width="@dimen/y180" android:layout_height="@dimen/x60" android:layout_marginRight="@dimen/y40" android:text="@string/set_book" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+    </RelativeLayout>
+    <LinearLayout android:gravity="center" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/y160" android:layout_marginBottom="@dimen/y120" android:layout_alignParentTop="true">
+        <RelativeLayout android:gravity="center" android:padding="@dimen/y20" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageButton android:background="@drawable/study_word" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+            <ImageButton android:id="@id/ib_study_word" android:background="@drawable/selector_main_function" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center" android:padding="@dimen/y20" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageButton android:background="@drawable/recite_word" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+            <ImageButton android:id="@id/ib_recite_word" android:background="@drawable/selector_main_function" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center" android:padding="@dimen/y20" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageButton android:background="@drawable/dictate_word" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+            <ImageButton android:id="@id/ib_dictate_word" android:background="@drawable/selector_main_function" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center" android:padding="@dimen/y20" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <ImageButton android:background="@drawable/new_word" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+            <ImageButton android:id="@id/ib_new_word" android:background="@drawable/selector_main_function" android:layout_width="@dimen/y390" android:layout_height="@dimen/x540" />
+        </RelativeLayout>
+    </LinearLayout>
+    <TextView android:textSize="@dimen/y36" android:textColor="#ff01b9ff" android:id="@id/tv_cur_book" android:background="@drawable/bg_cur_book" android:paddingLeft="@dimen/y42" android:paddingTop="@dimen/x22" android:paddingRight="@dimen/y42" android:paddingBottom="@dimen/x22" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y110" android:text="当前课本：剑桥小学英语三起三年级下册" android:layout_centerHorizontal="true" />
+</RelativeLayout>

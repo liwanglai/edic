@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/shape_bg" android:layout_width="@dimen/y800" android:layout_height="@dimen/y620">
+        <TextView android:textSize="@dimen/y36" android:textStyle="bold" android:textColor="@color/black" android:paddingTop="@dimen/x44" android:paddingBottom="@dimen/y44" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="选择章节" />
+        <View android:background="#ffdddddd" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/recyclerView" android:layout_width="fill_parent" android:layout_height="0.0dip" android:layout_weight="1.0" app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        <View android:background="#ffdddddd" android:layout_width="fill_parent" android:layout_height="1.0dip" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="@dimen/y100">
+            <Button android:textSize="@dimen/y36" android:textColor="#ff000000" android:id="@id/cancel" android:background="@android:color/transparent" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="取消" android:layout_weight="1.0" />
+            <View android:id="@id/center_line" android:background="#ffdddddd" android:layout_width="1.0dip" android:layout_height="fill_parent" />
+            <Button android:textSize="@dimen/y36" android:textColor="#ff746aff" android:id="@id/set" android:background="@android:color/transparent" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="确定" android:layout_weight="1.0" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

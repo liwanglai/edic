@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="@dimen/y160"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/dd" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x60" android:layout_marginRight="@dimen/x60">
+        <CheckBox android:id="@id/checkbox" android:background="@drawable/checkbox_child_selector" android:layout_width="@dimen/x60" android:layout_height="@dimen/x60" android:layout_marginTop="@dimen/y50" android:layout_marginBottom="@dimen/y50" android:button="@null" />
+        <TextView android:textSize="@dimen/x32" android:textColor="#ff666666" android:id="@id/number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x29" android:text="1" android:singleLine="true" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1.0">
+            <LinearLayout android:orientation="horizontal" android:id="@id/ll_correct" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                <TextView android:textSize="@dimen/x32" android:textColor="#ff666666" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="正确答案：" android:singleLine="true" />
+                <TextView android:textSize="@dimen/x36" android:textStyle="bold" android:textColor="#ff353535" android:layout_gravity="center_vertical" android:id="@id/tv_correct_answer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="first" android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout android:orientation="horizontal" android:id="@id/ll_yours" android:layout_width="0.0dip" android:layout_height="wrap_content" android:layout_weight="1.0">
+                <TextView android:textSize="@dimen/x32" android:textColor="#ff666666" android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="你的答案：" android:singleLine="true" />
+                <TextView android:textSize="@dimen/x36" android:textColor="@color/color_correct_text" android:layout_gravity="center_vertical" android:id="@id/tv_yours_answer" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="first" android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+        <ImageButton android:gravity="center" android:layout_gravity="center|right" android:id="@id/tv_add_book" android:background="@drawable/addnewhanzi_bg" android:clickable="true" android:layout_width="@dimen/y260" android:layout_height="@dimen/y60" />
+    </LinearLayout>
+    <View android:background="#ffdddddd" android:layout_width="fill_parent" android:layout_height="0.5dip" android:layout_marginLeft="@dimen/x60" android:layout_marginRight="@dimen/x60" />
+</LinearLayout>

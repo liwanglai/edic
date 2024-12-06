@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:background="@drawable/shape_bg" android:layout_width="@dimen/y800" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/y36" android:textColor="#ff000000" android:id="@id/text2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y123" android:text="确认将选中的生词移出生词本吗？" />
+        <View android:background="#ffdddddd" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginTop="@dimen/y121" />
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="@dimen/y100">
+            <Button android:textSize="@dimen/y36" android:textColor="#ff000000" android:id="@id/cancel" android:background="@android:color/transparent" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="取消" android:layout_weight="1.0" />
+            <View android:background="#ffdddddd" android:layout_width="1.0dip" android:layout_height="fill_parent" />
+            <Button android:textSize="@dimen/y36" android:textColor="#ff746aff" android:id="@id/set" android:background="@android:color/transparent" android:layout_width="0.0dip" android:layout_height="fill_parent" android:text="确定" android:layout_weight="1.0" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

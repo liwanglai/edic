@@ -1,0 +1,57 @@
+package com.ochess.edict.data.local
+
+import androidx.collection.arrayMapOf
+import androidx.room.Dao
+import androidx.room.RawQuery
+import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
+import com.ochess.edict.data.local.entity.DictionaryEntity
+import com.ochess.edict.data.local.entity.DictionarySubEntity
+import com.ochess.edict.data.local.entity.WordExtendEntity
+import com.ochess.edict.domain.model.WordModel
+
+@Dao
+interface DictionaryDao {
+    @RawQuery
+    fun prefixMatch(query: SupportSQLiteQuery): List<DictionaryEntity>
+
+    @RawQuery
+    fun search(query: SupportSQLiteQuery): DictionaryEntity
+
+    @RawQuery
+    fun getDictionarySubEntity(query: SupportSQLiteQuery): List<DictionarySubEntity>
+
+    fun wordIn(table:String, words: ArrayList<String>): List<DictionaryEntity> {
+        var args = words.map{"?"}.joinToString(",")
+        val sql = String.format("select * from ${table} where word in(${args})")
+        val queryObj = SimpleSQLiteQuery(sql, words.toArray())
+        return prefixMatch(queryObj)
+    }
+     fun search(words: List<String>): List<DictionaryEntity> {
+        val rt = arrayListOf<DictionaryEntity>()
+        val map = arrayMapOf<Char,ArrayList<String>>()
+         val cAll = "a".."z"
+        words.forEach{
+            val c = it[0].toLowerCase()
+            if(c.toString() in cAll) {
+                if (map[c] == null) {
+                    map[c] = arrayListOf()
+                }
+                map[c]?.add(it)
+            }
+        }
+        map.forEach{
+            rt.addAll(wordIn(it.key+"_table",it.value))
+        }
+        return rt
+    }
+
+    @RawQuery
+    fun getWordExtend(query: SupportSQLiteQuery): List<WordExtendEntity>
+    fun find(word: String): WordModel?{
+        val rows = wordIn(word.first()+"_table", arrayListOf(word))
+        if(rows.size==0) return null
+        return rows.first().toWordModel()
+    }
+
+}

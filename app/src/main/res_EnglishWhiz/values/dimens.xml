@@ -1,0 +1,20 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="print_form_left_text_size">30dp</dimen>
+    <dimen name="print_form_right_text_size">20dp</dimen>
+    <dimen name="print_form_height">80dp</dimen>
+    <dimen name="print_head_margin_top">60dp</dimen>
+    <dimen name="print_head_title_size">60dp</dimen>
+    <dimen name="print_head_content_size">20dp</dimen>
+    <dimen name="print_head_item_height">30dp</dimen>
+    <dimen name="print_head_line_large_width">160dp</dimen>
+    <dimen name="print_head_line_height">4dp</dimen>
+    <dimen name="print_head_line_long_width">100dp</dimen>
+    <dimen name="print_head_line_short_width">60dp</dimen>
+    <dimen name="print_divider">40dp</dimen>
+    <dimen name="common_margin">24dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="print_width_size">411dp</dimen>
+
+</resources>

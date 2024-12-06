@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="vertical" android:id="@id/item_line" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/icon_jx1" android:layout_width="fill_parent" android:layout_height="@dimen/y80" android:layout_marginTop="@dimen/y20">
+        <CheckBox android:id="@id/unit_check" android:background="@drawable/checkbox_group_selector" android:focusable="false" android:layout_width="@dimen/x60" android:layout_height="@dimen/x60" android:layout_marginLeft="@dimen/x40" android:button="@null" />
+        <TextView android:textSize="@dimen/x32" android:textColor="#ff01b9ff" android:gravity="center_vertical" android:id="@id/unit_name" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/x20" android:layout_marginRight="@dimen/x20" android:text="good" android:layout_weight="1.0" />
+        <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:id="@id/studied" android:visibility="invisible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x20" android:layout_marginRight="@dimen/x30" android:text="已学" />
+        <ImageView android:id="@id/arrow" android:background="@drawable/arrow_down" android:layout_width="@dimen/x31" android:layout_height="@dimen/y18" android:layout_marginRight="@dimen/x28" />
+    </LinearLayout>
+</LinearLayout>

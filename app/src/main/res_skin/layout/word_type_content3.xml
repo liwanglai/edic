@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView android:id="@id/type_content3" android:paddingLeft="@dimen/y60" android:paddingRight="@dimen/y60" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" android:id="@id/dydp_content" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x7" />
+    </ScrollView>
+</merge>

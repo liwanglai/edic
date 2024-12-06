@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/back_ground_border"
+    android:layout_height="@dimen/print_form_height"
+    android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/item_word"
+                android:text="ambulance"
+                android:textColor="@color/black"
+                android:textSize="@dimen/print_form_left_text_size" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/item_space"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/print_form_left_text_size" />
+        </LinearLayout>
+    <View
+        android:layout_width="3dp"
+        android:layout_height="@dimen/print_form_height"
+        android:background="@color/black" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/item_ch"
+                android:text="转；训练aaaaaaaaaaaaaa"
+                android:textColor="@color/black"
+                android:textSize="@dimen/print_form_right_text_size" />
+        </LinearLayout>
+</LinearLayout>

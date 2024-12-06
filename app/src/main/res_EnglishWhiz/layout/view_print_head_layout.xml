@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView
+        android:layout_marginTop="@dimen/print_head_margin_top"
+        android:id="@+id/head_title"
+        android:text="欧骑士背单词"
+        android:gravity="center"
+        android:textColor="#4a4d4e"
+        android:textSize="@dimen/print_head_title_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/print_head_item_height">
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/head_name"
+            android:text="姓名: "
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/print_head_item_height"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期:"
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2024年5月17日"
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:id="@+id/head_date"
+            android:textSize="@dimen/print_head_content_size"
+             />
+<!--        <View-->
+<!--            android:layout_width="@dimen/print_head_line_large_width"-->
+<!--            android:layout_height="@dimen/print_head_line_height"-->
+<!--            android:id="@+id/head_year"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:background="@color/black" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="年"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="@dimen/print_head_content_size"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <View-->
+<!--            android:layout_width="@dimen/print_head_line_long_width"-->
+<!--            android:layout_height="@dimen/print_head_line_height"-->
+<!--            android:layout_gravity="bottom"-->
+
+<!--            android:id="@+id/head_mouth"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:background="@color/black" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="月"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="@dimen/print_head_content_size"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <View-->
+<!--            android:layout_width="@dimen/print_head_line_long_width"-->
+<!--            android:layout_height="@dimen/print_head_line_height"-->
+<!--            android:id="@+id/head_day"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:layout_marginStart="24dp"-->
+<!--            android:background="@color/black" />-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="日"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="@dimen/print_head_content_size"-->
+<!--            android:textStyle="bold" />-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/print_head_item_height">
+        <TextView
+            android:textStyle="bold"
+            android:text="周期:"
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginStart="12dp"
+            android:textStyle="bold"
+            android:text="第"
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_marginStart="4dp"
+            android:layout_gravity="bottom"
+            android:background="@color/black"
+            android:layout_width="@dimen/print_head_line_short_width"
+            android:layout_height="@dimen/print_head_line_height"
+            />
+        <TextView
+            android:textStyle="bold"
+            android:text="周"
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_marginStart="4dp"
+            android:layout_gravity="bottom"
+            android:background="@color/black"
+            android:layout_width="@dimen/print_head_line_short_width"
+            android:layout_height="@dimen/print_head_line_height"
+            />
+        <TextView
+            android:textStyle="bold"
+            android:text="月"
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_marginStart="4dp"
+            android:layout_gravity="bottom"
+            android:background="@color/black"
+            android:layout_width="@dimen/print_head_line_short_width"
+            android:layout_height="@dimen/print_head_line_height"
+            />
+        <TextView
+            android:textStyle="bold"
+            android:text="日强化"
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/print_head_item_height">
+        <TextView
+            android:textStyle="bold"
+            android:text="分数："
+            android:layout_gravity="bottom"
+            android:textColor="@color/black"
+            android:textSize="@dimen/print_head_content_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_marginStart="4dp"
+            android:layout_gravity="bottom"
+            android:background="@color/black"
+            android:layout_width="160dp"
+            android:layout_height="@dimen/print_head_line_height"
+            />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_margin"/>
+</LinearLayout>

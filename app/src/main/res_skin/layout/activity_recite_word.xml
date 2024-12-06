@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:background="@drawable/bg_main" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout android:id="@id/title" android:background="@drawable/bg_title" android:layout_width="fill_parent" android:layout_height="@dimen/y100">
+            <RelativeLayout android:id="@id/rl_back"  android:layout_width="wrap_content" android:layout_height="fill_parent" >
+                <ImageButton android:id="@id/ib_back" android:background="@drawable/icon_back_white" android:layout_width="@dimen/x70" android:layout_height="@dimen/x70" android:layout_marginLeft="@dimen/x40" android:layout_marginRight="@dimen/x40" android:layout_centerVertical="true" />
+            </RelativeLayout>
+            <TextView android:textSize="@dimen/y36" android:textColor="#ff353535"  android:id="@id/tv_title" android:focusable="true"  android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/app_name" android:layout_centerInParent="true"  />
+            <TextView android:textSize="@dimen/y32" android:textColor="@color/white" android:gravity="center" android:id="@id/ib_set_word" android:background="@drawable/bg_blue" android:visibility="gone" android:layout_width="@dimen/y180" android:layout_height="@dimen/x60" android:layout_marginRight="@dimen/y40" android:text="@string/set_book" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+            <TextView android:textSize="@dimen/y32" android:textColor="@color/white" android:gravity="center" android:id="@+id/s_types" android:background="@drawable/bg_blue" android:layout_width="@dimen/y180" android:layout_height="@dimen/x60" android:layout_marginRight="@dimen/y140" android:text="@string/Setting" android:layout_alignParentLeft="true" android:layout_centerVertical="true" />
+        </RelativeLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+            <com.ochess.edict.view.skin.view.PullDownMenu android:id="@id/pop_unit" android:background="@drawable/icon_jx" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/y100" android:layout_marginLeft="@dimen/y40" android:layout_marginTop="@dimen/y15" android:layout_marginRight="@dimen/y40" />
+            <LinearLayout android:visibility="gone" android:gravity="center" android:id="@id/ll_unit" android:background="@drawable/icon_jx" android:clickable="true" android:layout_width="fill_parent" android:layout_height="@dimen/y100" android:layout_marginLeft="@dimen/y40" android:layout_marginTop="@dimen/y15" android:layout_marginRight="@dimen/y40">
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:ellipsize="marquee" android:gravity="center|left" android:id="@id/tv_unit" android:paddingLeft="@dimen/x40" android:paddingRight="@dimen/x19" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever" />
+                <ImageView android:id="@id/iv_arrow_new" android:layout_width="@dimen/y30" android:layout_height="@dimen/y17" android:layout_marginRight="@dimen/x40" android:src="@drawable/arrow_down" />
+            </LinearLayout>
+            <ProgressBar android:id="@id/progressbar" android:visibility="gone" android:layout_width="fill_parent" android:layout_height="@dimen/y20" android:layout_marginLeft="@dimen/y60" android:layout_marginTop="@dimen/x130" android:layout_marginRight="@dimen/y60" android:max="10" android:progress="0" android:progressDrawable="@drawable/progress" style="?android:progressBarStyleHorizontal" />
+            <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1.0">
+                <RelativeLayout android:id="@id/page_0" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                    <ImageView android:id="@id/iv_question" android:layout_width="@dimen/y1086" android:layout_height="@dimen/x846" android:scaleType="centerCrop" android:adjustViewBounds="true" android:layout_centerInParent="true" />
+                    <LinearLayout android:gravity="center" android:orientation="vertical" android:id="@id/ll_question" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerInParent="true">
+                        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/line_word_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+                            <ImageButton android:id="@id/ib_word_speak" android:background="@drawable/speak" android:layout_width="@dimen/y60" android:layout_height="@dimen/y60" android:layout_marginRight="@dimen/y30" />
+                            <TextView android:textSize="@dimen/x54" android:textColor="#ff000000" android:id="@id/tv_word_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="red" />
+                            <TextView android:textSize="@dimen/x60" android:textColor="#ff000000" android:ellipsize="end" android:id="@id/tv_word_name2" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="@dimen/x1000" android:text="red" android:maxLines="3" />
+                            <TextView android:textSize="@dimen/x48" android:textColor="#ff000000" android:ellipsize="end" android:id="@id/tv_word_name3" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="@dimen/x1000" android:text="red" android:maxLines="3" />
+                        </LinearLayout>
+
+                        <RadioGroup android:id="@id/radioGroup" android:orientation="vertical" android:layout_width="@dimen/x800" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y70">
+                            <android.widget.RadioButton  android:id="@id/option_1"  android:paddingLeft="7dp" android:drawablePadding="7dp" android:layout_marginTop="@dimen/y45" android:paddingRight="20.dp" android:textSize="@dimen/y36" android:textColor="@color/black"    android:layout_width="wrap_content" android:layout_height="wrap_content"  android:button="@drawable/icon_mnkc_select" android:text="A:红色" android:maxLines="1" />
+                            <android.widget.RadioButton  android:id="@id/option_2"  android:paddingLeft="7dp" android:drawablePadding="7dp" android:layout_marginTop="@dimen/y45" android:paddingRight="20.dp" android:textSize="@dimen/y36" android:textColor="@color/black"    android:layout_width="wrap_content" android:layout_height="wrap_content"  android:button="@drawable/icon_mnkc_select" android:text="B:绿色" android:maxLines="1" />
+                            <android.widget.RadioButton  android:id="@id/option_3"  android:paddingLeft="7dp" android:drawablePadding="7dp" android:layout_marginTop="@dimen/y45" android:paddingRight="20.dp" android:textSize="@dimen/y36" android:textColor="@color/black"    android:layout_width="wrap_content" android:layout_height="wrap_content"  android:button="@drawable/icon_mnkc_select" android:text="C:黄色" android:maxLines="1" />
+                            <android.widget.RadioButton  android:id="@id/option_4"  android:paddingLeft="7dp" android:drawablePadding="7dp" android:layout_marginTop="@dimen/y45" android:paddingRight="20.dp" android:textSize="@dimen/y36" android:textColor="@color/black"    android:layout_width="wrap_content" android:layout_height="wrap_content"  android:button="@drawable/icon_mnkc_select" android:text="D:蓝色" android:maxLines="1" />
+                        </RadioGroup>
+                    </LinearLayout>
+                    <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:id="@id/tv_question_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x60" android:text="2/10" android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/page_1" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/y60" android:layout_marginRight="@dimen/y60">
+                    <LinearLayout android:gravity="center" android:id="@id/letter_line_out" android:layout_width="fill_parent" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent">
+                        <com.ochess.edict.view.skin.view.WarpLinearLayout android:gravity="center" android:orientation="horizontal"  android:layout_width="wrap_content" android:layout_height="fill_parent" android:divider="@drawable/divider_letter" android:showDividers="middle" app:grivate="left" app:horizontal_Space="@dimen/x10" app:vertical_Space="@dimen/x10" />
+                    </LinearLayout>
+                    <ImageView android:id="@id/iv_result" android:layout_width="@dimen/y40" android:layout_height="@dimen/y40" android:layout_marginTop="@dimen/y30" android:src="@drawable/correct" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toBottomOf="@id/letter_line_out" />
+                    <LinearLayout android:orientation="horizontal" android:id="@id/line_your_answer" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x32" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toBottomOf="@id/iv_result">
+                        <TextView android:textSize="@dimen/x32" android:textColor="#ff999999" android:id="@id/correct_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="正确答案：" />
+                        <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:id="@id/letter_result" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" />
+                    </LinearLayout>
+                    <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:id="@id/tv_question_count2" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x60" android:text="1/10" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y30" android:layout_marginRight="@dimen/y39" android:layout_alignParentRight="true">
+                    <ImageView android:id="@id/iv_correct" android:background="@drawable/correct" android:layout_width="@dimen/y40" android:layout_height="@dimen/y40" />
+                    <TextView android:textSize="@dimen/x36" android:textColor="#ff34c79b" android:id="@id/tv_correct" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/y13" android:text="0" />
+                    <ImageView android:id="@id/iv_wrong" android:background="@drawable/wrong" android:layout_width="@dimen/y40" android:layout_height="@dimen/y40" android:layout_marginLeft="@dimen/y89" />
+                    <TextView android:textSize="@dimen/x36" android:textColor="#fffe4040" android:id="@id/tv_wrong" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/y13" android:text="0" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout android:visibility="gone" android:id="@+id/stypes" android:gravity="center_horizontal"  android:orientation="horizontal" android:paddingLeft="@dimen/x336" android:paddingRight="@dimen/x336" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/y5">
+
+            <android.widget.Button
+                android:id="@id/btn_recite_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y80"
+                android:layout_weight="1.0"
+                android:background="@drawable/recite_button_bg_selector"
+                android:text="@string/看词选义"
+                android:textColor="@drawable/text_color_selector"
+                android:textSize="@dimen/x35"
+                android:textStyle="bold" />
+
+            <android.widget.Button
+                android:id="@id/btn_recite_2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y80"
+                android:layout_marginLeft="@dimen/x80"
+                android:layout_weight="1.0"
+                android:background="@drawable/recite_button_bg_selector"
+                android:text="@string/看义选词"
+                android:textColor="@drawable/text_color_selector"
+                android:textSize="@dimen/x35"
+                android:textStyle="bold" />
+
+            <android.widget.Button
+                android:id="@id/btn_recite_3"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y80"
+                android:layout_marginLeft="@dimen/x80"
+                android:layout_weight="1.0"
+                android:background="@drawable/recite_button_bg_selector"
+                android:onClick="onBtnClick"
+                android:text="@string/听音选词"
+                android:textColor="@drawable/text_color_selector"
+                android:textSize="@dimen/x35"
+                android:textStyle="bold" />
+
+            <android.widget.Button
+                android:id="@id/btn_recite_4"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/y80"
+                android:layout_marginLeft="@dimen/x80"
+                android:layout_weight="1.0"
+                android:background="@drawable/recite_button_bg_selector"
+                android:onClick="onBtnClick"
+                android:text="@string/听音写词"
+                android:textColor="@drawable/text_color_selector"
+                android:textSize="@dimen/x35"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:id="@id/page_2" android:background="@drawable/bg_main" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <RelativeLayout android:id="@id/title2" android:background="@drawable/bg_title" android:layout_width="fill_parent" android:layout_height="@dimen/y100">
+            <RelativeLayout android:id="@id/rl_back2"  android:layout_width="wrap_content" android:layout_height="fill_parent" >
+                <ImageButton android:id="@id/ib_back2" android:background="@drawable/back" android:layout_width="@dimen/x70" android:layout_height="@dimen/x70" android:layout_marginLeft="@dimen/x40" android:layout_marginRight="@dimen/x40" android:layout_centerVertical="true" />
+            </RelativeLayout>
+            <TextView android:textSize="@dimen/y36" android:textColor="#ff353535" android:id="@id/tv_title2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="检查列表" android:layout_centerInParent="true" />
+        </RelativeLayout>
+        <LinearLayout android:gravity="center|left" android:orientation="horizontal" android:id="@id/ll_result" android:layout_width="fill_parent" android:layout_height="@dimen/y100" android:layout_below="@id/title2">
+            <TextView android:textSize="@dimen/y32" android:textColor="#ff666666" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x61" android:text="总共：" />
+            <TextView android:textSize="@dimen/y36" android:textColor="#ff353535" android:id="@id/tv_result" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="20" />
+            <LinearLayout android:gravity="center|left" android:orientation="horizontal" android:id="@id/ll_result_sub" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:background="@drawable/result_correct" android:layout_width="@dimen/x40" android:layout_height="@dimen/x40" android:layout_marginLeft="@dimen/x200" />
+                <TextView android:textSize="@dimen/y36" android:textColor="#ff34c79b" android:id="@id/tv_result_correct" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x21" android:text="20" />
+                <ImageView android:id="@id/iv_result_wrong" android:background="@drawable/result_wrong" android:layout_width="@dimen/x40" android:layout_height="@dimen/x40" android:layout_marginLeft="@dimen/y171" />
+                <TextView android:textSize="@dimen/y36" android:textColor="#fffe4040" android:id="@id/tv_result_wrong" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/x13" android:text="0" />
+            </LinearLayout>
+            <Space android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
+            <TextView android:textSize="@dimen/x36" android:textColor="@color/black" android:id="@id/tv_already_add" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="@dimen/x61" android:text="已添加0/0" />
+        </LinearLayout>
+        <View android:background="#ffdddddd" android:layout_width="fill_parent" android:layout_height="@dimen/y1" android:layout_below="@id/ll_result" />
+        <ListView android:id="@id/list_view_result" android:layout_width="fill_parent" android:layout_height="fill_parent" android:divider="@android:color/transparent" android:dividerHeight="0.0dip" android:layout_above="@id/fl_footer" android:layout_below="@id/ll_result" />
+        <FrameLayout android:id="@id/fl_footer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentBottom="true">
+            <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_select_all" android:paddingLeft="@dimen/y60" android:paddingTop="@dimen/y20" android:paddingBottom="@dimen/y20" android:clickable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:onClick="onClick">
+                <ImageView android:layout_gravity="center_vertical" android:id="@id/iv_select_all" android:layout_width="@dimen/x60" android:layout_height="@dimen/x60" android:button="@null" android:src="@drawable/checkbox_child_selector" />
+                <TextView android:textSize="@dimen/x38" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/y31" android:text="全选" />
+            </LinearLayout>
+            <android.widget.Button android:enabled="true" android:textSize="@dimen/x36" android:textColor="@drawable/text_color_redictation_selector" android:layout_gravity="center" android:id="@id/b_redictation" android:background="@drawable/switch_button_redictation_bg_selector_new" android:layout_width="@dimen/x300" android:layout_height="@dimen/x96" android:text="重新听写" android:layout_centerHorizontal="true" />
+        </FrameLayout>
+    </RelativeLayout>
+</merge>

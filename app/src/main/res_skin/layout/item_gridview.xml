@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:gravity="center" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x81" android:layout_marginBottom="@dimen/x12"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView android:id="@id/delete_img" android:visibility="invisible" android:layout_width="@dimen/y40" android:layout_height="@dimen/y40" android:src="@drawable/wrong" android:layout_toRightOf="@id/frame" android:layout_alignParentTop="true" />
+    <FrameLayout android:id="@id/frame" android:layout_width="@dimen/y240" android:layout_height="@dimen/y360" android:layout_centerHorizontal="true">
+        <ImageView android:id="@id/add_book" android:layout_width="@dimen/y240" android:layout_height="@dimen/y360" android:layout_centerInParent="true" />
+        <ImageView android:id="@id/file_image" android:layout_width="@dimen/y240" android:layout_height="@dimen/y360" android:src="@drawable/english_icon" android:layout_centerHorizontal="true" />
+    </FrameLayout>
+    <ImageView android:id="@id/studying" android:background="@drawable/studying" android:visibility="invisible" android:layout_width="@dimen/y193" android:layout_height="@dimen/y55" android:layout_marginBottom="@dimen/x6" android:layout_above="@id/file_name" android:layout_centerHorizontal="true" />
+    <TextView android:textSize="@dimen/x32" android:textColor="@color/black" android:gravity="center_horizontal" android:id="@id/file_name" android:layout_width="@dimen/x232" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y26" android:text="人教版三年级下册" android:lines="3" android:layout_below="@id/frame" android:layout_centerHorizontal="true" />
+</RelativeLayout>
