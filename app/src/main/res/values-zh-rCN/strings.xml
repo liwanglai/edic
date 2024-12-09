@@ -93,6 +93,12 @@
     <string name="Downloads">外部下载的</string>
     <string name="OnLine">外部课本</string>
 
+
+    <string name="book_shows">书本展示方式</string>
+    <string name="word_shows">单词展示方式</string>
+    <string name="defalutChapter">默认章节</string>
+    <string name="WordList">单词列表</string>
+
     <string name="Copy">复制</string>
     <string name="Speak">读音</string>
     <string name="Save">保存</string>

@@ -65,6 +65,8 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
         val rt = showPageIndex!=0
         if(!rt) {
             showPageIndex=1
+            scrollPercent.value=0f
+            boxTop = 0f
         }
         rt
     }
@@ -89,9 +91,6 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                     Display.setBitMapByPageScreen(it)
                 }, 200)
             }
-            nowBookShowType="word_shows"
-            viewMode = MenuConf.mode.wordStudy
-            NavScreen.openHome(0)
         }
     }
 
@@ -239,7 +238,11 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                         mvPos+=pan
 //                        if (!dragEnabled.value && points.size == 2) {
                         if (!dragEnabled.value &&
-                            ((showPageIndex ==1 && mvPos.y > 10) || (showPageIndex ==0 && mvPos.y < -10))
+                            (
+                                    points.size == 2 ||
+                                    (HomeEvents.status.openDrowUp && ((showPageIndex ==1 && mvPos.y > 10) || (showPageIndex ==0 && mvPos.y < -10)))
+
+                            )
                         ) {
                             dragEnabled.value = true
                             Log.d(TAG, "SlidingEnable: open")

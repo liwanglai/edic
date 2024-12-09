@@ -84,6 +84,7 @@ fun HomeScreen(
          //返回功能
         ActivityRun.onBackPressed {
             HomeEvents.onback()
+//            !GlobalVal.nav.equals(NavScreen.HomeScreen)
             false
         }
         null

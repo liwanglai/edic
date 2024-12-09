@@ -23,6 +23,7 @@ import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.data.model.Word
 import com.ochess.edict.domain.model.WordModel
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.jdc.study_word.tabs
 import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.main.components.Display
@@ -46,7 +47,6 @@ fun study_word(){
         return
     }
     book.initArticle()
-
     LayoutJdc.view(layouts.home) { it ->
         val box = it
         book.onNextDone {

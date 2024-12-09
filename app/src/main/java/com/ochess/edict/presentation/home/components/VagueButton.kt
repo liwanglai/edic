@@ -45,7 +45,7 @@ fun VagueButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
 //            )
             Text(
                 text = "模糊",
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.primaryContainer,
                 style = MaterialTheme.typography.titleSmall
 
             )

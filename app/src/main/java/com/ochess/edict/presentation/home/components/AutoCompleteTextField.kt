@@ -51,9 +51,9 @@ fun AutoCompleteTextField(
     }
     var expandedState by remember { mutableStateOf(false) }
     val sug by suggestions.collectAsState()
-    LaunchedEffect (sug){
+//    LaunchedEffect (sug){
         expandedState=sug.isNotEmpty()
-    }
+//    }
     ExposedDropdownMenuBox(
         expanded = expandedState,
         onExpandedChange = { expandedState = !expandedState },
@@ -105,7 +105,7 @@ fun AutoCompleteTextField(
                 keyboardType = KeyboardType.Text
             ),
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().menuAnchor()
         )
 
         if (sug.isNotEmpty()) {

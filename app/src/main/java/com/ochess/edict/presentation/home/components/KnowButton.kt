@@ -44,7 +44,7 @@ fun KnowButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
 //            )
             Text(
                 text = "认识",
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.primaryContainer,
                 style = MaterialTheme.typography.titleSmall
             )
         }

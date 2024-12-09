@@ -18,18 +18,22 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
+import com.ochess.edict.presentation.main.extend.MText as Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowBookShowType
@@ -67,14 +71,14 @@ fun SwitchMainPage(
             .fillMaxWidth()
     ){
         val itemsAll = itemGroups.entries.toList()
-        var itemH = Display.px2dp(pSize.y / 6)
+        var itemH = Display.px2dp(pSize.y / 5)
         if(!ActivityRun.isHorizontalScreens()) itemH= itemH*4/5
         items(itemsAll){
             //智能有一个分组被现实
             if(it.key != nowBookShowType) return@items
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column (modifier = Modifier.padding(5.dp,20.dp,5.dp,10.dp)){
-                    Title(mt(it.key))
+                    Title(it.key)
                     Spacer(modifier = Modifier.height(1.dp)) // 可以替换为你自己的分隔符组件
                     Divider()
                 }
@@ -85,26 +89,34 @@ fun SwitchMainPage(
                     .heightIn(0.dp,2000.dp)
             ) {
                 val iw = Display.px2dp(pSize.x / 6)
+                val bc = Color.Gray.copy(alpha = 0.2f)
                 itemsIndexed(it.value) { index, item ->
                     Column(modifier = Modifier
-                        .padding(10.dp, 30.dp)
+                        .padding(10.dp)
                         .width(iw)
-                        .background(Color.Gray)
-                        .border(1.dp, Color.DarkGray)
+                        .clip(RoundedCornerShape(14.dp)) // 设置圆角半径
+                        .background(bc)
+//                        .border(2.dp,
+//                            bc,
+//                            RoundedCornerShape(15.dp)
+//                        )
                         .clickable {
                             HomeEvents.SwitchMainPage.onItemClick(item)
                         }
                     ) {
                         Text(
-                            mt(item.name),
+                            item.name,
                             textAlign = TextAlign.Center,
+                            fontSize = 12.sp,
                             modifier = Modifier.fillMaxWidth()
+                                .padding(5.dp)
                         )
                         Image(
                             painter = BitmapPainter(Display.getBitMapByPageScreen(item.name,iw+30.dp,itemH)),
                             contentDescription = item.name,
                             modifier = Modifier.fillMaxWidth()
                         )
+                        Spacer(modifier = Modifier.height(10.dp)) // 可以替换为你自己的分隔符组件
                     }
                 }
             }

@@ -150,10 +150,12 @@ class WordModelViewModel @Inject constructor(
                 sugs.addAll(a); sugs.addAll(c); sugs.addAll(l)
                 suggestions.value = sugs
             } else {
+
                 dictRepository.prefixMatch(query).collect { matches ->
                     matches.let { match ->
                         val sublist = match.map { it.word }
                         suggestions.value = sublist
+
                         match.forEach {
                             if (it.word == query) {
                                 onMatch(query)

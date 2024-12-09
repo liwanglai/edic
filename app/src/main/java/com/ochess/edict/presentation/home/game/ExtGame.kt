@@ -13,6 +13,7 @@ import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.model.Word
 import com.ochess.edict.data.model.WordExtend
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.game.ext.WordExtGame
 
 /**
@@ -20,7 +21,6 @@ import com.ochess.edict.presentation.home.game.ext.WordExtGame
  */
 @Composable
 fun ExtGame() {
-
     val book = BookConf.instance
     val eWord = remember{ mutableStateOf( WordExtend(book.word))}
     fun nextWord(): Boolean {

@@ -195,6 +195,11 @@
     <string name="Downloads">Downloads</string>
     <string name="OnLine">OnLine</string>
 
+    <string name="book_shows">Book Shows</string>
+    <string name="word_shows">Word Shows</string>
+    <string name="defalutChapter">Defalut Chapter</string>
+    <string name="WordList">Word List</string>
+
     <string name="Copy">Copy</string>
     <string name="Speak">Speak</string>
     <string name="Save">Save</string>

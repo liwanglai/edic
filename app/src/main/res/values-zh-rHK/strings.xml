@@ -91,6 +91,10 @@
     <string name="OnLine">外部課本</string>
 
 
+    <string name="book_shows">書本展示方式</string>
+    <string name="word_shows">單詞展示方式</string>
+    <string name="defalutChapter">默認章節</string>
+    <string name="WordList">單詞列表</string>
     <string name="Copy">復製</string>
     <string name="Speak">讀音</string>
     <string name="Save">保存</string>

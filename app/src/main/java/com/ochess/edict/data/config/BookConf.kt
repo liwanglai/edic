@@ -13,6 +13,7 @@ import com.ochess.edict.data.model.Article
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.FileUtil
@@ -160,6 +161,14 @@ data class BookConf(
         if(mapWords.length>0) {
             chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，")).map{it.trim()}.filter{it.length>0}
         }
+        if(chapters.size ==1){
+            val first = chapters[0]
+            chapters[0] = "defaultChapter"
+            val newList = arrayListOf(first)
+                newList.addAll(chapterMapWords[first]!!)
+            chapterMapWords[chapters[0]] = newList
+            chapterMapWords.remove(first)
+        }
         if(!chapters.contains(chapterName)) {
             chapterName = chapters[0]
         }
@@ -169,11 +178,11 @@ data class BookConf(
 
     fun save(chapterName: String="",doSave:Boolean=true) {
         //文章中没有此数据就不要保存防止下一次进来没数据
-        if(doc.indexOf(chapterName) == -1) {
+        if(chapterName!="defaultChapter" && doc.indexOf(chapterName) == -1) {
             return
         }
         if(chapterName.length>0) {
-            this.chapterName = chapterName
+            this.chapterName = mt(chapterName)
         }
         var mWords = chapterMapWords[chapterName]
         if(mWords!=null) {

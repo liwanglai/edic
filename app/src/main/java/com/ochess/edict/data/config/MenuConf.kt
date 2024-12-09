@@ -20,7 +20,7 @@ class MenuConf {
         title_book_shows,
         chaptarPage,
         listenBook,
-        editBook,
+//        editBook,
         print,
         findGame,
     }

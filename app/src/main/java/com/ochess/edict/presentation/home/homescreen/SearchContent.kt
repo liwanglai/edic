@@ -84,7 +84,7 @@ fun SearchContent(
             var moreVisible by remember {
                 mutableStateOf(false)
             }
-            if(PageConf.getBoolean(PageConf.homePage.DefaultShowDetails)) {
+            if(PageConf.getBoolean(PageConf.homePage.DefaultShowDetails,true)) {
                 moreVisible = true
             }
             val dicType = remember {
@@ -188,7 +188,7 @@ fun SearchContent(
             }
 
             Text(
-                text = "翻译: ${it.ch ?: " "}",
+                text = "${it.ch ?: " "}",
                 fontStyle = FontStyle.Normal,
                 fontSize = 28.sp,
                 lineHeight = TextUnit(28f, TextUnitType.Sp),

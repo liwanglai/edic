@@ -22,6 +22,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusOrder
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -33,6 +34,7 @@ import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
 import com.ochess.edict.presentation.home.components.AutoCompleteTextField
+import com.ochess.edict.util.ActivityRun
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @Composable
@@ -61,6 +63,10 @@ fun SearchTool(wordViewModel :WordModelViewModel){
     var canSug = remember {
         true
     }
+
+    Handler().postDelayed({
+        requester.requestFocus()
+    },200)
     Row (modifier = Modifier
         .padding(15.dp)
         .height(50.dp)
@@ -72,7 +78,8 @@ fun SearchTool(wordViewModel :WordModelViewModel){
         AnimatedVisibility(visible = visible) {
             AutoCompleteTextField(
                     modifier = Modifier.fillMaxWidth()
-                    .focusable().focusOrder(requester).onFocusChanged {
+                        .focusRequester(requester)
+                    .focusable().onFocusChanged {
                         if(it.isFocused) {
                             beforState = wordViewModel.wordState.value
                             //wordViewModel.detailState.value = false
@@ -124,10 +131,6 @@ fun SearchTool(wordViewModel :WordModelViewModel){
                     )
                 }
             )
-
-            Handler().postDelayed({
-                requester.requestFocus()
-            },200)
         }
     }
 }

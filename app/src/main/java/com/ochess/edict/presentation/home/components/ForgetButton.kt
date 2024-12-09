@@ -46,7 +46,7 @@ fun ForgetButton(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
 //            )
             Text(
                 text = "忘记",
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.primaryContainer,
                 style = MaterialTheme.typography.titleSmall
             )
         }

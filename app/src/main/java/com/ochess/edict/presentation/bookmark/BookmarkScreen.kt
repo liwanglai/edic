@@ -66,15 +66,12 @@ fun BookmarkScreen() {
             bmChild.add(MPopMenu.dataClass("Books", value = 0))
             titleMenu.upItems(bmChild)
 
-            var topCount = 0
             ActivityRun.onBackPressed {
-                if (pid != 0) {
+                val pid = BookMark.pid
+                if (BookMark.pid > 0) {
                     BookMark.changePid(nowMenu.pid)
-                    topCount = 0
-                } else {
-                    topCount++
                 }
-                pid == 0 && topCount == 1
+                pid == 0
             }
         }
         BookMark.onChangePid()

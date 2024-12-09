@@ -13,9 +13,15 @@ import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.media.Audio
 
 class HomeEvents {
+    //状态或者说标志位
+    object status  {
+        var openDrowUp = true   //开启单指下拉功能
+    }
     companion object {
         lateinit var showMainPage: (name:String) -> Unit
         val events = Events()
+
+
         fun onback(){
             if(!events.onBackPressed()){
                 return
@@ -23,11 +29,13 @@ class HomeEvents {
             when(nowBookShowType){
                 "word_shows" -> {
                     nowBookShowType="book_shows"
+                    GroupInfoPage.beforMode = viewMode
                     viewMode = MenuConf.mode.chaptarPage
                     false
                 }
                 "book_shows" -> {
                     nowBookShowType = "word_shows"
+                    viewMode = MenuConf.mode.wordStudy
                     val pid = BookConf.instance.cid()
                     if(pid>0){
                         NavScreen.BookmarkScreen.open("?pid="+pid)
@@ -58,10 +66,14 @@ class HomeEvents {
     }
 
     object GroupInfoPage {
+        lateinit var beforMode: MenuConf.mode
+
         fun onWordClick(it: WordModel) {
             GlobalVal.wordViewModel.setWord(DictionarySubEntity(it.wordsetId, it.word,it.level))
             BookConf.instance.setWord(it)
             showMainPage("")
+            nowBookShowType = "word_shows"
+            viewMode = beforMode
         }
 
         fun onChapterClick(it: String) {

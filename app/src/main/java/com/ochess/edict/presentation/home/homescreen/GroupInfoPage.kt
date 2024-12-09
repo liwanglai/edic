@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -23,6 +22,7 @@ import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowChapters
 import com.ochess.edict.presentation.home.wGroups
 import com.ochess.edict.presentation.main.components.FlowRow
+import com.ochess.edict.presentation.main.extend.MText as Text
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -108,7 +108,7 @@ fun GroupInfoPage(ap: MutableState<Float>){
 }
 @Composable
 fun Title(txt:String){
-    Row{
-        Text(txt)
+    Row(modifier = Modifier.padding(start = 0.dp, end = 16.dp, bottom = 6.dp, top = 16.dp)){
+        Text(txt, fontSize = 18.sp)
     }
 }
