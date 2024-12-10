@@ -246,6 +246,12 @@ class WordModelViewModel @Inject constructor(
             wordRepo.insertHistory(wordModel.toHistoryEntity())
         }
     }
+
+    /**
+     * 显示下一个
+     * uOrder 不要排序无序的
+     * detailShow 显示详情
+     */
     fun showNext(uOrder: Boolean,detailShow:Boolean = false) {
         if(dictRepository.size()>0) {
             var index = dictRepository.randomCacheSubEntityIdx()
@@ -259,6 +265,7 @@ class WordModelViewModel @Inject constructor(
                 currentDictionarySub.value = it
                 wordState.value = WordState(it.toWordModel())
             } ?: DictionarySubEntity.empty()
+
         }
         detailState.value = detailShow
     }

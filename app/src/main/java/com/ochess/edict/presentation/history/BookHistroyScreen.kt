@@ -6,41 +6,56 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ochess.edict.data.model.TestHistory
-import com.ochess.edict.presentation.main.components.Display.mt
+import com.ochess.edict.data.UserStatus
+import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.main.components.Display.mtCnReplace
+import com.ochess.edict.presentation.navigation.NavScreen
+
+class BookHistroy {
+    class Item{
+        val id = 0
+        val name=""
+        val content = ""
+        val inTime = ""
+    }
+    companion object {
+        val sname = "BookHistorys"
+        fun search(): Array<Item> {
+            return UserStatus.get{
+                 arrayOf<Item>()
+            }
+        }
+
+        fun add(book: BookItem) {
+            val value = ""
+
+            UserStatus.set{
+                it.putString(sname,value)
+                return@set sname
+            }
+        }
+    }
+
+}
 
 
-@ExperimentalUnitApi
 @Composable
-fun HistoryTestScreen() {
-    val testModel: TestHistory = viewModel()
-    testModel.select()
-    val testHistorys = testModel.historys.collectAsState()
+fun HistoryBookScreen() {
+    val list = BookHistroy.search()
     Column {
-//        Text(
-//            text = mt("TestHistory"),
-//            style = MaterialTheme.typography.headlineMedium,
-//            color = MaterialTheme.colorScheme.onBackground
-//        )
         LazyColumn {
-            itemsIndexed(testHistorys.value) { index, it ->
+            itemsIndexed(list) { index, it ->
                 var showMore by remember { mutableStateOf(false) }
                 val bColor = if (index % 2 == 0) Color.Gray else MaterialTheme.colorScheme.background
                 val name = mtCnReplace(it.name)
@@ -55,19 +70,11 @@ fun HistoryTestScreen() {
                 ) {
                     Text(text = name)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        text = (it.score * 100).toInt().toString(),
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(5.dp)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
                     Text(it.inTime, Modifier)
                 }
                 if (showMore) {
                     Row(
-                        Modifier
-                            .background(MaterialTheme.colorScheme.secondary)
-                            .fillParentMaxWidth()
+                        Modifier.background(MaterialTheme.colorScheme.secondary)
                     ) {
                         Text(text = content)
                     }

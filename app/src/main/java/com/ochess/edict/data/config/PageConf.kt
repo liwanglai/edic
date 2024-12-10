@@ -43,9 +43,9 @@ class PageConf {
                 return@get it.getInt(t.name,0)
             }
         }
-        fun getInt(t:homePage): Int {
+        fun getInt(t:homePage,defv:Int=0): Int {
             return UserStatus.get{
-                return@get it.getInt(t.name,0)
+                return@get it.getInt(t.name,defv)
             }
         }
 

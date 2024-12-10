@@ -65,11 +65,11 @@ class SettingConf {
 //        }
 //        if(true) return rt
         val attrs = linkedMapOf(
-            "ret" to this.Ret,
-            "blueTooth" to this.BlueTooth,
+//            "ret" to this.Ret,
             "language" to this.Language,
             "homePageSetting" to this.HomePageSetting,
             "scapesGamePageSetting" to this.ScapesGamePageSetting,
+            "blueTooth" to this.BlueTooth,
             "horizontalDrawAble" to this.HorizontalDrawAble,
             "menuMode" to this.MenuMode,
             "themeType" to this.ThemeType,

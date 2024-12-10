@@ -144,11 +144,19 @@ class MPopMenu(var items: ArrayList<dataClass>) {
 
 
     companion object {
-        val Unspecified: MPopMenu= MPopMenu(arrayListOf())
+        val Unspecified: MPopMenu = MPopMenu(arrayListOf())
         val speakItems = arrayListOf(
-            dataClass("播放","play"),
-            dataClass("重复播放","dplay")
+            dataClass("播放", "play"),
+            dataClass("重复播放", "dplay")
         )
+        fun HistoryTypes(): MPopMenu {
+            return MPopMenu(arrayListOf(
+                dataClass("History", value = 0),
+                dataClass("BookHistory", value = 1),
+                dataClass("TestHistory", value = 2)
+            )).upMtTitle()
+        }
+
         fun SpeakConfigMenu(config:SpeakConf= SpeakConf()) :MPopMenu {
             val items = speakItems.clone() as ArrayList<dataClass>
             config.forEach {
@@ -204,7 +212,8 @@ class MPopMenu(var items: ArrayList<dataClass>) {
 //                dataClass("WordGame","WordGame",MenuConf.mode.findGame),
 //                dataClass("Print","Print",MenuConf.mode.print),
             ))
-            MenuConf.mode.values().forEach {
+            val itemGroups = MenuConf.modeGroups()["title_word_shows"]
+            itemGroups?.forEach {
                 rt.items.add(dataClass(it.name,it.name,it))
             }
             return rt

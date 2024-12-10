@@ -34,9 +34,9 @@ class VirtualCommonItem(
         }
 
         val all: List<VirtualCommonItem> = listOf(
-            VirtualCommonItem(-4,"Downloads",Type.donwload),
-            VirtualCommonItem(-3,"Level",Type.level),
-            VirtualCommonItem(-2,"OnLine",Type.online),
+//            VirtualCommonItem(-4,"Downloads",Type.donwload),
+//            VirtualCommonItem(-3,"Level",Type.level),
+//            VirtualCommonItem(-2,"OnLine",Type.online),
             VirtualCommonItem(-1,"Stored",Type.saved,ico=R.drawable.article),
         )
     }

@@ -2,6 +2,7 @@ package com.ochess.edict.presentation.bookmark.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -105,32 +107,25 @@ fun Item2(item: Any){
         val isBi = item::class.java.equals(BookItem::class.java)
         val itemBi = if(isBi) item as BookItem else null
         val menu = if(isBi) MPopMenu.categoryEditMenu(item as BookItem) else null
-        Card(
-            modifier = Modifier
-                .padding(6.dp)
-                .wrapContentHeight()
-                .combinedClickable(
-                    onClick = {
-                        if(isBi) {
-                            BookMarkEvent.ItemOnClick(itemBi!!)
-                        }else{
-                            BookMarkEvent.onCommonItemClick(item as VirtualCommonItem)
-                        }
-                    },
-                    onLongClick = {
-                        if(menu!=null) {
-                            BookMarkEvent.ItemonLongClick(menu)
-                        }
-                    }
-                ),
-            shape = RoundedCornerShape(8.dp),
-//            elevation = CardDefaults.cardElevation(0.dp),
-//            backgroundColor = MaterialTheme.colorScheme.surface,
-//            contentColor = contentColorFor(backgroundColor = MaterialTheme.colorScheme.surface)
-        ) {
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(5.dp)
+                    .wrapContentHeight()
+                    .combinedClickable(
+                        onClick = {
+                            if(isBi) {
+                                BookMarkEvent.ItemOnClick(itemBi!!)
+                            }else{
+                                BookMarkEvent.onCommonItemClick(item as VirtualCommonItem)
+                            }
+                        },
+                        onLongClick = {
+                            if(menu!=null) {
+                                BookMarkEvent.ItemonLongClick(menu)
+                            }
+                        }
+                    ),
             ) {
                 if(isBi) {
                     if (clickModel == clickModelItem.isSelect) {
@@ -146,9 +141,9 @@ fun Item2(item: Any){
                         painter = painterResource(id = ico),
                         name,
                         modifier = Modifier
-                            .size(100.dp)
+                            .size(70.dp)
                     )
-                    Spacer(Modifier.height(5.dp))
+                   // Spacer(Modifier.height(5.dp))
                 }
 
                 if(isBi && itemBi!!.type == BookItemType.word)
@@ -168,7 +163,7 @@ fun Item2(item: Any){
                         )
                     }
                 }else {
-                    Text(name.replace(Regex("_ISBN.+"),""), fontSize = 10.sp)
+                    Text(name.replace(Regex("_ISBN.+|\\.\\w+$"),""), fontSize = 10.sp)
 //                    Spacer(modifier = Modifier.weight(1f))
 //                    Text(
 //                        item.upTime ?: "",
@@ -176,9 +171,8 @@ fun Item2(item: Any){
 //                        fontSize = TextUnit(10f, TextUnitType.Sp)
 //                    )
                 }
-            }
-            if(menu!=null) {
-                menu.add()
-            }
+                if(menu!=null) {
+                    menu.add()
+                }
         }
 }

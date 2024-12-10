@@ -55,28 +55,30 @@ fun SearchContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(48.dp, 0.dp, 48.dp, 36.dp)
+            .padding(18.dp, 0.dp, 18.dp, 36.dp)
     ) {
-        var lName by remember { mutableStateOf("") }
-        LaunchedEffect(wordModel?.word) {
-            lName = ""
-            if(wordModel?.word==null) return@LaunchedEffect
-            levelViewModel.getLevel(wordModel!!.level?:0) {
-                lName = it
-            }
-        }
-        Text(
-            text = lName,
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Start,
-            modifier = Modifier.clickable {
-                GlobalVal.nav.navigate(NavScreen.LevelScreen.route) {
-                    launchSingleTop = true
-                }
-            },
-            color = MaterialTheme.colors.onSurface
-        )
+//        var lName by remember { mutableStateOf("") }
+//        LaunchedEffect(wordModel?.word) {
+//            lName = ""
+//            if(wordModel?.word==null) return@LaunchedEffect
+//            levelViewModel.getLevel(wordModel!!.level?:0) {
+//                lName = it
+//            }
+//        }
+//        Text(
+//            text = lName,
+//            style = MaterialTheme.typography.subtitle1,
+//            fontWeight = FontWeight.Bold,
+//            textAlign = TextAlign.Start,
+//            modifier = Modifier.clickable {
+//                GlobalVal.nav.navigate(NavScreen.LevelScreen.route) {
+//                    launchSingleTop = true
+//                }
+//            },
+//            color = MaterialTheme.colors.onSurface
+//        )
+
+
         wordModel?.let {
             dictionaryStringBuilder = dictionaryStringBuilder.clear()
             dictionaryStringBuilder.append(it.word).append("\n")
@@ -88,13 +90,35 @@ fun SearchContent(
                 moreVisible = true
             }
             val dicType = remember {
-                PageConf.getInt(PageConf.homePage.DicType)
+                PageConf.getInt(PageConf.homePage.DicType,1)
             }
             var showCh by remember {
                 mutableStateOf( listOf(DicType.en_cn.ordinal,DicType.encn.ordinal).contains(dicType))
             }
             val showEn = listOf(DicType.en_en.ordinal,DicType.encn.ordinal).contains(dicType)
 
+            Text(
+                text = "${it.ch ?: " "}",
+                fontStyle = FontStyle.Normal,
+                fontSize = 20.sp,
+                lineHeight = TextUnit(20f, TextUnitType.Sp),
+                style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                color = Color.Black,
+                modifier = Modifier.clickable{
+                    showCh = !showCh
+                }
+            )
+
+            if(!moreVisible) {
+                Text(
+                    "详情",
+                    Modifier
+                        .clickable {
+                            moreVisible = true
+                        }
+                        .align(Alignment.End)
+                )
+            }
             if(moreVisible) {
                 it.meanings?.forEachIndexed { index, meaning ->
                     val defChVisable = remember{ mutableStateOf(false) }
@@ -102,13 +126,15 @@ fun SearchContent(
                     val dEn = remember{ mutableStateOf(false) }
                     val eEn = remember{ mutableStateOf(false) }
                     dictionaryStringBuilder.append(meaning.speechPart).append("\n")
-                    Text(
-                        text = if(meaning.speechPart!=null) meaning.speechPart else "",
-                        style = MaterialTheme.typography.subtitle1,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Start,
-                        color = MaterialTheme.colors.onSurface
-                    )
+                    if(meaning.speechPart!=null) {
+                        Text(
+                            text = meaning.speechPart,
+                            style = MaterialTheme.typography.subtitle1,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Start,
+                            color = MaterialTheme.colors.onSurface
+                        )
+                    }
                     dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
 
                     if((showCh || defChVisable.value) && meaning.def_ch!=null) {
@@ -126,6 +152,9 @@ fun SearchContent(
                             color = MaterialTheme.colors.onSurface,
                             modifier = Modifier.clickable{
                                 defChVisable.value = !defChVisable.value
+                            },
+                            onDbClick = {
+                                defChVisable.value = !defChVisable.value
                             }
                         )
                     }
@@ -142,28 +171,37 @@ fun SearchContent(
                         )
                     }
                     if (!meaning.example.isNullOrEmpty()) {
-                        val example = "Example: ${meaning.example}"
+                        val etitle = when(dicType){
+                            0->"Example:"
+                            else -> "例句："
+                        }
+                        val example = etitle+"${meaning.example}"
                         dictionaryStringBuilder.append(example).append("\n")
-                        if((showCh || examChVisable.value) && meaning.example_ch!=null) {
-                            Text(text="实例："+meaning.example_ch, modifier = Modifier.clickable{
+                        if((examChVisable.value) && meaning.example_ch!=null) {
+                            Text(text=meaning.example_ch, modifier = Modifier.clickable{
                                 eEn.value = !eEn.value
                             })
                         }
-                        if(showEn || eEn.value) {
-                            ClickAbelText(
-                                text = example,
-                                fontStyle = FontStyle.Italic,
-                                lineHeight = TextUnit(16f, TextUnitType.Sp),
-                                style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
-                                color = Color.Gray,
-                                modifier = Modifier.clickable{
-                                    examChVisable.value = !examChVisable.value
-                                }
-                            )
-                        }
+                        ClickAbelText(
+                            text = example,
+                            fontStyle = FontStyle.Italic,
+                            lineHeight = TextUnit(16f, TextUnitType.Sp),
+                            style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                            color = Color.Gray,
+                            modifier = Modifier.clickable{
+                                examChVisable.value = !examChVisable.value
+                            },
+                            onDbClick = {
+                                examChVisable.value = !examChVisable.value
+                            }
+                        )
                     }
                     if (!meaning.synonyms.isNullOrEmpty()) {
-                        val synonym = "Synonym(s): ${
+                        val snomon = when(dicType){
+                            0->"Synonym(s)"
+                            else -> "同义词"
+                        }
+                        val synonym = "${snomon}: ${
                             meaning.synonyms.toString()
                                 .removePrefix("[")
                                 .removeSuffix("]")
@@ -183,31 +221,9 @@ fun SearchContent(
                         color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-
                 }
             }
 
-            Text(
-                text = "${it.ch ?: " "}",
-                fontStyle = FontStyle.Normal,
-                fontSize = 28.sp,
-                lineHeight = TextUnit(28f, TextUnitType.Sp),
-                style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
-                color = Color.Black,
-                modifier = Modifier.clickable{
-                    showCh = !showCh
-                }
-            )
-            if(!moreVisible) {
-                Text(
-                    "详情",
-                    Modifier
-                        .clickable {
-                            moreVisible = true
-                        }
-                        .align(Alignment.End)
-                )
-            }
         }
     }
 }

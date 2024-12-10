@@ -88,7 +88,7 @@ fun study_word(){
                         if (lastWord == null) {
                             lastWord = this
                             performClick()
-//                            toggle(R.id.list_view_study)
+                            toggle(R.id.list_view_study)
                         }
                     }
                 }

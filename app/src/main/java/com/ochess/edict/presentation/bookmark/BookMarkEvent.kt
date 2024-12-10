@@ -2,7 +2,6 @@ package com.ochess.edict.presentation.bookmark
 
 
 import android.annotation.SuppressLint
-import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.collection.arrayMapOf
@@ -33,7 +32,7 @@ import com.ochess.edict.presentation.bookmark.data.BookMark.clickModelItem
 import com.ochess.edict.presentation.bookmark.data.BookMark.Companion.bookItems
 import com.ochess.edict.presentation.bookmark.data.BookMark.Companion.clickModel
 import com.ochess.edict.presentation.bookmark.data.BookMark
-
+import com.ochess.edict.presentation.history.BookHistroy
 
 
 class BookMarkEvent {
@@ -291,6 +290,7 @@ class BookMarkEvent {
                             } else {
                                 jump()
                             }
+                            BookHistroy.add(item)
                         }
                     }
 
@@ -362,7 +362,9 @@ class BookMarkEvent {
                         }
                     }
 
-                }else if(pid==-1){
+                }
+                else if(pid==-1){
+                    BookMark.setBookItems(bookItems)
                     GlobalVal.bookmarkViewModel.getAll {
                         it.forEach {
                             val item = BookItem.build(it)

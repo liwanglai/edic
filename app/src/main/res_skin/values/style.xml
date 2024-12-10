@@ -1,0 +1,17 @@
+<resources>
+<style name="study_word_tab">
+    <item name="android:textSize">@dimen/y36</item>
+    <item name="android:textStyle">bold</item>
+    <!--         <item name="android:textColor">@color/selector_study_word_tab</item> -->
+    <item name="android:gravity">center</item>
+    <item name="android:background">@drawable/selector_study_word_tab</item>
+    <item name="android:layout_width">@dimen/y200</item>
+    <item name="android:layout_height">@dimen/y80</item>
+    <item name="android:button">@null</item>
+</style>
+<style name="MyEditText" >
+    <item name="colorControlActivated">#ff01b9ff</item>
+    <item name="colorControlHighlight">#ff01b9ff</item>
+    <item name="colorControlNormal">#ff01b9ff</item>
+</style>
+</resources>

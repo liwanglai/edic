@@ -90,9 +90,9 @@ class UserStatus() {
                         apply()
                     }
                 },
-                modifier = Modifier.padding(9.dp)
+                modifier = Modifier.padding(5.dp)
         ){
-            Text(mt(name)+": "+mt(value!!), color = if(v) Color.Green else Color.Black)
+            Text(mt(name)+": "+mt(value!!), color = if(v) Color.Green else Color.Gray)
         }
     }
 

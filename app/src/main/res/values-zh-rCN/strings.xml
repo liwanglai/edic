@@ -45,7 +45,7 @@
     <string name="Click">点击屏幕显示答案</string>
     <string name="Selectdatabase">请点击选择词库</string>
 
-    <string name="homePageSetting">主页设置</string>
+    <string name="homePageSetting">默认页设置</string>
     <string name="TitleClickEdit">标题单击可编辑</string>
     <string name="NextUnordered">单词排序乱序</string>
     <string name="DefaultShowDetails">默认展示详情</string>
@@ -60,7 +60,7 @@
     <string name="AutoNext">自动下一个</string>
     <string name="LetterLen">单词长度限制</string>
     <string name="themeType">主题样式配置</string>
-    <string name="viewMode">默认首页</string>
+    <string name="viewMode">默认页视图</string>
     <string name="autoChange">自适应</string>
     <string name="rightHide">右侧隐藏</string>
     <string name="bottomShow">底部显示</string>

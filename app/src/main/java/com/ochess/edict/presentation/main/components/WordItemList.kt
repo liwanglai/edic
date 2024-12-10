@@ -42,6 +42,7 @@ import com.ochess.edict.util.DateUtil
 @Composable
 fun WordItemList(
     list: List<WordModel>,
+    dicType : Int = 0,
     onItemClick: (Int) -> Unit,
     onDeleteClick: (WordModel) -> Unit
 ) {
@@ -73,7 +74,7 @@ fun WordItemList(
                 Spacer(modifier = Modifier.height(15.dp))
                 TimeItem(titleMap[index]!!)
             }
-            WordItem(index, wordModel = item, onItemClick, onDeleteClick)
+            WordItem(index, wordModel = item, onItemClick, onDeleteClick,dicType=dicType)
 
         }
 
@@ -93,7 +94,8 @@ fun WordItem(
     index: Int,
     wordModel: WordModel,
     onItemClick: (Int) -> Unit,
-    onDeleteClick: (WordModel) -> Unit
+    onDeleteClick: (WordModel) -> Unit,
+    dicType: Int =0
 ) {
     Card(
         modifier = Modifier
@@ -130,8 +132,12 @@ fun WordItem(
                         fontSize = TextUnit(10f, TextUnitType.Sp)
                     )
                 }
+                val mean = when(dicType){
+                    0-> "${wordModel.meanings?.get(0)?.def}"
+                    else -> "${wordModel.meanings?.get(0)?.def_ch}"
+                }
                 Text(
-                    text = "1. ${wordModel.meanings?.get(0)?.def}",
+                    text = "1. ${mean}",
                     style = MaterialTheme.typography.subtitle2,
                     maxLines = 2,
                     lineHeight = TextUnit(16f, TextUnitType.Sp),
@@ -139,9 +145,13 @@ fun WordItem(
                     textAlign = TextAlign.Start,
                     fontWeight = FontWeight.Normal,
                 )
+                val synonyms =  when(dicType){
+                    0-> "Synonym(s):"
+                    else -> "同义词："
+                }
                 wordModel.meanings?.get(0)?.synonyms?.let {
                     Text(
-                        text = "Synonym(s): ${
+                        text = "${synonyms} ${
                             it.toString().removePrefix("[")
                                 .removeSuffix("]")
                         }",
@@ -154,9 +164,13 @@ fun WordItem(
                         fontWeight = FontWeight.Normal,
                     )
                 }
+                val ex = when(dicType){
+                    0-> "Example:${wordModel.meanings?.get(0)?.example}"
+                    else -> "例句：${wordModel.meanings?.get(0)?.example_ch}"
+                }
                 wordModel.meanings?.get(0)?.example?.let {
                     Text(
-                        text = "Ex: $it",
+                        text = ex,
                         style = MaterialTheme.typography.subtitle2,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,

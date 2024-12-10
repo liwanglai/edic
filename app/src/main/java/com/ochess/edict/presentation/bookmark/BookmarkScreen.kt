@@ -28,6 +28,7 @@ import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.bookmark.data.BookMark
 import com.ochess.edict.presentation.main.components.AddButton
 import com.ochess.edict.presentation.main.components.Confirm
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.InputDialog
 import com.ochess.edict.presentation.main.components.Prompt
 import com.ochess.edict.util.ActivityRun
@@ -42,7 +43,7 @@ fun BookmarkScreen() {
         mutableStateOf(MPopMenu(arrayListOf()))
     }
     var title by remember {
-        mutableStateOf("Bookmarks")
+        mutableStateOf("Books")
     }
     remember {
         // 显示确认对话框
@@ -90,7 +91,7 @@ fun BookmarkScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ){
                     Text(
-                        text = title,
+                        text = mt(title),
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier

@@ -47,6 +47,8 @@ import com.ochess.edict.data.plug.CategoryTree
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.BookmarkViewModel
 import com.ochess.edict.presentation.history.HistoryViewModel
+import com.ochess.edict.presentation.history.HistoryWords
+import com.ochess.edict.presentation.history.HistoryWords.Companion.menu
 import com.ochess.edict.presentation.home.PAGE_FROM_BOOKMARK
 import com.ochess.edict.presentation.home.PAGE_FROM_HISTORY
 import com.ochess.edict.presentation.home.TAG
@@ -115,25 +117,29 @@ fun DefaultPage(navController: NavHostController,
                         modifier = Modifier
                             .combinedClickable(
                                 onLongClick = {
-                                    if (wordModel.wordModel?.word.isNullOrEmpty()) {
-                                        navController.navigate(NavScreen.LevelScreen.route) {
-                                            launchSingleTop = true
-                                        }
-                                        wordViewModel.nextDictionaryWord()
-                                    } else {
-                                        GlobalVal.isSearchVisible.value = true
+//                                    if (wordModel.wordModel?.word.isNullOrEmpty()) {
+//                                        navController.navigate(NavScreen.LevelScreen.route) {
+//                                            launchSingleTop = true
+//                                        }
+//                                        wordViewModel.nextDictionaryWord()
+//                                    } else {
+//                                        GlobalVal.isSearchVisible.value = true
+//                                    }
+                                    if (PageConf.getBoolean(PageConf.homePage.TitleClickEdit,true)) {
+                                        wordCanEdit.value = 1
                                     }
-                                    //else wordViewModel.searchByText()
                                 },
                                 onClick = {
-                                    if (PageConf.getBoolean(PageConf.homePage.TitleClickEdit)) {
-                                        wordCanEdit.value = 1
+                                    HistoryWords.menu.show{_,v->
+                                        wordViewModel.searcher(v.name)
+                                        HistoryWords.slice(v.value as Int)
                                     }
                                 }
                             )
                             //.fillMaxWidth()
                             .align(Alignment.Center)
                     )
+                    HistoryWords.add(wordModel.wordModel?.word?:"")
                 }
                 if(isEdit) {
                     val word = wordModel.wordModel?.word
@@ -183,13 +189,14 @@ fun DefaultPage(navController: NavHostController,
                 Text(
 //                    text = "请回忆单词发音和释义",
                     text = stringResource(R.string.Recall),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(5.dp)
                 )
                 Text(
 //                    text = "点击屏幕显示答案",
                     text = stringResource(R.string.Click),
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             } else {
@@ -210,6 +217,7 @@ fun DefaultPage(navController: NavHostController,
     ) {
         SearchComponent(wordModel,  wordViewModel){
             onOpenNextWord(wordIndex?:0, fromPage)
+            HistoryWords.reset()
         }
     }
 }
@@ -217,6 +225,7 @@ fun DefaultPage(navController: NavHostController,
 inline fun onOpenNextWord(wordIndex:Int,fromPage:Int){
     val uOrder = PageConf.getBoolean(PageConf.homePage.NextUnordered)
     GlobalVal.wordViewModel.showNext(uOrder)
+
 //    var wIndex = wordIndex?:0
 //    when (fromPage) {
 //        PAGE_FROM_BOOKMARK , PAGE_FROM_HISTORY -> {

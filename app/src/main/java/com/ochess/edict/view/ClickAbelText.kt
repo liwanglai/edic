@@ -39,6 +39,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ochess.edict.R
 import com.ochess.edict.data.DictionaryDatabase
 import com.ochess.edict.data.GlobalVal
+import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.home.TTSListener
 import com.ochess.edict.util.ActivityRun
 import java.util.Locale
@@ -65,7 +66,8 @@ fun ClickAbelText(
     maxLines: Int = Int.MAX_VALUE,
     onTextLayout: (TextLayoutResult) -> Unit = {},
     style: TextStyle = LocalTextStyle.current,
-    single:Boolean =false
+    single:Boolean =false,
+    onDbClick: (String) -> Unit = {}
     ) {
 
     val tags = text.split(" ")
@@ -130,7 +132,12 @@ fun ClickAbelText(
                 spannable.setSpan(ForegroundColorSpan(Color.RED),startIndex,endIndex,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 (widget as TextView).text = spannable
                 Handler().post {
+                    val beforword = word
                     word = tag.lowercase(Locale.getDefault())
+                    if(beforword.equals(word)){
+                        onDbClick(word)
+                        return@post
+                    }
                     if (tag.matches(Regex(".*\\W.*"))) {
                         word = word.replace(Regex("^\\W+|\\W+$"),"")
                     }

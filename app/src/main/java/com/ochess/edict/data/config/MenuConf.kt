@@ -84,6 +84,25 @@ class MenuConf {
 
             return mode.values().get(id)
         }
+
+        fun modeGroups(): LinkedHashMap<String, ArrayList<mode>> {
+            val list = MenuConf.mode.values()
+            val itemGroups = linkedMapOf<String,ArrayList<MenuConf.mode>>()
+            var group=""
+
+            list.forEach {item->
+                if(item.name.startsWith("title_")){
+                    group = item.name.substring(6)
+                    return@forEach
+                }
+                if(!itemGroups.containsKey(group)) {
+                    itemGroups.set(group, arrayListOf<MenuConf.mode>())
+                }
+                itemGroups.get(group)?.add(item)
+            }
+
+            return itemGroups
+        }
     }
 
 }
