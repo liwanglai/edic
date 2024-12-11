@@ -50,7 +50,6 @@ fun SwitchMainPage(
     val itemGroups = MenuConf.modeGroups()
     var cells = if(ActivityRun.isHorizontalScreens()) GridCells.Adaptive(200.dp) else  GridCells.Fixed(3)
     val pSize = Display.getScreenSize()
-
     LazyColumn (
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -61,7 +60,7 @@ fun SwitchMainPage(
         var itemH = Display.px2dp(pSize.y / 5)
         if(!ActivityRun.isHorizontalScreens()) itemH= itemH*4/5
         items(itemsAll){
-            //智能有一个分组被现实
+            //只能有一个分组被显示
             if(it.key != nowBookShowType) return@items
             Box(modifier = Modifier.fillMaxWidth()) {
                 Column (modifier = Modifier.padding(5.dp,20.dp,5.dp,10.dp)){

@@ -90,6 +90,9 @@ object DateUtil {
         return TimeStampScope(stimes[0],stimes.last()+86400*1000,rt)
     }
 
+    fun formatDateToDaysAgo(date: Long): String {
+        return formatDateToDaysAgo(Date(date))
+    }
     fun formatDateToDaysAgo(date: Date): String {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val now = System.currentTimeMillis()

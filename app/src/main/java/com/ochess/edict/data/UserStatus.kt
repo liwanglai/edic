@@ -25,7 +25,10 @@ import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.view.MPopMenu
 import java.util.Date
 
-
+/**
+ * 用户状态
+ *
+ */
 class UserStatus() {
     private val TAG: String="UserStatus"
     var config : SharedPreferences

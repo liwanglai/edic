@@ -130,9 +130,11 @@ fun DefaultPage(navController: NavHostController,
                                     }
                                 },
                                 onClick = {
-                                    HistoryWords.menu.show{_,v->
-                                        wordViewModel.searcher(v.name)
-                                        HistoryWords.slice(v.value as Int)
+                                    if(HistoryWords.size>1) {
+                                        HistoryWords.menu.show { _, v ->
+                                            wordViewModel.searcher(v.name)
+                                            HistoryWords.slice(v.value as Int)
+                                        }
                                     }
                                 }
                             )

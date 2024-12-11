@@ -1,6 +1,7 @@
 package com.ochess.edict.di
 
 import android.app.Application
+import com.ochess.edict.data.config.NetConf
 import com.ochess.edict.util.ToastUtil
 import com.tencent.bugly.crashreport.CrashReport
 import dagger.hilt.android.HiltAndroidApp
@@ -9,7 +10,9 @@ import dagger.hilt.android.HiltAndroidApp
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        CrashReport.initCrashReport(applicationContext, "c3f50abe42", false)
+        if (NetConf.tBuglyKey.length>0){
+                CrashReport.initCrashReport(applicationContext, NetConf.tBuglyKey, false)
+        }
         ToastUtil.initContext(this)
         application = this
     }

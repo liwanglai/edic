@@ -21,6 +21,7 @@ import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowChapters
 import com.ochess.edict.presentation.home.wGroups
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.FlowRow
 import com.ochess.edict.presentation.main.extend.MText as Text
 
@@ -37,7 +38,7 @@ fun GroupInfoPage(ap: MutableState<Float>){
         arraySetOf<String>()
     }
     LazyColumn (modifier= Modifier
-        .padding(50.dp)
+        .padding(30.dp)
         .alpha(ap.value)){
 
         items(1) {
@@ -71,7 +72,7 @@ fun GroupInfoPage(ap: MutableState<Float>){
                    }
                }
        */
-            Title(name)
+            Title(name.replace(Regex("\\.\\w+$"),""))
             if (wGroups.size > 0) {
                 FlowRow {
                     wGroups.forEach {
@@ -86,15 +87,14 @@ fun GroupInfoPage(ap: MutableState<Float>){
             }
 
 
-            val nowStatus = GlobalVal.wordViewModel.wordState.collectAsState()
-            val nowModel = nowStatus.value.wordModel
-            val words = GlobalVal.wordViewModel.cacheSub()
+//            val nowStatus = GlobalVal.wordViewModel.wordState.collectAsState()
+//            val nowModel = nowStatus.value.wordModel
+//            val words = GlobalVal.wordViewModel.cacheSub()
             Title("WordList")
             FlowRow {
-                words.forEach {
+                BookConf.words.subList(0,500).forEach {
 //                val tColor = if(it.isStudyed)  Color.Red else MaterialTheme.colors.primary
-                    val tColor =
-                        if (it.word.equals(nowModel?.word)) Color.Red else MaterialTheme.colors.primary
+                    val tColor = if (it.word.equals(BookConf.instance.word)) Color.Red else MaterialTheme.colors.primary
                     Text(text = it.word, color = tColor,
                         fontSize = 14.sp,
                         modifier = Modifier
@@ -109,6 +109,6 @@ fun GroupInfoPage(ap: MutableState<Float>){
 @Composable
 fun Title(txt:String){
     Row(modifier = Modifier.padding(start = 0.dp, end = 16.dp, bottom = 6.dp, top = 16.dp)){
-        Text(txt, fontSize = 18.sp)
+        Text(txt, fontSize = 18.sp,color= androidx.compose.material3.MaterialTheme.colorScheme.onSurface)
     }
 }

@@ -14,7 +14,7 @@ private val DarkColorPalette = darkColorScheme(
     background = blueBGNight,
     surface = cardBGNight,
     onSurface = pinkText,
-    onBackground = pinkText
+    onBackground = pinkText,
 )
 
 private val LightColorPalette = lightColorScheme(
@@ -23,11 +23,12 @@ private val LightColorPalette = lightColorScheme(
     secondary = Teal200,
     background = blueBGDay,
     surface = cardBGDay,
-    surfaceVariant = cardBGDay,
     onSurface = blueText,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = blueText
+    onBackground = blueText,
+
+//    surfaceVariant = cardBGDay,
+//    onPrimary = Color.White,
+//    onSecondary = Color.Black
 )
 
 @Composable

@@ -138,4 +138,8 @@ data class BookItem(
 
     }
 
+    fun info(): String {
+        return ""
+    }
+
 }

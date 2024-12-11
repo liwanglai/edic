@@ -52,7 +52,7 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
         resources.displayMetrics.heightPixels
     }
     //出现小程序页面的滚动高度
-    val limitHight = fullHeight / 5
+    val limitHight = fullHeight / 10
     //拖拽的长度
     var dragDistance by remember { mutableStateOf(0F) }
     //主页的top
@@ -148,8 +148,8 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
             boxTop += it
 
             //百分比
-            val pre = Math.min(1f, abs(dragDistance) / (fullHeight/3))
-            scrollPercent.value = if (showPageIndex == 1) pre else 1 - pre
+            val pre = Math.min(1f, abs(dragDistance) / (fullHeight/5))
+            scrollPercent.value = if (showPageIndex == 1) pre else 1f - pre
     }
     val onDrawEnd :(y:Float)->Unit ={ offset ->
         childTop = 0
@@ -241,7 +241,6 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                             (
                                     points.size == 2 ||
                                     (HomeEvents.status.openDrowUp && ((showPageIndex ==1 && mvPos.y > 10) || (showPageIndex ==0 && mvPos.y < -10)))
-
                             )
                         ) {
                             dragEnabled.value = true

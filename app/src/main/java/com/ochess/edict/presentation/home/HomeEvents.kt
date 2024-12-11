@@ -7,6 +7,7 @@ import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.domain.model.WordModel
+import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.home.game.inputWord
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
@@ -23,6 +24,10 @@ class HomeEvents {
 
 
         fun onback(){
+            if(HistoryWords.size>1){
+                HistoryWords.pop()
+                return
+            }
             if(!events.onBackPressed()){
                 return
             }
@@ -31,7 +36,6 @@ class HomeEvents {
                     nowBookShowType="book_shows"
                     GroupInfoPage.beforMode = viewMode
                     viewMode = MenuConf.mode.chaptarPage
-                    false
                 }
                 "book_shows" -> {
                     nowBookShowType = "word_shows"
@@ -40,10 +44,8 @@ class HomeEvents {
                     if(pid>0){
                         NavScreen.BookmarkScreen.open("?pid="+pid)
                     }
-
-                    false
                 }
-                else -> false
+                else -> {}
             }
         }
 
@@ -69,10 +71,8 @@ class HomeEvents {
         lateinit var beforMode: MenuConf.mode
 
         fun onWordClick(it: WordModel) {
-            GlobalVal.wordViewModel.setWord(DictionarySubEntity(it.wordsetId, it.word,it.level))
             BookConf.instance.setWord(it)
             showMainPage("")
-            nowBookShowType = "word_shows"
             viewMode = beforMode
         }
 

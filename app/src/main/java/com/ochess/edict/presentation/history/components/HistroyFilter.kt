@@ -1,6 +1,7 @@
 package com.ochess.edict.presentation.history.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,6 +27,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,11 +49,22 @@ import java.util.Date
 
 
 class HistroyFilter{
+    enum class types {
+        key,
+        type,
+        date,
+        level
+    }
+
     companion object{
+        val showTypes = arrayListOf(types.type,types.date,types.level)
         private var showDialog by mutableStateOf(false)
         private lateinit var hViewModel:HistoryViewModel
         private var timeRange by mutableStateOf(TimeStampScope(System.currentTimeMillis(),System.currentTimeMillis()))
-
+        var onChange :(type:Int,
+                     date:TimeStampScope?,
+                     levels: ArrayList<String>,
+                     key:String)->Unit = {a,b,c,d-> }
         @Composable
         fun add(vm:HistoryViewModel){
             hViewModel = vm
@@ -83,10 +99,20 @@ class HistroyFilter{
             showDialog=true
         }
 
+        fun eventChange(onchange:(type:Int,
+                        date:TimeStampScope?,
+                        levels: ArrayList<String>,
+                        key:String) -> Unit = {a,b,c,d-> }
+        ) {
+            onChange = onchange
+        }
+
+
 
         @SuppressLint("UnrememberedMutableState")
         @Composable
         fun RowList(){
+            val key = remember { mutableStateOf("") }
             val typeIndex = hViewModel.selectTypeIndex.collectAsState()
             val dateIndex = hViewModel.selectDateIndex.collectAsState()
             val levelIndexs = hViewModel.selectLevels.collectAsState()
@@ -103,7 +129,7 @@ class HistroyFilter{
                         null
                     }
                 }
-                hViewModel.search(type=typeIndex.value,date = timeStamp,levels=levelIndexs.value)
+                onChange(typeIndex.value, timeStamp,levelIndexs.value,key.value)
             }
             Column(
                 modifier = Modifier
@@ -112,30 +138,55 @@ class HistroyFilter{
                     .alpha(0.85f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                filterType(typeIndex)
-                filterDate(dateIndex)
-                filterSearch(levelIndexs)
-                LazyColumn(modifier = Modifier
-                    .fillMaxWidth()
-                ){
-                    itemsIndexed(levelIndexs.value){ _, it->
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = it)
-                            Spacer(modifier = Modifier.weight(1f))
-                            CloseButton(onClick = {
-                                val index = levelIndexs.value.indexOf(it)
-                                levelIndexs.value.removeAt(index)
-                                val a = arrayListOf<String>()
-                                a.addAll(levelIndexs.value)
-                                a.add(it)
-                                hViewModel.selectLevels.value = a
-                            })
+                if(types.key in showTypes) {
+                    filterKey(key)
+                }
+                if(types.type in showTypes) {
+                    filterType(typeIndex)
+                }
+                if(types.date in showTypes) {
+                    filterDate(dateIndex)
+                }
+                if(types.level in showTypes) {
+                    filterSearch(levelIndexs)
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        itemsIndexed(levelIndexs.value) { _, it ->
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(text = it)
+                                Spacer(modifier = Modifier.weight(1f))
+                                CloseButton(onClick = {
+                                    val index = levelIndexs.value.indexOf(it)
+                                    levelIndexs.value.removeAt(index)
+                                    val a = arrayListOf<String>()
+                                    a.addAll(levelIndexs.value)
+                                    a.add(it)
+                                    hViewModel.selectLevels.value = a
+                                })
+                            }
                         }
                     }
                 }
             }
         }
 
+        @Composable
+        private fun filterKey(key:MutableState<String>) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "关键字:")
+                Spacer(
+                    modifier = Modifier
+                        .width(4.dp)
+                )
+                Text(key.value)
+            }
+        }
         @Composable
         private fun filterSearch(levelIndexs: State<ArrayList<String>>) {
             Row(

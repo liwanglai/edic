@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
+import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.local.entity.DictionaryEntity
 import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.model.Article
@@ -13,6 +14,7 @@ import com.ochess.edict.data.model.Query
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.domain.repository.DictionaryBaseRepository
 import com.ochess.edict.domain.repository.WordBaseRepository
+import com.ochess.edict.presentation.history.BookHistroy
 import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
@@ -260,10 +262,11 @@ class WordModelViewModel @Inject constructor(
                 return
             }
             if(!uOrder) index =0
-            workIndex = dictRepository.getWorkIndex(index)
+            //workIndex = dictRepository.getWorkIndex(index)
             dictRepository.getCacheSubEntity(index)?.let {
                 currentDictionarySub.value = it
                 wordState.value = WordState(it.toWordModel())
+                BookHistroy.lastWord(it.word)
             } ?: DictionarySubEntity.empty()
 
         }
@@ -278,8 +281,13 @@ class WordModelViewModel @Inject constructor(
     }
 
     fun upList(wordModelList: List<WordModel>) {
-        dictRepository.setWords(wordModelList)
-        setWordState(0)
+        var wordList = wordModelList
+        if(BookConf.instance.index>0 && wordModelList.size>0){
+            wordList=wordModelList.subList(BookConf.instance.index+1,wordModelList.size-1)
+        }
+        dictRepository.setWords(wordList)
+
+        //setWordState(0)
     }
 
 

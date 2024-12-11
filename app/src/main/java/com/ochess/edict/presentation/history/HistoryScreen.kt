@@ -2,7 +2,6 @@ package com.ochess.edict.presentation.history
 
 import android.os.Bundle
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -12,8 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,18 +24,18 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ochess.edict.R
 import com.ochess.edict.data.config.PageConf
+import com.ochess.edict.data.model.TestHistory
 import com.ochess.edict.presentation.history.components.HistoryPrint
 import com.ochess.edict.presentation.history.components.HistroyFilter
-import com.ochess.edict.presentation.main.components.Display.mtCnReplace
 import com.ochess.edict.presentation.main.components.WordItemList
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.print.MPrinter
@@ -189,12 +186,29 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
 
             when (boxVisable) {
                         0 -> {
+
                             WordItemList(list = history, onItemClick = onItemClick,dicType=dicType) {
                                 viewModel.deleteHistory(it)
                             }
+                            HistroyFilter.eventChange{type,date,levels,key->
+                                viewModel.search(type=type,date = date,levels=levels)
+                            }
                         }
-                        1-> HistoryTestScreen()
-                        2-> HistoryBookScreen()
+                        1-> {
+                            HistoryBookScreen()
+                            HistroyFilter.eventChange{type,date,levels,key->
+                                BookHistroy.key.value = key
+                                BookHistroy.date.value = date
+                            }
+                        }
+                        2-> {
+                            val testModel: TestHistory = viewModel()
+                            testModel.select()
+                            HistoryTestScreen(testModel.historys)
+                            HistroyFilter.eventChange{type,date,levels,key->
+                                testModel.select(key,date)
+                            }
+                        }
             }
 
             if (showPrint) {

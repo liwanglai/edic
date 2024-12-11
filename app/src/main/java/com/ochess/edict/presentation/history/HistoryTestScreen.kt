@@ -21,18 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.ochess.edict.data.model.TestHistory
-import com.ochess.edict.presentation.main.components.Display.mt
+import com.ochess.edict.data.local.entity.TestEntity
 import com.ochess.edict.presentation.main.components.Display.mtCnReplace
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
 @ExperimentalUnitApi
 @Composable
-fun HistoryTestScreen() {
-    val testModel: TestHistory = viewModel()
-    testModel.select()
-    val testHistorys = testModel.historys.collectAsState()
+fun HistoryTestScreen(historys: MutableStateFlow<List<TestEntity>>) {
+    val testHistorys = historys.collectAsState()
     Column {
 //        Text(
 //            text = mt("TestHistory"),

@@ -4,6 +4,10 @@ import android.os.Handler
 import android.view.ViewGroup
 import android.widget.ListAdapter
 import androidx.collection.arrayMapOf
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.ochess.edict.data.GlobalVal
@@ -13,6 +17,7 @@ import com.ochess.edict.data.model.Article
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
+import com.ochess.edict.presentation.history.BookHistroy
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
@@ -121,7 +126,7 @@ data class BookConf(
         var doc = ""
         var chapters = arrayListOf<String>()
         var chapterMapWords = arrayMapOf<String,List<String>>()
-        var words = listOf<WordModel>()
+        var words by mutableStateOf(listOf<WordModel>())
     }
 
     fun initArticle()  {
@@ -188,8 +193,13 @@ data class BookConf(
         if(mWords!=null) {
             Article.getWords(mWords) {
                 words = it
-                next(0)
                 GlobalVal.wordModelList = words
+                val word = BookHistroy.lastWord()
+                if(word.length>0) {
+                    setWordByString(word)
+                }
+                GlobalVal.wordViewModel.upList(GlobalVal.wordModelList)
+                next(0)
             }
         }
 
@@ -224,10 +234,12 @@ data class BookConf(
         if(word!=null && word.ch!=null) {
             this.ch = word.ch!!
         }
-        GlobalVal.wordViewModel.upList(words)
         GlobalVal.wordViewModel.setWord(DictionarySubEntity(word.wordsetId,word.word,word.level))
         if(eventNextDone!=null) {
             eventNextDone!!()
+        }
+        if(index>0) {
+            BookHistroy.lastWord(word.word)
         }
     }
     fun pic(pGet: (u: String?) -> Unit) {
@@ -273,6 +285,10 @@ data class BookConf(
         return nousedChars
     }
 
+    fun setWordByString(word:String) {
+        index = words.map{it.word}.indexOf(word)
+        next(0)
+    }
     fun setWord(it: WordModel) {
         index = words.map{it.word}.indexOf(it.word)
         next(0)
@@ -284,7 +300,7 @@ data class BookConf(
     }
 
     fun setContent(s: String, hashData: LinkedHashMap<String, List<String>>) {
-        name = s
+        name = s.replace(regex = Regex("\\.\\w+$"),"")
         val rows=hashData.map {
             it.key +"\n"+ it.value.joinToString ( "," )
         }.joinToString ("\n\n" )

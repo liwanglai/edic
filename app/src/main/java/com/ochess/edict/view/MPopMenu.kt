@@ -212,9 +212,11 @@ class MPopMenu(var items: ArrayList<dataClass>) {
 //                dataClass("WordGame","WordGame",MenuConf.mode.findGame),
 //                dataClass("Print","Print",MenuConf.mode.print),
             ))
-            val itemGroups = MenuConf.modeGroups()["title_word_shows"]
+            val itemGroups = MenuConf.modeGroups()
             itemGroups?.forEach {
-                rt.items.add(dataClass(it.name,it.name,it))
+                it.value.forEach {
+                    rt.items.add(dataClass(it.name, it.name, it))
+                }
             }
             return rt
         }

@@ -23,6 +23,7 @@ import com.ochess.edict.presentation.home.game.WordScapesGame
 import com.ochess.edict.presentation.home.jdc.recite_word
 import com.ochess.edict.presentation.home.jdc.study_word
 import com.ochess.edict.presentation.home.jdc.write_word
+import com.ochess.edict.presentation.home.nowBookShowType
 import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.listenbook.ListenBookScreen
 import com.ochess.edict.presentation.main.components.Display
@@ -114,6 +115,15 @@ fun PageSelect(
 
             else ->{
 
+            }
+        }
+        //更新展示方式
+        MenuConf.modeGroups().forEach{
+            for ( v in it.value){
+                if(v == vmode){
+                    nowBookShowType = it.key
+                    break
+                }
             }
         }
     }
