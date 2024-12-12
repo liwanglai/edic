@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BookmarkViewModel @Inject constructor(private val wordRepo: WordRepository): ViewModel() {
-    var nowBook: BookConf = BookConf("")
+    var nowBook: BookConf = BookConf()
     var bookmarks = MutableStateFlow(listOf<WordModel>())
         private set
 

@@ -14,10 +14,13 @@ import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.model.Article
+import com.ochess.edict.data.model.WordExtend
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
 import com.ochess.edict.presentation.history.BookHistroy
+import com.ochess.edict.presentation.home.HomeEvents
+import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
@@ -131,8 +134,8 @@ data class BookConf(
 
     fun initArticle()  {
         if(lastBookId== instance.id && instance.size>0){
-            index=0
-            next(0)
+//            index=0
+//            next(0)
             return
         }
         lastBookId = instance.id
@@ -217,6 +220,9 @@ data class BookConf(
         eventNextDone = function
     }
     fun next(n:Int=1):Boolean {
+        if(!HomeEvents.onNextWordBefore()){
+            return false
+        }
         this.index+=n
         if(words.size==0 || index>= words.size || index<0) return false
         val word  = words[index]
@@ -238,9 +244,12 @@ data class BookConf(
         if(eventNextDone!=null) {
             eventNextDone!!()
         }
+        //保存单词进度
         if(index>0) {
             BookHistroy.lastWord(word.word)
         }
+
+
     }
     fun pic(pGet: (u: String?) -> Unit) {
         //var img = "https://cn.bing.com/images/search?q=+"+word
@@ -286,6 +295,7 @@ data class BookConf(
     }
 
     fun setWordByString(word:String) {
+        this.word = word
         index = words.map{it.word}.indexOf(word)
         next(0)
     }
@@ -311,6 +321,10 @@ data class BookConf(
         if(id ==0) return 0
         val article = Article.find(id)
         return article?.cid ?: 0
+    }
+
+    fun wordEx(): WordExtend {
+        return WordExtend(word)
     }
 
 }

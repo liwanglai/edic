@@ -374,7 +374,9 @@ fun MainScreen(
         ) {
             JdcScreen(it.arguments!!.getInt("page",0))
         }
-
+        composable(route = NavScreen.routes.About) {
+            AboutScreen()
+        }
     }
     }
 }

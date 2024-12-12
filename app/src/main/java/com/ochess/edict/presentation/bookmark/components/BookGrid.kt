@@ -107,7 +107,7 @@ fun Item2(item: Any){
         val isBi = item::class.java.equals(BookItem::class.java)
         val itemBi = if(isBi) item as BookItem else null
         val menu = if(isBi) MPopMenu.categoryEditMenu(item as BookItem) else null
-
+        val bgc = if(isBi && itemBi!!.id == pid) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.background
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(5.dp)
@@ -125,7 +125,8 @@ fun Item2(item: Any){
                                 BookMarkEvent.ItemonLongClick(menu)
                             }
                         }
-                    ),
+                    )
+                    .background(bgc)
             ) {
                 if(isBi) {
                     if (clickModel == clickModelItem.isSelect) {

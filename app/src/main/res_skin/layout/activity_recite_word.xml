@@ -48,7 +48,7 @@
                     </LinearLayout>
                     <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:id="@id/tv_question_count2" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/x60" android:text="1/10" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y30" android:layout_marginRight="@dimen/y39" android:layout_alignParentRight="true">
+                <LinearLayout android:gravity="center_vertical" android:id="@+id/oknum" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y30" android:layout_marginRight="@dimen/y39" android:layout_alignParentRight="true">
                     <ImageView android:id="@id/iv_correct" android:background="@drawable/correct" android:layout_width="@dimen/y40" android:layout_height="@dimen/y40" />
                     <TextView android:textSize="@dimen/x36" android:textColor="#ff34c79b" android:id="@id/tv_correct" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/y13" android:text="0" />
                     <ImageView android:id="@id/iv_wrong" android:background="@drawable/wrong" android:layout_width="@dimen/y40" android:layout_height="@dimen/y40" android:layout_marginLeft="@dimen/y89" />

@@ -12,6 +12,7 @@ import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.util.ActivityRun
 
 object GlobalVal {
+
     var pid = -100
     /**
      * 历史页的分组信息表

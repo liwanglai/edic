@@ -22,13 +22,16 @@ import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.local.entity.TestEntity
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.view.skin.LayoutJdc
 import com.ochess.edict.view.skin.LayoutJdc.layouts
+import com.ochess.edict.view.skin.LayoutJdc.layouts.methods.hide
 import com.ochess.edict.view.skin.LayoutJdc.layouts.methods.hides
 import com.ochess.edict.view.skin.LayoutJdc.layouts.methods.id
+import com.ochess.edict.view.skin.LayoutJdc.layouts.methods.show
 import com.ochess.edict.view.skin.view.SkinView
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,10 +44,19 @@ import java.util.Random
 @Preview
 fun recite_word(){
     book.initArticle()
+
     LayoutJdc.view(layouts.select){
+        HomeEvents.onDownMenuShow{
+            it.findViewById<TextView>(R.id.s_types).performClick()
+//            show(R.id.title)
+        }
+        HomeEvents.onDownMenuHide{
+//            hide(R.id.title)
+            it.findViewById<TextView>(R.id.s_types).performClick()
+        }
         box = it
         it.apply {
-            hides(R.id.ib_back,R.id.tv_title)
+            hides(R.id.ib_back,R.id.tv_title,R.id.title,R.id.tv_question_count,R.id.tv_question_count2,R.id.oknum)
             //返回按钮
             findViewById<ImageButton>(R.id.ib_back).setOnClickListener {
 //                NavScreen.openHome(PAGE_FROM_HOME)

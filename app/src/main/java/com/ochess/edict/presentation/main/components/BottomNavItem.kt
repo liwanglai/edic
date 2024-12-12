@@ -13,7 +13,7 @@ data class BottomNavItem(
 @Composable
 fun provideBottomNavItems() = listOf(
     BottomNavItem(
-        NavScreen.HomeScreen.route,
+        "OpenedBook",
         R.drawable.home,
         NavScreen.HomeScreen.routeWithArgument
     ),

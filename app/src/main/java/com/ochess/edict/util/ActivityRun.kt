@@ -23,6 +23,8 @@ import com.ochess.edict.R
 import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.SettingConf
 import com.ochess.edict.print.PrintUtils
+import android.os.Process
+
 
 class ActivityRun {
     companion object {
@@ -183,6 +185,13 @@ class ActivityRun {
                 }
             }
             event.onOrientationChange(orientation)
+        }
+
+        fun restart() {
+                // 结束进程
+//                Process.killProcess(Process.myPid())
+                // 通过系统重新启动应用
+                System.exit(0)
         }
     }
 

@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollDispatcher
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import com.ochess.edict.data.config.MenuConf
@@ -40,6 +41,7 @@ import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.presentation.main.components.Display.px2dp
 import com.ochess.edict.presentation.navigation.NavScreen
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 
@@ -237,14 +239,25 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                         val pan = event.calculatePan()
                         mvPos+=pan
 //                        if (!dragEnabled.value && points.size == 2) {
-                        if (!dragEnabled.value &&
+                        //没有开启滑动 并且双指或界面没有过长 并且向下或向上移动了一段距离了
+                        if (!dragEnabled.value && (points.size == 2 || HomeEvents.status.openDrowUp) &&
                             (
-                                    points.size == 2 ||
-                                    (HomeEvents.status.openDrowUp && ((showPageIndex ==1 && mvPos.y > 10) || (showPageIndex ==0 && mvPos.y < -10)))
+                                (showPageIndex ==1 && mvPos.y > 10) || (showPageIndex ==0 && mvPos.y < -10)
                             )
                         ) {
+                            if(!HomeEvents.onDragDownBefore()) {
+//                                do{
+//                                    val ev=awaitPointerEvent()
+//                                    if(ev.type == PointerEventType.Release) break
+//                                }while(true)
+                                return@awaitPointerEventScope
+                            }
                             dragEnabled.value = true
                             Log.d(TAG, "SlidingEnable: open")
+                        }
+                        //没有开启滑动 并且双指或界面没有过长 并且向上滑动了一段距离了
+                        if (!dragEnabled.value && (points.size == 2 || HomeEvents.status.openDrowUp) && (showPageIndex ==1 && mvPos.y < -200)){
+                            HomeEvents.onDragUp()
                         }
                         if(dragEnabled.value) {
                             if(abs(mvPos.y)>abs(mvPos.x)*2) {

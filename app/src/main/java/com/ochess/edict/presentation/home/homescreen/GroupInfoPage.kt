@@ -6,7 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -23,6 +23,7 @@ import com.ochess.edict.presentation.home.nowChapters
 import com.ochess.edict.presentation.home.wGroups
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.FlowRow
+import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.presentation.main.extend.MText as Text
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -72,12 +73,17 @@ fun GroupInfoPage(ap: MutableState<Float>){
                    }
                }
        */
-            Title(name.replace(Regex("\\.\\w+$"),""))
+            Title(name.replace(Regex("\\.\\w+$"),"")){
+                val pid = BookConf.instance.cid()
+                if(pid>0){
+                    NavScreen.BookmarkScreen.open("?pid="+pid)
+                }
+            }
             if (wGroups.size > 0) {
                 FlowRow {
                     wGroups.forEach {
                         val tColor =
-                            if (it.equals(nowChapters)) Color.Red else MaterialTheme.colors.primary
+                            if (it.equals(nowChapters)) Color.Red else MaterialTheme.colorScheme.primary
                         Text(text = it, color = tColor, fontSize = 14.sp, modifier = Modifier
                             .padding(10.dp)
                             .clickable { HomeEvents.GroupInfoPage.onChapterClick(it) }
@@ -92,9 +98,9 @@ fun GroupInfoPage(ap: MutableState<Float>){
 //            val words = GlobalVal.wordViewModel.cacheSub()
             Title("WordList")
             FlowRow {
-                BookConf.words.subList(0,500).forEach {
+                BookConf.words.forEach {
 //                val tColor = if(it.isStudyed)  Color.Red else MaterialTheme.colors.primary
-                    val tColor = if (it.word.equals(BookConf.instance.word)) Color.Red else MaterialTheme.colors.primary
+                    val tColor = if (it.word.equals(BookConf.instance.word)) Color.Red else MaterialTheme.colorScheme.primary
                     Text(text = it.word, color = tColor,
                         fontSize = 14.sp,
                         modifier = Modifier
@@ -107,8 +113,12 @@ fun GroupInfoPage(ap: MutableState<Float>){
     }
 }
 @Composable
-fun Title(txt:String){
+fun Title(txt:String,click:(()->Unit)?=null){
     Row(modifier = Modifier.padding(start = 0.dp, end = 16.dp, bottom = 6.dp, top = 16.dp)){
-        Text(txt, fontSize = 18.sp,color= androidx.compose.material3.MaterialTheme.colorScheme.onSurface)
+        Text(txt, fontSize = 18.sp,color= MaterialTheme.colorScheme.onSurface, modifier = Modifier
+            .clickable {
+                if(click!=null) click()
+            }
+        )
     }
 }

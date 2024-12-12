@@ -1,10 +1,14 @@
 package com.ochess.edict.presentation.home
 
 import androidx.activity.result.ActivityResult
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.history.HistoryWords
@@ -19,6 +23,7 @@ class HomeEvents {
         var openDrowUp = true   //开启单指下拉功能
     }
     companion object {
+        var downMenuOpen: Boolean by mutableStateOf(false)
         lateinit var showMainPage: (name:String) -> Unit
         val events = Events()
 
@@ -33,27 +38,58 @@ class HomeEvents {
             }
             when(nowBookShowType){
                 "word_shows" -> {
-                    nowBookShowType="book_shows"
                     GroupInfoPage.beforMode = viewMode
                     viewMode = MenuConf.mode.chaptarPage
                 }
                 "book_shows" -> {
-                    nowBookShowType = "word_shows"
-                    viewMode = MenuConf.mode.wordStudy
-                    val pid = BookConf.instance.cid()
-                    if(pid>0){
-                        NavScreen.BookmarkScreen.open("?pid="+pid)
-                    }
+                    viewMode = GroupInfoPage.beforMode
                 }
                 else -> {}
             }
         }
+        fun onNextWordBefore():Boolean{
+            val modeNow = MenuConf.modeNow()
+            //如果保持当前模式开启并且当前模式不等于默认模式则不进入下一个而是直接修改显示模式
+            if(!PageConf.getBoolean(PageConf.homePage.RemainViewMode) && viewMode!= MenuConf.mode.chaptarPage && viewMode!=modeNow){
+                viewMode = modeNow
+                return false
+            }
+            //下一个的时候如果底部菜单存在 则取消菜单显示
+            if(downMenuOpen){
+                onDragDownBefore()
+            }
 
+            return true
+        }
         fun onBackBefore(backfun:()->Boolean) {
             events.onBackPressed = backfun
         }
 
+        fun onDownMenuShow(dfun:()->Unit) {
+            events.onDownMenuShow = dfun
+        }
+        
+        fun onDragUp() {
+            downMenuOpen = true
+            events.onDownMenuShow()
+        }
+
+        fun onDownMenuHide(dfun:()->Unit){
+            events.onDownMenuHide = dfun
+        }
+        fun onDragDownBefore(): Boolean {
+            if(downMenuOpen){
+                downMenuOpen = false
+                events.onDownMenuHide()
+                return false
+            }
+
+            return true
+        }
+
         class Events{
+            var onDownMenuHide: () -> Unit ={}
+            var onDownMenuShow: () -> Unit ={}
             var onBackPressed: () -> Boolean = {true}
         }
     }

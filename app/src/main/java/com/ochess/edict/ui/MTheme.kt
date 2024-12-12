@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 private val DarkColorPalette = darkColorScheme(
     primary = Purple200,
     primaryContainer = Purple700,
-    secondary = Teal200,
+    secondary = Grey300,
     background = blueBGNight,
     surface = cardBGNight,
     onSurface = pinkText,
@@ -20,7 +20,7 @@ private val DarkColorPalette = darkColorScheme(
 private val LightColorPalette = lightColorScheme(
     primary = Purple500,
     primaryContainer = Purple700,
-    secondary = Teal200,
+    secondary = Grey300,
     background = blueBGDay,
     surface = cardBGDay,
     onSurface = blueText,

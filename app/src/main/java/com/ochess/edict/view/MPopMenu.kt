@@ -215,7 +215,7 @@ class MPopMenu(var items: ArrayList<dataClass>) {
             val itemGroups = MenuConf.modeGroups()
             itemGroups?.forEach {
                 it.value.forEach {
-                    rt.items.add(dataClass(it.name, it.name, it))
+                    rt.items.add(dataClass(it.name, it.name, it.ordinal))
                 }
             }
             return rt

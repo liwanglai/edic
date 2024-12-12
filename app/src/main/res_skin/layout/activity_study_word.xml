@@ -22,7 +22,7 @@
     </LinearLayout>
     <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="@dimen/y15">
 
-        <ListView android:id="@id/list_view_study" android:visibility="visible" android:background="@drawable/bg_white_xdc" android:layout_width="@dimen/x280" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/x40" android:layout_marginBottom="@dimen/y40" android:dividerHeight="0.30000007dip" />
+        <ListView android:id="@id/list_view_study"  android:visibility="gone" android:background="@drawable/bg_white_xdc" android:layout_width="@dimen/x280" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/x40" android:layout_marginBottom="@dimen/y40" android:dividerHeight="0.30000007dip" />
         <LinearLayout android:orientation="vertical" android:background="@drawable/bg_white_xdc" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/x20" android:layout_marginRight="@dimen/x40" android:layout_marginBottom="@dimen/y40">
             <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="@dimen/x260">
                 <RelativeLayout android:id="@id/page_right_up" android:background="@drawable/bg_opacity_0_1" android:layout_width="wrap_content" android:layout_height="wrap_content">
@@ -85,6 +85,6 @@
         </LinearLayout>
     </LinearLayout>
     <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true">
-        <ImageView  android:id="@+id/word_img" android:layout_gravity="right|top" android:layout_marginTop="10dp" android:layout_marginRight="50dp"  android:background="@drawable/zr_title" android:layout_width="@dimen/x500" android:layout_height="@dimen/x400" />
+        <ImageView  android:id="@+id/word_img" android:visibility="gone" android:layout_gravity="right|top" android:layout_marginTop="10dp" android:layout_marginRight="50dp"  android:background="@drawable/zr_title" android:layout_width="@dimen/x500" android:layout_height="@dimen/x400" />
     </FrameLayout>
 </RelativeLayout>

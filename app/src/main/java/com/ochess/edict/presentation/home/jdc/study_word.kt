@@ -131,6 +131,7 @@ class StudyWord(box: ViewGroup, vItem: WordModel) : tabs(box, vItem) {
                         )
                     }
                 }
+                visibility=View.VISIBLE
             }
         }
         Log.d("study_word: ","reload")

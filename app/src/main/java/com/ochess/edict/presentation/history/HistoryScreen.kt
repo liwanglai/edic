@@ -77,7 +77,7 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
     }
     val titleMenu = MPopMenu.HistoryTypes()
     val dicType = remember {
-        PageConf.getInt(PageConf.homePage.DicType)
+        PageConf.getInt(PageConf.homePage.DicType,1)
     }
     Box(modifier = Modifier.fillMaxSize()) {
         Column(

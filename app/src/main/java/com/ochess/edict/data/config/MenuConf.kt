@@ -75,12 +75,12 @@ class MenuConf {
 
         fun modeNow(id:Int=-1): mode {
             if(id == -1) {
-                var index = UserStatus().get("default_view_mode",1)
+                var index = UserStatus().get("viewMode",1)
                 val m = mode.values().get(index)
                 return m
             }
 
-            UserStatus().set("default_view_mode",id)
+            UserStatus().set("viewMode",id)
 
             return mode.values().get(id)
         }
@@ -89,6 +89,7 @@ class MenuConf {
             val list = MenuConf.mode.values()
             val itemGroups = linkedMapOf<String,ArrayList<MenuConf.mode>>()
             var group=""
+
 
             list.forEach {item->
                 if(item.name.startsWith("title_")){

@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.presentation.ui.theme.EnglishWhizTheme
@@ -47,7 +48,9 @@ fun BottomNavigationBar(
     itemClick: (BottomNavItem) -> Unit
 ) {
     val reset = NavScreen.lastUptime.collectAsState()
+
     val backStackEntry by navController.currentBackStackEntryAsState()
+    if(reset.value > -1)
     Card(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -57,7 +60,7 @@ fun BottomNavigationBar(
         var nowRoute = backStackEntry?.destination?.route ?: "Home"
         when(MenuConf.type().value) {
             MenuConf.bottom -> {
-                if (!nowRoute.startsWith("Home")) //隐藏home
+                if (!nowRoute.startsWith("Home") || HomeEvents.downMenuOpen) //隐藏home
                     Row(
                         modifier = Modifier.padding(8.dp).fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround,

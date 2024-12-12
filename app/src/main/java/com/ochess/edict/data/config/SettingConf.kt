@@ -28,8 +28,6 @@ class SettingConf {
 //        val field = kClass.getField(name[0].uppercase()+name.substring(1))
 //        field.set(this,"")
         when(name){
-            "viewMode"->
-                this.ViewMode=""
             "menuMode" ->
                 this.MenuMode=""
             "themeType"->
@@ -46,6 +44,10 @@ class SettingConf {
                 this.Language=""
             "ret"->
                 this.Ret=""
+            "systemTitle" ->
+                this.SystemTitle = ""
+            "about" ->
+                this.About = ""
             else ->{
 
             }
@@ -74,7 +76,8 @@ class SettingConf {
             "menuMode" to this.MenuMode,
             "themeType" to this.ThemeType,
             "orientation" to this.Orientation,
-            "viewMode" to this.ViewMode,
+            "systemTitle" to this.SystemTitle, //显示系统标题栏
+            "about" to this.About, //显示系统标题栏
             "quit" to this.Quit,
         )
         return attrs.map{it}
@@ -88,7 +91,6 @@ class SettingConf {
             val ThemeMap = linkedMapOf(0 to "autoChange",1 to "dayTime" ,2 to "nightTime")
             val options = linkedMapOf(
                     "connectPrint" to MPopMenu.Unspecified,
-                    "viewMode" to MPopMenu.ViewModeMenu(),
                     "menuMode" to MPopMenu(MenuConf.nMap.map{
                         dataClass(it.value, value = it.key)
                     }),
@@ -114,6 +116,11 @@ class SettingConf {
 
             )
 
+             fun booleanGet(name:String): String {
+                 val config = UserStatus.defInterface
+                 val c = config.config
+                 return bNameMap[c.getBoolean(name,false)].toString()
+             }
              fun booleanSet(name:String){
                 var value = false
                 UserStatus.get{
@@ -155,7 +162,23 @@ class SettingConf {
                 },100)
             }
     }
-        public val HomePageSetting:String
+
+    public var About: String
+        get()= ""
+        set(v){
+            NavScreen.openRoute(NavScreen.routes.About)
+        }
+
+    public var SystemTitle: String
+        get(){
+            return booleanGet("showSystemTitle")
+        }
+        set(v){
+            booleanSet("showSystemTitle")
+            ActivityRun.restart()
+        }
+
+    public val HomePageSetting:String
             get() {
                 return "page:"+PageConf.homePage.values().joinToString ( "," )
             }
@@ -164,16 +187,6 @@ class SettingConf {
                 return "page:"+PageConf.sGamePage.values().joinToString ( "," )
             }
 
-        public var ViewMode
-            get() = MenuConf.modeNow().name
-            set(v)  {
-                val mMenu = options["viewMode"]
-                mMenu?.show { k, v ->
-                    val vv = (v.value as MenuConf.mode).ordinal
-                    viewMode = MenuConf.modeNow(vv)
-                    NavScreen.openHome(0)
-                }
-            }
         public var MenuMode
             get() = MenuConf.name()
             set(v) {
@@ -207,11 +220,7 @@ class SettingConf {
             }
 
         public var HorizontalDrawAble:String
-            get() {
-                val config = UserStatus()
-                val c = config.config
-                return bNameMap[c.getBoolean("HorizontalDrawAble",false)].toString()
-            }
+            get() = booleanGet("HorizontalDrawAble")
             set(v){ booleanSet("HorizontalDrawAble") }
 
         public var Orientation:String

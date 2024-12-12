@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.presentation.level.LevelViewModel
 import com.ochess.edict.presentation.ui.theme.EnglishWhizTheme
@@ -30,8 +31,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityRun.setConText(this)
-
-        ScreenUtil.setFullScreen(this)
+        if(!UserStatus.get{
+                it.getBoolean("showSystemTitle",false)
+        }){
+            ScreenUtil.setFullScreen(this)
+        }
         enableEdgeToEdge()
         levelModel.getAllLevel()
         setContent {

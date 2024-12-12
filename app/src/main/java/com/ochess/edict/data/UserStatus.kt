@@ -100,14 +100,25 @@ class UserStatus() {
     }
 
     @Composable
-    fun switchButton(name: String, wordLenList: List<String>) {
+    fun switchButton(name: String, wordLenList: Any) {
+        var pmenu:MPopMenu=MPopMenu.Unspecified
+        if(wordLenList.javaClass.equals(pmenu.javaClass)){
+            pmenu = wordLenList as MPopMenu
+        }else {
+            pmenu = MPopMenu((wordLenList as List<String>).mapIndexed { index, it ->
+                val v = if (it.matches(Regex("\\d+"))) it.toInt() else index
+                MPopMenu.dataClass(it, value = v)
+            })
+        }
+        pmenu.upMtTitle()
+        switchButton(name,pmenu)
+    }
+    @Composable
+    fun switchButton(name: String, pmenu: MPopMenu) {
         var v by remember {
             mutableStateOf(config.getInt(name,0))
         }
-        val pmenu = MPopMenu(wordLenList.mapIndexed {index,it->
-            val v = if(it.matches(Regex("\\d+"))) it.toInt() else index
-            MPopMenu.dataClass(it, value = v)
-        })
+
         Row {
             Button(
                 onClick = {
@@ -121,7 +132,7 @@ class UserStatus() {
                 },
                 modifier = Modifier.padding(9.dp)
             ) {
-                Text(mt(name) + ":" + v)
+                Text(mt(name) + ":" + pmenu.items[v].title)
             }
             pmenu.add()
         }

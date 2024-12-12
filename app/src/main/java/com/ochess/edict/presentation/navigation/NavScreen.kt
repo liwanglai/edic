@@ -18,6 +18,7 @@ sealed class NavScreen(val route: String) {
     object Settring:NavScreen(route = routes.Setting)
     object LineGame:NavScreen(route = routes.LineGame)
     object routes {
+        val About: String = "About"
         val LineGame: String = "LineGame"
         val Switch: String = "SwitchPage"
         const val Listen: String = "Jdc?page=3"
@@ -41,7 +42,7 @@ sealed class NavScreen(val route: String) {
 
     companion object {
         val lastUptime = MutableStateFlow(0L)
-        val simpleRouteTitles= listOf(routes.Book,routes.History,routes.Setting)
+        val simpleRouteTitles= listOf(routes.Home,routes.Book,routes.History,routes.Setting)
         val rotesList = listOf(routes.Switch,routes.Home,routes.Book,routes.History,routes.Setting)
         var showPageIndex =1
         fun openHome(fromPage: Int, wordIndex:Int = 0, level:Int =-1) {

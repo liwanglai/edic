@@ -34,7 +34,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.data.model.WordExtend
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowBookShowType
 import com.ochess.edict.presentation.main.components.Display
@@ -50,6 +52,20 @@ fun SwitchMainPage(
     val itemGroups = MenuConf.modeGroups()
     var cells = if(ActivityRun.isHorizontalScreens()) GridCells.Adaptive(200.dp) else  GridCells.Fixed(3)
     val pSize = Display.getScreenSize()
+    //根据扩展词信息删除无效的视图
+    if(nowBookShowType.equals("word_shows")) {
+        val ex = BookConf.instance.wordEx()
+        val p = itemGroups["word_shows"]
+        if(p!=null && ex.data.size+ex.isize==0) {
+            val i = p.indexOf(MenuConf.mode.wordScapesGame)
+            p.removeAt(i)
+        }
+        if(p!=null && ex.esize==0) {
+            val i = p.indexOf(MenuConf.mode.wordExtGame)
+            p.removeAt(i)
+        }
+    }
+
     LazyColumn (
         modifier = Modifier
             .padding(horizontal = 16.dp)

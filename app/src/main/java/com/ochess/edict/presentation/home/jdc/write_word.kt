@@ -22,6 +22,7 @@ import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.local.entity.TestEntity
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.jdc.write_word.ListenWritePlay
 import com.ochess.edict.presentation.home.jdc.write_word.ListenWritePlay.BMode
 import com.ochess.edict.presentation.home.jdc.write_word.ListenWritePlay.BType
@@ -71,11 +72,19 @@ fun write_word(){
             }
         }
         book.initArticle()
+        HomeEvents.onDownMenuShow{
+//            show(R.id.page1_title)
+            id(R.id.tv_config).performClick()
+        }
+        HomeEvents.onDownMenuHide{
+//            hide(R.id.page1_title)
+            id(R.id.tv_config).performClick()
+        }
         Log.d("write_word: ","刷新视图")
         it.apply {
             id(R.id.page_1).setBackgroundColor(bgColor)
             //隐藏第三页显示第二页,听写间隔 ,
-            hides(R.id.ib_back1,R.id.page_0,R.id.page_2,R.id.ll_machine_interval_sequence,R.id.ll_text_interval_sequence,R.id.page1_tv_title)
+            hides(R.id.ib_back1,R.id.page_0,R.id.page_2,R.id.ll_machine_interval_sequence,R.id.ll_text_interval_sequence,R.id.page1_tv_title,R.id.page1_title)
             //返回
             click(R.id.ib_back1){
                 NavScreen.HistoryScreen.open()

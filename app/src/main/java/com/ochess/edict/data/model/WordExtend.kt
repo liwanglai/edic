@@ -21,8 +21,11 @@ class WordExtend @Inject constructor() : Model() {
     var name: String = ""
     var esize: Int =0
     var isize: Int =0
+    //这些字母组成的单词
     var data = listOf<String>()
+    //这些字母子集内包含的单词
     var inword = listOf<String>()
+    //这些字母扩展的单词
     var extword = listOf<String>()
     constructor(word: String) : this() {
         this.word = word
