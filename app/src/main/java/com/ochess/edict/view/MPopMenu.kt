@@ -125,6 +125,9 @@ class MPopMenu(var items: ArrayList<dataClass>) {
         return this
     }
 
+    fun upItems(bmChild: List<dataClass>): MPopMenu {
+        return upItems(bmChild as ArrayList)
+    }
     fun upItems(bmChild: ArrayList<dataClass>): MPopMenu {
         items = bmChild
         return this
@@ -135,6 +138,7 @@ class MPopMenu(var items: ArrayList<dataClass>) {
      */
     fun upMtTitle(): MPopMenu {
         items.forEach {
+            if(!it.title.matches(Regex("^\\d+$")))
             it.title = mt(it.title)
         }
         return this

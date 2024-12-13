@@ -19,12 +19,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.ochess.edict.MainActivity
-import com.ochess.edict.R
 import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.SettingConf
 import com.ochess.edict.print.PrintUtils
 import android.os.Process
-
 
 class ActivityRun {
     companion object {
@@ -188,10 +186,15 @@ class ActivityRun {
         }
 
         fun restart() {
-                // 结束进程
-//                Process.killProcess(Process.myPid())
+            val s_inst = context
+            val intent = Intent(s_inst, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            s_inst.startActivity(intent)
+
+            // 结束进程
+                Process.killProcess(Process.myPid())
                 // 通过系统重新启动应用
-                System.exit(0)
+//                System.exit(0)
         }
     }
 

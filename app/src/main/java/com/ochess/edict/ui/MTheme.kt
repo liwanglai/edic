@@ -14,6 +14,7 @@ private val DarkColorPalette = darkColorScheme(
     background = blueBGNight,
     surface = cardBGNight,
     onSurface = pinkText,
+    surfaceVariant = cardBGNight,
     onBackground = pinkText,
 )
 
@@ -24,6 +25,7 @@ private val LightColorPalette = lightColorScheme(
     background = blueBGDay,
     surface = cardBGDay,
     onSurface = blueText,
+    surfaceVariant = cardBGDay,
     onBackground = blueText,
 
 //    surfaceVariant = cardBGDay,

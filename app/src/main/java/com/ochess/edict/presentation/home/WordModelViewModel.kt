@@ -162,13 +162,13 @@ class WordModelViewModel @Inject constructor(
                             if (it.word == query) {
                                 onMatch(query)
                                 val moreSug = arrayListOf<String>()
+                                moreSug.addAll(sublist)
                                 moreSug.addAll(Article.grep(query).map { "article.${it.id}:${it.name}" })
                                 val queryObj =Query(Db.user, "historyTable").like("word", query).build()
                                 moreSug.addAll(Db.user.wordModelDao.getHistoryList(queryObj).map {
                                     val date = SimpleDateFormat("yyyy-MM-dd").format(Date(it.time))
                                     "history:${date}"
                                 })
-                                moreSug.addAll(sublist)
 //                                if(it.level>0) {
 //                                    val levelEntity = Db.dictionary.levelDao.queryName(it.level)
 //                                    moreSug.add("level.${it.level}:" + levelEntity.name)

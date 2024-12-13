@@ -95,8 +95,12 @@ object Display {
         val resources = context.resources
         val identifier: Int = resources.getIdentifier(text, "string", context.getPackageName())
 
-        //stringResource
-        return if(identifier>0) resources.getString(identifier) else text
+        try {
+            //stringResource
+            return if (identifier > 0) resources.getString(identifier) else text
+        }catch (e:Exception){
+            return text
+        }
     }
 
     /**

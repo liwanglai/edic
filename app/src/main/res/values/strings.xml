@@ -280,6 +280,16 @@
     <string name="创建分类">Input Category</string>
     <string name="输入你的分类名字或文章名字">Input You name or names or article</string>
     <string name="从文件">by File</string>
+
     <string name="app_name">edic</string>
+    <string name="systemTitle">SystemTitle</string>
+    <string name="about">About</string>
+    <string name="Statistics">Statistics</string>
+    <string name="RemainViewMode">Next Remain ViewMode</string>
+    <string name="en_en">English-English Dictionary</string>
+    <string name="en_cn">English-Chinese Dictionary</string>
+    <string name="encn">Dilingual Dictionary</string>
+    <string name="LinkMe">Link Me</string>
+    <string name="linkMeInfo">If there are any problems or good suggestions during software use, please feel free to contact me in a timely manner</string>
 
 </resources>

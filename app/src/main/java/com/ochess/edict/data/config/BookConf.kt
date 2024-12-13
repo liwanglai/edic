@@ -58,6 +58,7 @@ data class BookConf(
     @JsonIgnore
     public lateinit var wordMode: WordModel
     companion object {
+        val openedBook = mutableStateOf("")
         val mPid = -2
 
         var instance:BookConf = usBook()
@@ -67,7 +68,11 @@ data class BookConf(
                 UserStatus().setData("BookConf",v)
                 return v
             }
-            return UserStatus().getData("BookConf", BookConf::class.java) ?:BookConf()
+            val rt = UserStatus().getData("BookConf", BookConf::class.java) ?:BookConf()
+            var obn = rt.name.replace(Regex("\\.\\w+$"),"")
+                if(obn.length>4) obn=obn.substring(0,4)+".."
+            openedBook.value = obn
+            return rt
         }
 
         //下载课本
@@ -220,7 +225,7 @@ data class BookConf(
         eventNextDone = function
     }
     fun next(n:Int=1):Boolean {
-        if(!HomeEvents.onNextWordBefore()){
+        if(n==1 && !HomeEvents.onNextWordBefore()){
             return false
         }
         this.index+=n

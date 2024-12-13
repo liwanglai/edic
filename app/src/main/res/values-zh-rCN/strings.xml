@@ -105,6 +105,11 @@
     <string name="忘记">忘记</string>
 
 
+    <string name="刚刚">刚刚</string>
+    <string name="分钟前">分钟前</string>
+    <string name="小时前">小时前</string>
+    <string name="天前">天前</string>
+
     <string name="添加分类">添加分类</string>
     <string name="添加文件">添加文件</string>
     <string name="选择">选择</string>
@@ -176,4 +181,13 @@
     <string name="从文件">从文件</string>
 
     <string name="app_name">电子词典</string>
+    <string name="systemTitle">系统标题</string>
+    <string name="about">关于</string>
+    <string name="Statistics">统计</string>
+    <string name="RemainViewMode">下一个单词保持当前视图</string>
+    <string name="en_en">英英词典</string>
+    <string name="en_cn">英汉词典</string>
+    <string name="encn">英汉双语词典</string>
+    <string name="LinkMe">联系我</string>
+    <string name="linkMeInfo">如果在软件使用过程中有任何问题或好的建议，请随时及时与我联系</string>
 </resources>

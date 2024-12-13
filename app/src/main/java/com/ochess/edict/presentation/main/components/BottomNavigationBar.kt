@@ -2,11 +2,8 @@ package com.ochess.edict.presentation.main.components
 
 import androidx.collection.arraySetOf
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,14 +12,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardDefaults.cardColors
-import androidx.compose.material3.CardDefaults.outlinedCardColors
-import androidx.compose.material3.CardElevation
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,20 +34,18 @@ import com.ochess.edict.presentation.ui.theme.EnglishWhizTheme
 @Preview
 @ExperimentalAnimationApi
 fun BottomNavigationBar(
-    items: List<BottomNavItem>,
     navController: NavController,
-    itemClick: (BottomNavItem) -> Unit
+    itemClick: (BottomNavItem) -> Unit,
 ) {
-    val reset = NavScreen.lastUptime.collectAsState()
-
+   // val reset = NavScreen.lastUptime.collectAsState()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    if(reset.value > -1)
     Card(
             modifier = Modifier
                 .fillMaxWidth(),
             elevation = CardDefaults.cardElevation(8.dp),
             shape = RoundedCornerShape(0.dp)
     ) {
+        val items = provideBottomNavItems()
         var nowRoute = backStackEntry?.destination?.route ?: "Home"
         when(MenuConf.type().value) {
             MenuConf.bottom -> {
@@ -70,7 +59,7 @@ fun BottomNavigationBar(
                         val typeSet = arraySetOf<String>()
                         items.filter {
                             val type = it.route.split("?")[0]
-                            val rt = type in smr && !typeSet.contains(type)
+                            val rt = type in smr && !typeSet.contains(type) && it.title.length>0
                             typeSet.add(type)
                             rt
                         }.forEach { item ->
@@ -126,7 +115,6 @@ fun BottomNavigationBar(
 fun BottomNavigationPreview() {
     EnglishWhizTheme {
         BottomNavigationBar(
-            items = provideBottomNavItems(),
             rememberNavController()
         ) {}
     }

@@ -38,6 +38,7 @@ import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.components.UtilButtons
 import com.ochess.edict.presentation.home.dictionaryStringBuilder
 import com.ochess.edict.presentation.level.LevelViewModel
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.view.ClickAbelText
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -84,10 +85,7 @@ fun SearchContent(
             dictionaryStringBuilder.append(it.word).append("\n")
 
             var moreVisible by remember {
-                mutableStateOf(false)
-            }
-            if(PageConf.getBoolean(PageConf.homePage.DefaultShowDetails,true)) {
-                moreVisible = true
+                mutableStateOf(PageConf.getBoolean(PageConf.homePage.DefaultShowDetails,false))
             }
             val dicType = remember {
                 PageConf.getInt(PageConf.homePage.DicType,1)
@@ -96,7 +94,7 @@ fun SearchContent(
                 mutableStateOf( listOf(DicType.en_cn.ordinal,DicType.encn.ordinal).contains(dicType))
             }
             val showEn = listOf(DicType.en_en.ordinal,DicType.encn.ordinal).contains(dicType)
-
+            val moreN = 3
             Text(
                 text = "${it.ch ?: " "}",
                 fontStyle = FontStyle.Normal,
@@ -109,121 +107,121 @@ fun SearchContent(
                 }
             )
 
-            if(!moreVisible) {
-                Text(
-                    "详情",
-                    Modifier
-                        .clickable {
-                            moreVisible = true
-                        }
-                        .align(Alignment.End)
-                )
-            }
-            if(moreVisible) {
-                it.meanings?.forEachIndexed { index, meaning ->
-                    val defChVisable = remember{ mutableStateOf(false) }
-                    val examChVisable = remember{ mutableStateOf(false) }
-                    val dEn = remember{ mutableStateOf(false) }
-                    val eEn = remember{ mutableStateOf(false) }
-                    dictionaryStringBuilder.append(meaning.speechPart).append("\n")
-                    if(meaning.speechPart!=null) {
+            it.meanings?.forEachIndexed { index, meaning ->
+                if(!moreVisible && index>=moreN) {
+                    if(moreN==3) {
                         Text(
-                            text = meaning.speechPart,
-                            style = MaterialTheme.typography.subtitle1,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Start,
-                            color = MaterialTheme.colors.onSurface
+                            mt("more"),
+                            Modifier
+                                .clickable {
+                                    moreVisible = true
+                                }
+                                .align(Alignment.End)
                         )
                     }
-                    dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
+                    return
+                }
+                val defChVisable = remember{ mutableStateOf(false) }
+                val examChVisable = remember{ mutableStateOf(false) }
+                val dEn = remember{ mutableStateOf(false) }
+                val eEn = remember{ mutableStateOf(false) }
+                dictionaryStringBuilder.append(meaning.speechPart).append("\n")
+                if(meaning.speechPart!=null) {
+                    Text(
+                        text = meaning.speechPart,
+                        style = MaterialTheme.typography.subtitle1,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Start,
+                        color = MaterialTheme.colors.onSurface
+                    )
+                }
+                dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
 
-                    if((showCh || defChVisable.value) && meaning.def_ch!=null) {
-                        Text(text="${index + 1}. "+meaning.def_ch, modifier = Modifier.clickable{
-                            if(dicType == DicType.en_cn.ordinal){
-                                dEn.value=!dEn.value
-                            }
+                if((showCh || defChVisable.value) && meaning.def_ch!=null) {
+                    Text(text="${index + 1}. "+meaning.def_ch, modifier = Modifier.clickable{
+                        if(dicType == DicType.en_cn.ordinal){
+                            dEn.value=!dEn.value
+                        }
+                    })
+                }
+                if(showEn || dEn.value) {
+                    ClickAbelText(
+                        text = "${index + 1}. ${meaning.def}",
+                        style = MaterialTheme.typography.subtitle2,
+                        lineHeight = TextUnit(18f, TextUnitType.Sp),
+                        color = MaterialTheme.colors.onSurface,
+                        modifier = Modifier.clickable{
+                            defChVisable.value = !defChVisable.value
+                        },
+                        onDbClick = {
+                            defChVisable.value = !defChVisable.value
+                        }
+                    )
+                }
+                if (!meaning.labels.isNullOrEmpty()) {
+                    val label = meaning.labels.map { label -> label.name }.toString()
+                        .removePrefix("[")
+                        .removeSuffix("]").replace(",", " •")
+                    dictionaryStringBuilder.append(label).append("\n")
+                    Text(
+                        text = label,
+                        fontStyle = FontStyle.Italic,
+                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        color = Color.Gray
+                    )
+                }
+                if (!meaning.example.isNullOrEmpty()) {
+                    val etitle = when(dicType){
+                        0->"Example:"
+                        else -> "例句："
+                    }
+                    val example = etitle+"${meaning.example}"
+                    dictionaryStringBuilder.append(example).append("\n")
+                    if((examChVisable.value) && meaning.example_ch!=null) {
+                        Text(text=meaning.example_ch, modifier = Modifier.clickable{
+                            eEn.value = !eEn.value
                         })
                     }
-                    if(showEn || dEn.value) {
-                        ClickAbelText(
-                            text = "${index + 1}. ${meaning.def}",
-                            style = MaterialTheme.typography.subtitle2,
-                            lineHeight = TextUnit(18f, TextUnitType.Sp),
-                            color = MaterialTheme.colors.onSurface,
-                            modifier = Modifier.clickable{
-                                defChVisable.value = !defChVisable.value
-                            },
-                            onDbClick = {
-                                defChVisable.value = !defChVisable.value
-                            }
-                        )
-                    }
-                    if (!meaning.labels.isNullOrEmpty()) {
-                        val label = meaning.labels.map { label -> label.name }.toString()
-                            .removePrefix("[")
-                            .removeSuffix("]").replace(",", " •")
-                        dictionaryStringBuilder.append(label).append("\n")
-                        Text(
-                            text = label,
-                            fontStyle = FontStyle.Italic,
-                            style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
-                            color = Color.Gray
-                        )
-                    }
-                    if (!meaning.example.isNullOrEmpty()) {
-                        val etitle = when(dicType){
-                            0->"Example:"
-                            else -> "例句："
+                    ClickAbelText(
+                        text = example,
+                        fontStyle = FontStyle.Italic,
+                        lineHeight = TextUnit(16f, TextUnitType.Sp),
+                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        color = Color.Gray,
+                        modifier = Modifier.clickable{
+                            examChVisable.value = !examChVisable.value
+                        },
+                        onDbClick = {
+                            examChVisable.value = !examChVisable.value
                         }
-                        val example = etitle+"${meaning.example}"
-                        dictionaryStringBuilder.append(example).append("\n")
-                        if((examChVisable.value) && meaning.example_ch!=null) {
-                            Text(text=meaning.example_ch, modifier = Modifier.clickable{
-                                eEn.value = !eEn.value
-                            })
-                        }
-                        ClickAbelText(
-                            text = example,
-                            fontStyle = FontStyle.Italic,
-                            lineHeight = TextUnit(16f, TextUnitType.Sp),
-                            style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
-                            color = Color.Gray,
-                            modifier = Modifier.clickable{
-                                examChVisable.value = !examChVisable.value
-                            },
-                            onDbClick = {
-                                examChVisable.value = !examChVisable.value
-                            }
-                        )
-                    }
-                    if (!meaning.synonyms.isNullOrEmpty()) {
-                        val snomon = when(dicType){
-                            0->"Synonym(s)"
-                            else -> "同义词"
-                        }
-                        val synonym = "${snomon}: ${
-                            meaning.synonyms.toString()
-                                .removePrefix("[")
-                                .removeSuffix("]")
-                        }"
-                        dictionaryStringBuilder.append(synonym).append("\n")
-                        ClickAbelText(
-                            text = synonym,
-                            fontStyle = FontStyle.Italic,
-                            lineHeight = TextUnit(16f, TextUnitType.Sp),
-                            style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
-                            color = Color.Gray
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Divider(
-                        thickness = 0.4.dp,
-                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                 }
+                if (!meaning.synonyms.isNullOrEmpty()) {
+                    val snomon = when(dicType){
+                        0->"Synonym(s)"
+                        else -> "同义词"
+                    }
+                    val synonym = "${snomon}: ${
+                        meaning.synonyms.toString()
+                            .removePrefix("[")
+                            .removeSuffix("]")
+                    }"
+                    dictionaryStringBuilder.append(synonym).append("\n")
+                    ClickAbelText(
+                        text = synonym,
+                        fontStyle = FontStyle.Italic,
+                        lineHeight = TextUnit(16f, TextUnitType.Sp),
+                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        color = Color.Gray
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Divider(
+                    thickness = 0.4.dp,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
+                )
+                Spacer(modifier = Modifier.height(4.dp))
             }
-
         }
     }
 }

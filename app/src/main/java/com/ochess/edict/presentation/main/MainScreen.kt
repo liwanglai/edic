@@ -11,6 +11,7 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -142,6 +143,7 @@ fun MainScreen(
     Box(modifier = Modifier
         .fillMaxSize()
         .offset(x = px2dp(dragDistance.toInt()))
+        .padding(top=20.dp)
         .draggable(
             enabled = dragAble && ! nowRoute.startsWith("Home"),
             state = rememberDraggableState(onDelta = {
@@ -198,12 +200,14 @@ fun MainScreen(
 //        }
     ){
         InfoDialog.add()
+        //左侧窗口
         Box(modifier = Modifier
             .fillMaxSize()
             .offset(x = px2dp(0 - fullWidth), 0.dp)
             .background(MaterialTheme.colorScheme.surface)){
                 Image(painter = BitmapPainter(getBitMapByPageScreen((pageIndex-1).toString())), contentDescription =null, modifier = Modifier.fillMaxSize() )
             }
+        //右侧窗口
         Box(modifier = Modifier
             .fillMaxSize()
             .offset(x = px2dp(fullWidth), 0.dp)

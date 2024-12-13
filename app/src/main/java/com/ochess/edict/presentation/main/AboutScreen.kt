@@ -40,9 +40,9 @@ import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.config.SettingConf
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.FlowRow
+import com.ochess.edict.presentation.main.extend.HtmlView
 import com.ochess.edict.presentation.main.extend.MarkdownContent
 import com.ochess.edict.util.FileUtil
-
 
 @Composable
 fun AboutScreen() {
@@ -54,7 +54,7 @@ fun AboutScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                mt("About"),
+                mt("about"),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -64,13 +64,16 @@ fun AboutScreen() {
                     .fillMaxWidth()
             )
         }
-        Column {
+        Column (Modifier.padding(10.dp)){
             val data = FileUtil.getRes(R.raw.about)
             if(data!=null) {
-                MarkdownContent(data)
+                HtmlView(data)
             }
-            Text("LinkMe", fontSize = 18.sp)
-            Text("If there are any problems or good suggestions during software use, please feel free to contact me in a timely manner："+NetConf.email)
+
+            Text(mt("LinkMe"), fontSize = 25.sp)
+            Card {
+                Text(mt("linkMeInfo") + "：" + NetConf.email)
+            }
         }
     }
 }

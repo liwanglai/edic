@@ -175,7 +175,10 @@ class SettingConf {
         }
         set(v){
             booleanSet("showSystemTitle")
-            ActivityRun.restart()
+            ActivityRun.runOnUiThread {
+                Thread.sleep(100)
+                ActivityRun.restart()
+            }
         }
 
     public val HomePageSetting:String
@@ -212,7 +215,7 @@ class SettingConf {
                     UserStatus().set("dark_theme", v.value)
                     var tid = v.value as Int
                     if(tid ==0){
-                        tid = currentThemeNow
+                        ActivityRun.restart()
                     }
                     changeTheme(tid)
                     NavScreen.Settring.open()

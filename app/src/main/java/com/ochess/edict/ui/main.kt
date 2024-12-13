@@ -115,7 +115,6 @@ fun RootContent() {
             }
             mu.setContent {
                 BottomNavigationBar(
-                    items = provideBottomNavItems(),
                     navController
                 ) {
                     navController.navigate(it.route) {
@@ -136,7 +135,6 @@ fun MainContent(){
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
-                items = provideBottomNavItems(),
                 navController
             ) {
                 navController.navigate(it.route) {
