@@ -32,6 +32,7 @@ import com.ochess.edict.data.plug.SpeakSet
 import com.ochess.edict.presentation.home.TTSListener
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.dictionaryStringBuilder
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.print.MPrinter
 import com.ochess.edict.view.MPopMenu
@@ -186,7 +187,7 @@ fun UtilButtons( viewModel: WordModelViewModel) {
                 val wordModel = viewModel.wordState.value.wordModel
                 if (wordModel != null) {
                     viewModel.insertBookmark(wordModel)
-                    Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, mt("Saved"), Toast.LENGTH_SHORT).show()
 //                    coroutineScope.launch {
 //                        scaffold.snackbarHostState.showSnackbar(message = "Saved")
 //                    }

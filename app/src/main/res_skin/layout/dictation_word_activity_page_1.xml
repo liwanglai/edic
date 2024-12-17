@@ -70,8 +70,7 @@
             <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/y60">
                 <TextView android:textSize="@dimen/x36" android:textColor="#ff353535" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="
 @string/输入方式" />
-                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@+id/input_type" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y280" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="
-@string/打乱字母" />
+                <TextView android:textSize="@dimen/x36" android:textColor="#ff01b9ff" android:gravity="center" android:id="@+id/input_type" android:background="@drawable/switch_button_dictation_mode" android:clickable="true" android:layout_width="@dimen/y280" android:layout_height="@dimen/y60" android:layout_marginLeft="@dimen/y20" android:text="@string/舒尔特方格" />
             </LinearLayout>
         </LinearLayout>
         <FrameLayout android:id="@id/fl_count_down" android:background="#63000000" android:visibility="gone" android:clickable="true" android:layout_width="fill_parent" android:layout_height="fill_parent">

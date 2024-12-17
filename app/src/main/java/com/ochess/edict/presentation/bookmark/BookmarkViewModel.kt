@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.repository.WordRepository
 import com.ochess.edict.domain.model.WordModel
+import com.ochess.edict.presentation.history.BookHistroy
 import com.ochess.edict.util.DateUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -55,13 +57,14 @@ class BookmarkViewModel @Inject constructor(private val wordRepo: WordRepository
     }
 
     fun upListByArticle(id: Int, function: (size:Int) -> Unit) {
-
         viewModelScope.launch(Dispatchers.IO) {
             bookmarks.value = Db.user.article.findWords(id).map{
                 it.toWordModel()
             }
             val aModel = Db.user.article.find(id)
             nowBook = BookConf(aModel.name,aModel.id,  aModel.intime)
+            BookConf.setBook(nowBook,true)
+
             function(bookmarks.value.size)
         }
     }
@@ -87,7 +90,7 @@ class BookmarkViewModel @Inject constructor(private val wordRepo: WordRepository
                 Thread.sleep(10);
             }
         }.start()
-        countDownLatch.await(1500, TimeUnit.MILLISECONDS)
+        countDownLatch.await(3000, TimeUnit.MILLISECONDS)
         bookmarks.value = BookConf.words
     }
 
@@ -104,5 +107,17 @@ class BookmarkViewModel @Inject constructor(private val wordRepo: WordRepository
         }.start()
         countDownLatch.await(15000, TimeUnit.MILLISECONDS)
         GlobalVal.wordModelList
+    }
+
+    fun selectWord(name: String) {
+        var index=bookmarks.value.map{it.word}.indexOf(name)
+        val word = bookmarks.value[index]
+        GlobalVal.wordViewModel.setWord(
+            DictionarySubEntity(
+                word.wordsetId,
+                word.word,
+                word.level
+            )
+        )
     }
 }

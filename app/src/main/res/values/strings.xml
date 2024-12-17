@@ -291,5 +291,7 @@
     <string name="encn">Dilingual Dictionary</string>
     <string name="LinkMe">Link Me</string>
     <string name="linkMeInfo">If there are any problems or good suggestions during software use, please feel free to contact me in a timely manner</string>
+    <string name="Saved">Saved</string>
+    <string name="Copied">Copied</string>
 
 </resources>

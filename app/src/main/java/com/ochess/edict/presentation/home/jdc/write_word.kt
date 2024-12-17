@@ -156,6 +156,11 @@ fun write_word(){
                 }
                 initWord()
             }
+
+            hide(R.id.line_your_input)
+            show(R.id.line_your_input_smt)
+            hides(R.id.ll_controller,R.id.progressbar)
+
             //input显示方式
             click(R.id.in_mode){
                 inputStyleLine = !inputStyleLine

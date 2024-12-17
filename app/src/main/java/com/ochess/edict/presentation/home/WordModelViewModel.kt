@@ -205,9 +205,8 @@ class WordModelViewModel @Inject constructor(
                         NavScreen.openHome(PAGE_FROM_HISTORY)
                     }
                     "article" ->{
-                        GlobalVal.bookmarkViewModel.upListByArticle(id) {
-                            NavScreen.openHome(PAGE_FROM_BOOKMARK)
-                        }
+                        BookConf.usBook(id)
+                        NavScreen.openHome(PAGE_FROM_BOOKMARK)
                     }
                     "category" ->{
                         Category.getArticles(id, true) {
@@ -283,7 +282,7 @@ class WordModelViewModel @Inject constructor(
     fun upList(wordModelList: List<WordModel>) {
         var wordList = wordModelList
         if(BookConf.instance.index>0 && wordModelList.size>0){
-            wordList=wordModelList.subList(BookConf.instance.index+1,wordModelList.size-1)
+            wordList=wordModelList.subList(BookConf.instance.index,wordModelList.size-1)
         }
         dictRepository.setWords(wordList)
 

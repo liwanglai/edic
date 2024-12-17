@@ -37,6 +37,8 @@ import com.ochess.edict.presentation.history.BookHistroy
 
 class BookMarkEvent {
     companion object {
+        //当前书本的id
+        var bookId: Int=0
         lateinit var cutData: List<BookItem>
         val navController = GlobalVal.nav
         var openItem: BookItem? = null
@@ -273,27 +275,23 @@ class BookMarkEvent {
             //文章更新单词列表
             when(item.type) {
                 BookItemType.article -> {
-                    GlobalVal.bookmarkViewModel.upListByArticle(item.id) {
-                        if (it > 0) Run.byMainThrend {
-                            BookConf.setBook(BookConf(item.name,item.id,item.intime),true)
-                            if(!item.inited){
-                                item.initStatusText = mt("下载中")
-                                val wds = Article.find(BookConf.instance.id)?.findWords()
-                                TTSListener.mp3Create(wds) {okCount->
-                                    if(okCount>0) {
-                                        item.inited = true
-                                        item.save()
-                                        item.initStatusText = mt("下载完成")
-                                    }
-                                    jump()
-                                }
-                            } else {
-                                jump()
+                    BookHistroy.add(item)
+                    BookConf.usBook(item.id)
+                    NavScreen.refrash()
+                    if(!item.inited){
+                        item.initStatusText = mt("下载中")
+                        val wds = Article.find(BookConf.instance.id)?.findWords()
+                        TTSListener.mp3Create(wds) {okCount->
+                            if(okCount>0) {
+                                item.inited = true
+                                item.save()
+                                item.initStatusText = mt("下载完成")
                             }
-                            BookHistroy.add(item)
+                            jump()
                         }
+                    } else {
+                        jump()
                     }
-
                 }
                 BookItemType.category -> {
                     Category.getArticles(item.id, true) {
@@ -307,6 +305,7 @@ class BookMarkEvent {
                     }
                 }
                 BookItemType.word -> {
+                    GlobalVal.bookmarkViewModel.selectWord(item.name)
                     jump()
                 }
             }

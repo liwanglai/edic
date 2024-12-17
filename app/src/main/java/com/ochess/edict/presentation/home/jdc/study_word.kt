@@ -54,6 +54,7 @@ fun study_word(){
                 StudyWord(box, book.wordMode)
             },10)
         }
+        book.next(0)
         //val statusVal = upstatus.value
         it.apply {
             //返回按钮
@@ -84,11 +85,6 @@ fun study_word(){
                             lastWord = this
                             setBackgroundResource(R.color.design_default_color_secondary)
                             book.next(vItem)
-                        }
-                        if (lastWord == null) {
-                            lastWord = this
-                            performClick()
-                            toggle(R.id.list_view_study)
                         }
                     }
                 }

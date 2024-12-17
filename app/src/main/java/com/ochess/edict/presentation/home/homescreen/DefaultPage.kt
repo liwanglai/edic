@@ -75,7 +75,10 @@ fun DefaultPage(navController: NavHostController,
     val wordModel = wordModelState
 
     val detailState by wordViewModel.detailState.collectAsState()
-
+    if(!detailState && PageConf.getBoolean(PageConf.homePage.DefaultShowDetails,true)){
+//        wordViewModel.detailState.value=true
+        wordViewModel.searchByText()
+    }
     val level by wordViewModel.selectLevel.collectAsState()
     val selectLevel = level > -1 || BookConf.instance.name.isNotEmpty()
     when (fromPage) {

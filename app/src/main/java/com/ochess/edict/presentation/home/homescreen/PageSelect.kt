@@ -42,7 +42,7 @@ fun PageSelect(
     Column (modifier = Modifier
         .onGloballyPositioned { layoutCoordinates ->
             val size = Display.getScreenSize()
-            HomeEvents.status.openDrowUp = layoutCoordinates.size.height <= size.y
+            HomeEvents.status.openDrowUp = layoutCoordinates.size.height <= size.y+200
         }
     ){
         when (vmode) {

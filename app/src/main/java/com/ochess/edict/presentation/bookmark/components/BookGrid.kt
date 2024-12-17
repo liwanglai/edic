@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ochess.edict.R
+import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.presentation.bookmark.BookMarkEvent
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.bookmark.data.BookItemType
@@ -107,7 +108,10 @@ fun Item2(item: Any){
         val isBi = item::class.java.equals(BookItem::class.java)
         val itemBi = if(isBi) item as BookItem else null
         val menu = if(isBi) MPopMenu.categoryEditMenu(item as BookItem) else null
-        val bgc = if(isBi && itemBi!!.id == pid) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.background
+        val bgc = if(BookMarkEvent.bookId>0 && isBi && itemBi!!.type ==BookItemType.article && itemBi!!.id == BookMarkEvent.bookId)
+            MaterialTheme.colorScheme.secondary
+        else
+            MaterialTheme.colorScheme.background
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(5.dp)

@@ -4,7 +4,6 @@ import android.os.Handler
 import android.view.ViewGroup
 import android.widget.ListAdapter
 import androidx.collection.arrayMapOf
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -20,7 +19,6 @@ import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
 import com.ochess.edict.presentation.history.BookHistroy
 import com.ochess.edict.presentation.home.HomeEvents
-import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
@@ -30,6 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Collections
 import java.util.Locale
 import java.util.Random
+import kotlin.math.max
 
 data class BookConf(
     @JsonProperty("name")
@@ -63,15 +62,26 @@ data class BookConf(
 
         var instance:BookConf = usBook()
         //user status 存储的book
+        fun onOpenBook(bc: BookConf) {
+            var obn = bc.name.replace(Regex("\\.\\w+$"),"")
+            if(obn.length>4) obn=obn.substring(0,4)+".."
+            openedBook.value = obn
+        }
+        fun usBook(id:Int){
+            val aModel = Article.find(id)
+            if(aModel!=null) {
+                val nowBook = BookConf(aModel.name, aModel.id, aModel.intime)
+                setBook(nowBook)
+                onOpenBook(nowBook)
+            }
+        }
         fun usBook(v:BookConf?=null): BookConf {
             if(v!=null) {
                 UserStatus().setData("BookConf",v)
                 return v
             }
             val rt = UserStatus().getData("BookConf", BookConf::class.java) ?:BookConf()
-            var obn = rt.name.replace(Regex("\\.\\w+$"),"")
-                if(obn.length>4) obn=obn.substring(0,4)+".."
-            openedBook.value = obn
+            onOpenBook(rt)
             return rt
         }
 
@@ -301,7 +311,7 @@ data class BookConf(
 
     fun setWordByString(word:String) {
         this.word = word
-        index = words.map{it.word}.indexOf(word)
+        index = max(0,words.map{it.word}.indexOf(word))
         next(0)
     }
     fun setWord(it: WordModel) {

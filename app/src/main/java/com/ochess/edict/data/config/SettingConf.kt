@@ -159,7 +159,7 @@ class SettingConf {
                 Handler().postDelayed({
                     val act = ActivityRun.context as Activity
                     act.window.decorView.setBackgroundColor(color)
-                },100)
+                },500)
             }
     }
 
@@ -175,10 +175,7 @@ class SettingConf {
         }
         set(v){
             booleanSet("showSystemTitle")
-            ActivityRun.runOnUiThread {
-                Thread.sleep(100)
-                ActivityRun.restart()
-            }
+            ActivityRun.restart()
         }
 
     public val HomePageSetting:String
@@ -224,7 +221,10 @@ class SettingConf {
 
         public var HorizontalDrawAble:String
             get() = booleanGet("HorizontalDrawAble")
-            set(v){ booleanSet("HorizontalDrawAble") }
+            set(v){
+                booleanSet("HorizontalDrawAble")
+                ActivityRun.restart()
+            }
 
         public var Orientation:String
             get() {

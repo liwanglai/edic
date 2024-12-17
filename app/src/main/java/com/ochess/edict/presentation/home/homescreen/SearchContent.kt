@@ -85,7 +85,7 @@ fun SearchContent(
             dictionaryStringBuilder.append(it.word).append("\n")
 
             var moreVisible by remember {
-                mutableStateOf(PageConf.getBoolean(PageConf.homePage.DefaultShowDetails,false))
+                mutableStateOf(false)
             }
             val dicType = remember {
                 PageConf.getInt(PageConf.homePage.DicType,1)

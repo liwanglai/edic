@@ -49,7 +49,7 @@ class ListenWritePlay {
         //输入框的显示方式
         var inputStyleLine=false
         //输入方式
-        var inputType=false
+        var inputType=true
 
         var chVoice: Voice? = null
         fun play(auto:Boolean=false){

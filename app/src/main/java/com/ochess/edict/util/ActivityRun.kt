@@ -10,6 +10,7 @@ import android.content.res.Configuration.ORIENTATION_SQUARE
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Build
+import android.os.Handler
 import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
@@ -186,15 +187,17 @@ class ActivityRun {
         }
 
         fun restart() {
-            val s_inst = context
-            val intent = Intent(s_inst, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            s_inst.startActivity(intent)
+            Handler().postDelayed({
+                val s_inst = context
+                val intent = Intent(s_inst, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                s_inst.startActivity(intent)
 
-            // 结束进程
+                // 结束进程
                 Process.killProcess(Process.myPid())
                 // 通过系统重新启动应用
 //                System.exit(0)
+            },500)
         }
     }
 

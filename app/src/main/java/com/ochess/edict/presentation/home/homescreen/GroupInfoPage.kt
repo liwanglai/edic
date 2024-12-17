@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.presentation.bookmark.BookMarkEvent
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowChapters
 import com.ochess.edict.presentation.home.wGroups
@@ -75,9 +76,8 @@ fun GroupInfoPage(ap: MutableState<Float>){
        */
             Title(name.replace(Regex("\\.\\w+$"),"")){
                 val pid = BookConf.instance.cid()
-                if(pid>0){
-                    NavScreen.BookmarkScreen.open("?pid="+pid)
-                }
+                BookMarkEvent.bookId = BookConf.instance.id
+                NavScreen.BookmarkScreen.open("?pid=${pid}")
             }
             if (wGroups.size > 0) {
                 FlowRow {
