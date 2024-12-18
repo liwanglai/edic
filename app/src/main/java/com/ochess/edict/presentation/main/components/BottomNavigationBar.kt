@@ -43,7 +43,6 @@ fun BottomNavigationBar(
 ) {
     val reset = NavScreen.lastUptime.collectAsState()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    if(reset.value > -1)
     Card(
             modifier = Modifier
                 .fillMaxWidth(),

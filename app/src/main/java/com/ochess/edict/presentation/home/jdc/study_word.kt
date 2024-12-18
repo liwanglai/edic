@@ -51,7 +51,7 @@ fun study_word(){
         val box = it
         book.onNextDone {
             Handler().postDelayed({
-                StudyWord(box, book.wordMode)
+                StudyWord(box, book.wordMode!!)
             },10)
         }
         book.next(0)

@@ -22,9 +22,14 @@ class HistoryWords {
         }
         //配合返回后退事件
         fun pop(){
-            menu.items.removeAt(menu.items.size-1)
-            val last = menu.items.last()
-            wordViewModel.searcher(last.name)
+            if(menu.items.size>0) {
+                menu.items.removeAt(menu.items.size - 1)
+            }
+            if(menu.items.size>0) {
+                val last = menu.items.last()
+                wordViewModel.searcher(last.name)
+            }
+            size = menu.items.size
         }
 
         //截取 配合单词选择事件

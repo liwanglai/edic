@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
+import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
 import com.ochess.edict.presentation.home.components.AutoCompleteTextField
@@ -83,6 +84,8 @@ fun SearchTool(wordViewModel :WordModelViewModel){
                     val run = {
                         wordViewModel.prefixMatcher(it) {
                             wordViewModel.searcher(it)
+                            //搜索到单词就先隐藏搜索项
+                            wordViewModel.suggestions.value = emptyList<String>()
                         }
                     }
                     //延迟执行 不要输入一次就搜索一次
@@ -108,11 +111,17 @@ fun SearchTool(wordViewModel :WordModelViewModel){
                         wordViewModel.wordState.value = beforState as WordState
                         beforState = null
                     }
+                    //保证其他界面也有单词
+                    if(beforState!=null) {
+                        BookConf.instance.next(wordViewModel.wordState.value.wordModel!!)
+                    }
                 },
+                //完成按钮单击
                 onDoneActionClick = {
                     keyboardController?.hide()
                     visible = false
                 },
+                //条目单击
                 onItemClick = {
                     wordViewModel.searcher(it)
                     keyboardController?.hide()

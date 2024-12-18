@@ -55,7 +55,7 @@ data class BookConf(
     @JsonIgnore
     var eventNextDone: (() -> Unit?)? = null
     @JsonIgnore
-    public lateinit var wordMode: WordModel
+    public var wordMode: WordModel? =null
     companion object {
         val openedBook = mutableStateOf("")
         val mPid = -2
@@ -240,9 +240,13 @@ data class BookConf(
         }
         this.index+=n
         if(words.size==0 || index>= words.size || index<0) return false
-        val word  = words[index]
+        val word  =
+            if(n==0 && this.wordMode!=null && !(this.wordMode in words))
+                this.wordMode
+            else
+                words[index]
         this.size = words.size
-        next(word)
+        next(word!!)
         if(index<size && index>=0) {
             return true
         }

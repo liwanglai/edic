@@ -6,6 +6,8 @@ import android.webkit.WebView
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +20,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -64,16 +69,20 @@ fun AboutScreen() {
                     .fillMaxWidth()
             )
         }
-        Column (Modifier.padding(10.dp)){
-            val data = FileUtil.getRes(R.raw.about)
+        Column (Modifier.padding(10.dp)
+            //.verticalScroll(rememberScrollState())
+        ){
+//            Card {
+//                Text(mt("LinkMe"), fontSize = 25.sp)
+//                Text(mt("linkMeInfo") + "：" + NetConf.email)
+//            }
+            var data = FileUtil.getRes(R.raw.about)
             if(data!=null) {
+                data = data.replace("\$email",NetConf.email)
                 HtmlView(data)
             }
 
-            Text(mt("LinkMe"), fontSize = 25.sp)
-            Card {
-                Text(mt("linkMeInfo") + "：" + NetConf.email)
-            }
+
         }
     }
 }

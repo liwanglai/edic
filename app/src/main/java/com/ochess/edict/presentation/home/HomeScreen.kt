@@ -166,14 +166,15 @@ fun HomeScreen(
                     )
                 }
             }
-            val todayEdinhosSize = historyViewModel.edinhosSize.collectAsState()
-            val isnDo = historyViewModel.canEdinhos.collectAsState()
-            if (todayEdinhosSize.value > 0) {
+            if(false) {
+                val todayEdinhosSize = historyViewModel.edinhosSize.collectAsState()
+                val isnDo = historyViewModel.canEdinhos.collectAsState()
+                if (todayEdinhosSize.value > 0) {
                     IconButton(
                         onClick = {
                             NavScreen.openRoute(NavScreen.routes.HistorySearchByEdinhouse)
                             //配置学习了的参数
-                            UserStatus.set(DateUtil.dayRemainderMs()){
+                            UserStatus.set(DateUtil.dayRemainderMs()) {
                                 it.putBoolean(UserSettingKey_CanEdinhos, false)
                                 historyViewModel.canEdinhos.value = false
                                 return@set UserSettingKey_CanEdinhos
@@ -187,7 +188,7 @@ fun HomeScreen(
                             tint = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.size(25.dp)
                         )
-                        if(isnDo.value) {
+                        if (isnDo.value) {
                             Box(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(25.dp))
@@ -206,43 +207,48 @@ fun HomeScreen(
                         }
                     }
 
-            }
+                }
 
-            if (wGroups.size > 0) {
-                var menu = MPopMenu.Unspecified
-                Box(
-                    modifier = Modifier.padding(10.dp).combinedClickable(
+                if (wGroups.size > 0) {
+                    var menu = MPopMenu.Unspecified
+                    Box(
+                        modifier = Modifier.padding(10.dp).combinedClickable(
 //                        onClick = {
 //                           // NavScreen.openRoute(route = NavScreen.routes.Switch)
 //                        },
-                        onClick = {
-                            val words = GlobalVal.wordViewModel.cacheSub()
-                            menu.upItems(words.map{
-                                MPopMenu.dataClass(it.word, value = it, selected = it.word.equals(BookConf.instance.word))
-                            } as ArrayList).show { k, v ->
-                                HomeEvents.GroupInfoPage.onWordClick(v.value as WordModel)
-                            }
-                        },
-                        onLongClick = {
-                            menu.upItems(wGroups.map {
-                                MPopMenu.dataClass(it, selected = it.equals(nowChapters))
-                            } as ArrayList)
-                            menu.show { k, v ->
-                                nowChapters = k
-                                bookmarkViewModel.changeChapter(k)
-                                wordViewModel.upList(GlobalVal.wordModelList)
-                            }
+                            onClick = {
+                                val words = GlobalVal.wordViewModel.cacheSub()
+                                menu.upItems(words.map {
+                                    MPopMenu.dataClass(
+                                        it.word,
+                                        value = it,
+                                        selected = it.word.equals(BookConf.instance.word)
+                                    )
+                                } as ArrayList).show { k, v ->
+                                    HomeEvents.GroupInfoPage.onWordClick(v.value as WordModel)
+                                }
+                            },
+                            onLongClick = {
+                                menu.upItems(wGroups.map {
+                                    MPopMenu.dataClass(it, selected = it.equals(nowChapters))
+                                } as ArrayList)
+                                menu.show { k, v ->
+                                    nowChapters = k
+                                    bookmarkViewModel.changeChapter(k)
+                                    wordViewModel.upList(GlobalVal.wordModelList)
+                                }
 
-                        }
-                    )
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.view_mode),
-                        contentDescription = "章节",
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
+                            }
+                        )
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.view_mode),
+                            contentDescription = "章节",
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                    menu.add()
                 }
-                menu.add()
             }
 //            IconThemeSwitch(modifier = Modifier.align(Alignment.End)) {
 //                onToggleTheme()

@@ -29,17 +29,23 @@ class HomeEvents {
 
 
         fun onback(){
-            if(HistoryWords.size>1){
-                HistoryWords.pop()
-                return
-            }
             if(!events.onBackPressed()){
                 return
             }
             when(nowBookShowType){
                 "word_shows" -> {
-                    GroupInfoPage.beforMode = viewMode
-                    viewMode = MenuConf.mode.chaptarPage
+                    val modeNow = MenuConf.modeNow()
+                    if(viewMode == modeNow && HistoryWords.size>1){
+                        HistoryWords.pop()
+                        return
+                    }
+                    //其他模式返回主模式 或者返回列表
+                    if(viewMode != modeNow && false === PageConf.getBoolean(PageConf.homePage.RemainViewMode)){
+                        viewMode = modeNow
+                    }else {
+                        GroupInfoPage.beforMode = viewMode
+                        viewMode = MenuConf.mode.chaptarPage
+                    }
                 }
                 "book_shows" -> {
                     viewMode = GroupInfoPage.beforMode
