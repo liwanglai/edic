@@ -42,7 +42,7 @@ import com.ochess.edict.presentation.main.components.Display.mt
 class MPopMenu(var items: ArrayList<dataClass>) {
     var visible by  mutableStateOf(false)
     var offset:DpOffset by mutableStateOf( DpOffset(0.dp,0.dp) )
-    lateinit var itemClickFun:(k:String,v:dataClass) -> Unit
+    lateinit var itemClickFun:(k:String, v:dataClass) -> Unit
     lateinit var target:Any
     var modifier: Modifier = Modifier.pointerInput(Unit) {
         detectTapGestures(
@@ -138,13 +138,16 @@ class MPopMenu(var items: ArrayList<dataClass>) {
      */
     fun upMtTitle(): MPopMenu {
         items.forEach {
+            if(it.name.length==0){
+                it.name = it.title
+            }
             if(!it.title.matches(Regex("^\\d+$")))
             it.title = mt(it.title)
         }
         return this
     }
 
-    data class dataClass(var title:String="", val name:String="", var value: Any=0, val child:ArrayList<dataClass> = arrayListOf(), var selected:Boolean=false)
+    data class dataClass(var title:String="", var name:String="", var value: Any=0, val child:ArrayList<dataClass> = arrayListOf(), var selected:Boolean=false)
 
 
     companion object {

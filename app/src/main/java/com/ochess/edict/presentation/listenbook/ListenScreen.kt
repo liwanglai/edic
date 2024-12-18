@@ -44,6 +44,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.accompanist.glide.rememberGlidePainter
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.data.config.NetConf
 import com.ochess.edict.data.model.Article
 import com.ochess.edict.exception.TipException
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
@@ -78,7 +79,7 @@ fun ListenScreen(arguments: Bundle?) {
             BookConf.getHaveBooks{
                 haveBooks.addAll(it.map { it.name })
             }
-            loadList("http://www.ochess.cn/product/English/books.json") {
+            loadList(NetConf.data+"/books.json") {
                 docs = it
                     .filter {
                         haveBooks.indexOf(it.preface) == -1
@@ -148,7 +149,7 @@ fun ListenBooksItem(item:LoadJsonItem){
             .combinedClickable(
                 onClick = {
                     val value = item.url
-                    NavScreen.ListenBook.open(value)
+                    NavScreen.ListenBook.open("?words="+value)
 //                    ActivityRun.start(
 //                        ListenBookActivity::class.java.name,
 //                        arrayListOf(value)

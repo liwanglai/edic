@@ -144,7 +144,9 @@ fun DefaultPage(navController: NavHostController,
                             //.fillMaxWidth()
                             .align(Alignment.Center)
                     )
-                    HistoryWords.add(wordModel.wordModel?.word?:"")
+                    if(wordModel.wordModel!=null) {
+                         HistoryWords.add(wordModel.wordModel.word ?: "")
+                    }
                 }
                 if(isEdit) {
                     val word = wordModel.wordModel?.word
@@ -166,6 +168,7 @@ fun DefaultPage(navController: NavHostController,
             }
         }
     }
+
     if (!detailState) {
         Column(
             modifier = Modifier
@@ -188,8 +191,9 @@ fun DefaultPage(navController: NavHostController,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if(GlobalVal.isSearchVisible.value) {
 
+            if(GlobalVal.isSearchVisible.value) {
+                //搜索的时候给个空白页面
             } else if (selectLevel) {
                 Text(
 //                    text = "请回忆单词发音和释义",

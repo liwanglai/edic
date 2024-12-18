@@ -185,4 +185,18 @@
     <string name="en_en">英英詞典</string>
     <string name="en_cn">英漢詞典</string>
     <string name="encn">英漢雙語詞典</string>
+
+    <string name="Saved">已保存</string>
+    <string name="Copied">已復製</string>
+    <string name="more">更多..</string>
+    <string name="empty_history">歷史記錄為空. 您的搜索歷史後記錄將顯示在此處</string>
+    <string name="chapterPage">章節切換</string>
+    <string name="exportWordListToImg">導出單詞列表到圖片：</string>
+
+    <string name="export">導出</string>
+    <string name="exportAndOpen">導出並打開</string>
+    <string name="exportAndJumpTo">導出並跳轉到</string>
+    <string name="Speaking">播放中..</string>
+    <string name="PlaySpeed">播放速度</string>
+    <string name="BookHistory">書本歷史</string>
 </resources>

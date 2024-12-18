@@ -42,7 +42,7 @@ fun PageSelect(
     Column (modifier = Modifier
         .onGloballyPositioned { layoutCoordinates ->
             val size = Display.getScreenSize()
-            HomeEvents.status.openDrowUp = layoutCoordinates.size.height <= size.y+200
+            HomeEvents.status.openDrowUp = layoutCoordinates.size.height <= size.y+2
         }
     ){
         when (vmode) {
@@ -79,18 +79,15 @@ fun PageSelect(
                 //ActivityRun.start(GameActivity::class.java.name, words)
 //                viewMode = wordStudy
             }
-            print -> {
-                MPrinter.printer.init()
-                Handler().postDelayed({
-                    if (MPrinter.printer.canPrint()) {
-                        ActivityRun.msg("打印中...")
-                        historyViewModel.printListByWordModels(GlobalVal.wordModelList)
-                    } else {
-                        ActivityRun.msg("打印机未连接，无法打印！")
-                    }
-                }, 3000)
-                viewMode = wordStudy
-            }
+//            print -> {
+//                MPrinter.printer.init()
+//                    if (MPrinter.printer.canPrint()) {
+//                        ActivityRun.msg("打印中...")
+//                        historyViewModel.printListByWordModels(GlobalVal.wordModelList)
+//                    } else {
+//                        ActivityRun.msg("打印机未连接，无法打印！")
+//                    }
+//            }
 
 //            editBook -> {
 //                val book by remember {
@@ -108,7 +105,7 @@ fun PageSelect(
 //                    InputDialog.show(eObj = book, book.content!!)
 //                }
 //            }
-            chaptarPage -> {
+            chapterPage -> {
                 val ap = remember {  mutableStateOf(1f) }
                 GroupInfoPage(ap)
             }

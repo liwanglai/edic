@@ -77,7 +77,7 @@ fun UtilButtons( viewModel: WordModelViewModel) {
                     append(viewModel.currentDictionary.value.word)
                 })
 
-                Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, mt("Copied"), Toast.LENGTH_SHORT).show()
 //                coroutineScope.launch {
 //                    scaffold.snackbarHostState.showSnackbar(message = "Copied")
 //

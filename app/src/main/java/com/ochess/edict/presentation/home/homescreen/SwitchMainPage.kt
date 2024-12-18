@@ -60,7 +60,7 @@ fun SwitchMainPage(
             val i = p.indexOf(MenuConf.mode.wordScapesGame)
             p.removeAt(i)
         }
-        if(p!=null && ex.esize==0) {
+        if(p!=null && ex.esize<2) {
             val i = p.indexOf(MenuConf.mode.wordExtGame)
             p.removeAt(i)
         }

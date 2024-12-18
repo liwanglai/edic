@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ochess.edict.data.UserStatus
+import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.main.components.Display.mtCnReplace
@@ -103,29 +104,22 @@ fun HistoryBookScreen() {
     Column {
         LazyColumn {
             itemsIndexed(list) { index, it ->
-                var showMore by remember { mutableStateOf(false) }
                 val bColor = if (index % 2 == 0) Color.Gray else MaterialTheme.colorScheme.background
                 val name = mtCnReplace(it.name)
-                val content = mtCnReplace(it.content)
 
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .background(bColor)
                     .clickable {
-                        showMore = !showMore
+                        BookConf.usBook(it.id)
+                        NavScreen.openHome(0)
                     }
                 ) {
                     Text(text = name)
                     Spacer(modifier = Modifier.weight(1f))
                     Text(text = DateUtil.formatDateToDaysAgo(it.inTime))
                 }
-                if (showMore) {
-                    Row(
-                        Modifier.background(MaterialTheme.colorScheme.secondary)
-                    ) {
-                        Text(text = content)
-                    }
-                }
+
             }
         }
     }

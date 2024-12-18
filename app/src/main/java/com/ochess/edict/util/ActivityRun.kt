@@ -120,11 +120,17 @@ class ActivityRun {
 
         var event = Events()
         fun onKeyBoardStatusChange(open: Boolean) {
-            event.onKeyboardShowHide(open)
+            if(!open && !event.boradIsOpen){
+                //遇到没有打开就关闭的行为 什么都不做
+            }else {
+                event.onKeyboardShowHide(open)
+                event.boradIsOpen = open
+            }
         }
 
-        fun onKeyBoardStatusChange(onChange: (isOpen: Boolean) -> Unit) {
+        fun onKeyBoardStatusChange(onChange: (isOpen: Boolean) -> Unit) :Boolean{
             event.onKeyboardShowHide = onChange
+            return true
         }
 
         private fun onActivityResult(res: ActivityResult) {
@@ -199,9 +205,31 @@ class ActivityRun {
 //                System.exit(0)
             },500)
         }
+
+        fun openFile(file: String) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            val uri = FileUtil.getUri(file)
+            intent.setDataAndType(uri,"resource/folder");
+            val it = Intent.createChooser(intent, "Open Folder");
+            context.startActivity(it)
+
+        }
+
+        fun openImg(file: String) {
+            val intent = Intent(Intent.ACTION_VIEW)
+            val uri = FileUtil.getUri(file)
+            val type = "image/jpeg";
+            intent.setDataAndType(uri, type)
+            try {
+                context.startActivity(intent)
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+        }
     }
 
     class Events{
+        var boradIsOpen: Boolean = false
         var onOrientationChange: (ori: Int) -> Unit = {}
         var onBackPressed: () -> Boolean = {true}
         var onActivityResult: (result: ActivityResult) -> Unit = fun(res){}

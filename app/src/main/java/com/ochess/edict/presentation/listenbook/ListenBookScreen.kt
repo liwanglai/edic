@@ -41,7 +41,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ochess.edict.R
+import com.ochess.edict.data.config.NetConf
 import com.ochess.edict.data.model.Article
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.ActivityRun.Companion.onBackPressed
 import com.ochess.edict.util.FileUtil
@@ -61,8 +63,10 @@ fun ListenBookScreen(words: List<String>) {
     val args = words
     lbd.apply {
         if (args.size == 1) {
-            sampleFileUrl = args[0]
-            loadTextFromUrl(sampleFileUrl)
+            if(sampleFileUrl != args[0]) {
+                sampleFileUrl = args[0]
+                loadTextFromUrl(sampleFileUrl)
+            }
         } else {
             textToRead = args.map { it }
         }
@@ -96,11 +100,11 @@ fun ListenBookScreen(words: List<String>) {
                             tts.stop()
                         }
                     }) {
-                        Text(buttonTitle) // Set text color to soft white
+                        Text(mt(buttonTitle)) // Set text color to soft white
                     }
                     Column (modifier = Modifier.padding(10.dp,1.dp)){
                         Text(
-                            "播放速度: ${
+                            mt("播放速度")+": ${
                                 String.format(
                                     "%.1f",
                                     speechRate
@@ -169,16 +173,16 @@ fun ListenBookScreen(words: List<String>) {
                     }
 
 
-                    IconButton(onClick = { onBackPressed() }, modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background)
-                        .alpha(0.8f)
-                        .align(Alignment.BottomEnd)
-                        .padding(10.dp)
-                    ) {
-                        Icon(painter = painterResource(id = R.drawable.ic_back),
-                            contentDescription = null,
-                            tint = Color.Red)
-                    }
+//                    IconButton(onClick = { onBackPressed() }, modifier = Modifier
+//                        .background(MaterialTheme.colorScheme.background)
+//                        .alpha(0.8f)
+//                        .align(Alignment.BottomEnd)
+//                        .padding(10.dp)
+//                    ) {
+//                        Icon(painter = painterResource(id = R.drawable.ic_back),
+//                            contentDescription = null,
+//                            tint = Color.Red)
+//                    }
                 }
             }
         }
@@ -190,7 +194,7 @@ fun ListenBookScreen(words: List<String>) {
 class ListenBookData :TextToSpeech.OnInitListener {
 
      var isOpenSpeaking: Boolean = false
-     var sampleFileUrl = "http://www.ochess.cn/product/English/books/test.txt"
+     var sampleFileUrl = NetConf.resRoot+"/books/test.txt"
 
      var tts: TextToSpeech = TextToSpeech(ActivityRun.context, this)
      val sentencesQueue = arrayListOf<String>()

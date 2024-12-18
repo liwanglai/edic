@@ -29,12 +29,14 @@ class HomeEvents {
 
 
         fun onback(){
+            //底部菜单退出和现实方式退出
             if(!events.onBackPressed()){
                 return
             }
             when(nowBookShowType){
                 "word_shows" -> {
                     val modeNow = MenuConf.modeNow()
+                    //历史记录
                     if(viewMode == modeNow && HistoryWords.size>1){
                         HistoryWords.pop()
                         return
@@ -44,7 +46,7 @@ class HomeEvents {
                         viewMode = modeNow
                     }else {
                         GroupInfoPage.beforMode = viewMode
-                        viewMode = MenuConf.mode.chaptarPage
+                        viewMode = MenuConf.mode.chapterPage
                     }
                 }
                 "book_shows" -> {
@@ -56,7 +58,7 @@ class HomeEvents {
         fun onNextWordBefore():Boolean{
             val modeNow = MenuConf.modeNow()
             //如果保持当前模式开启并且当前模式不等于默认模式则不进入下一个而是直接修改显示模式
-            if(!PageConf.getBoolean(PageConf.homePage.RemainViewMode) && viewMode!= MenuConf.mode.chaptarPage && viewMode!=modeNow){
+            if(!PageConf.getBoolean(PageConf.homePage.RemainViewMode) && viewMode!= MenuConf.mode.chapterPage && viewMode!=modeNow){
                 viewMode = modeNow
                 return false
             }
@@ -121,12 +123,6 @@ class HomeEvents {
         fun onChapterClick(it: String) {
             nowChapters = it
             GlobalVal.bookmarkViewModel.changeChapter(it)
-            GlobalVal.wordViewModel.upList(GlobalVal.wordModelList)
-            val word = GlobalVal.wordViewModel.wordState.value.wordModel
-            if(word!=null) {
-                BookConf.instance.setWord(word)
-            }
-//            showMainPage()
         }
 
         /**

@@ -282,15 +282,19 @@ class MPrinter {
 //        mPrinter.close()
     }
 
-    fun printImg(printBitmap: Bitmap) {
+    fun printImg(printBitmap: Bitmap,file:String="") {
 //        var thumBitmap = utilImage.fixSerialImg(printBitmap, 368F)
         printer.upStatus(StatusNames.printIng)
         val thumBitmap = utilImage.thumbnail(printBitmap, THUMBNAIL_WIDTH)
 //        toSerial(thumBitmap)
-        toJpgFile(printBitmap)
-        if(status["type"].equals("bluetooth")) {
-            val param = Bundle()
-           // lpApi.printBitmap(thumBitmap, param)
+        if(file.length>0){
+            utilImage.bitmap2jpg(printBitmap, file)
+        }else {
+         //   toJpgFile(printBitmap)
+            if (status["type"].equals("bluetooth")) {
+                val param = Bundle()
+                // lpApi.printBitmap(thumBitmap, param)
+            }
         }
 
     }

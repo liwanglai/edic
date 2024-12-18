@@ -8,5 +8,6 @@ class PathConf {
         val imgs =root+"imgs/"
         val screen = root+"screen/"
         val print = root+"print/"
+        val dcim = FileUtil.dcimDir()+"edic/"
     }
 }

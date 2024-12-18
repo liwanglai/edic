@@ -326,7 +326,7 @@ class BookMarkEvent {
                         GlobalVal.clipboardManager.setText(buildAnnotatedString {
                             append(text)
                         })
-                        Toast.makeText(ActivityRun.context, "Copied", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(ActivityRun.context, mt("Copied"), Toast.LENGTH_SHORT).show()
                     }
                 }
             }

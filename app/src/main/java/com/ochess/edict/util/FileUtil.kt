@@ -6,8 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.activity.ComponentActivity
+import androidx.core.content.FileProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -122,6 +124,10 @@ class FileUtil {
             return _rootDir
         }
 
+        fun dcimDir(): String? {
+            return Environment.getExternalStorageDirectory().toString()+"/DCIM/"
+        }
+
         fun get(url:String,dOver:(c:String)->Unit){
             val client = OkHttpClient()
             CoroutineScope(Dispatchers.IO).launch {
@@ -203,6 +209,19 @@ class FileUtil {
 
         fun mctime(file:String): Long {
             return File(file).lastModified()
+        }
+
+
+        fun getUri(filePath: String): Uri {
+            var uri: Uri
+            val ct: Context = ActivityRun.context
+            uri = if (filePath.matches(Regex(".+\\.\\w+$")) &&  Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                FileProvider.getUriForFile(ct, ct.packageName + ".files", File(filePath))
+            } else {
+                Uri.fromFile(File(filePath))
+            }
+            uri = Uri.fromFile(File(filePath))
+            return uri
         }
     }
  }

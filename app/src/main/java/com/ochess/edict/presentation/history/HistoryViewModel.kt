@@ -158,6 +158,10 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
             printListByWordModels(printList.map { it.toWordModel() }, printDate)
         }
     }
+    fun printWordModelsToImg(printList:List<WordModel>, file:String=""){
+        val printBitmap: Bitmap = itemToBitmap(printList, "")
+        MPrinter.printer.printImg(printBitmap,file)
+    }
     fun printListByWordModels(printList:List<WordModel>, printDate:String=""){
         //printText(printList)
         val printBitmap: Bitmap = itemToBitmap(printList, printDate)

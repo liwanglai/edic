@@ -18,6 +18,7 @@ import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
 import com.ochess.edict.presentation.history.BookHistroy
+import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
@@ -71,7 +72,7 @@ data class BookConf(
             val aModel = Article.find(id)
             if(aModel!=null) {
                 val nowBook = BookConf(aModel.name, aModel.id, aModel.intime)
-                setBook(nowBook)
+                setBook(nowBook,true)
                 onOpenBook(nowBook)
             }
         }
@@ -208,15 +209,20 @@ data class BookConf(
             this.chapterName = mt(chapterName)
         }
         var mWords = chapterMapWords[chapterName]
+        wordMode=null
+        index=0
+        HistoryWords.reset()
         if(mWords!=null) {
             Article.getWords(mWords) {
                 words = it
                 GlobalVal.wordModelList = words
-                val word = BookHistroy.lastWord()
-                if(word.length>0) {
-                    setWordByString(word)
-                }
                 GlobalVal.wordViewModel.upList(GlobalVal.wordModelList)
+                if(!doSave) {
+                    val word = BookHistroy.lastWord()
+                    if (word.length > 0) {
+                        setWordByString(word)
+                    }
+                }
                 next(0)
             }
         }
@@ -314,7 +320,6 @@ data class BookConf(
     }
 
     fun setWordByString(word:String) {
-        this.word = word
         index = max(0,words.map{it.word}.indexOf(word))
         next(0)
     }

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ochess.edict.R
+import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.view.MPopMenu
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -60,9 +61,13 @@ fun AutoCompleteTextField(
     var expandedState by remember { mutableStateOf(false) }
     val sug by suggestions.collectAsState()
     val requester = FocusRequester()
-//    Handler().postDelayed({
-//        requester.requestFocus()
-//    },200)
+    Handler().postDelayed({
+        try {
+            requester.requestFocus()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    },200)
     expandedState=sug.isNotEmpty()
 
     Column {
@@ -120,7 +125,7 @@ fun AutoCompleteTextField(
                     if(it.isFocused){
                         onSearch("")
                     }else{
-//                        onClear()
+                        onClear()
                     }
                 }
         )

@@ -208,6 +208,7 @@ class HistroyFilter{
                     suggestions = wordViewModel.suggestions,
                     onSearch = {
                         wordViewModel.prefixMatcher(it){
+                            true
                         }
                     },
                     onClear = {
@@ -281,16 +282,16 @@ class HistroyFilter{
                         if (dateIndex.value == 4) {
                             val startDate = mutableStateOf( SimpleDateFormat("yyyy-MM-dd").format(Date(timeRange.start)))
                             val endDate = mutableStateOf( SimpleDateFormat("yyyy-MM-dd").format(Date(timeRange.end)))
-                            DateRangePicker(startDate,endDate,
-                                onStartDateChange = {
-                                    //timeRange.start = it.time
-                                    timeRange = TimeStampScope(it.time, timeRange.end)
-                                },
-                                onEndDateChange = {
-                                    timeRange = TimeStampScope(timeRange.start,it.time)
-//                                    timeRange.end = it.time
-                                }
-                            )
+//                            DateRangePicker(startDate,endDate,
+//                                onStartDateChange = {
+//                                    //timeRange.start = it.time
+//                                    timeRange = TimeStampScope(it.time, timeRange.end)
+//                                },
+//                                onEndDateChange = {
+//                                    timeRange = TimeStampScope(timeRange.start,it.time)
+////                                    timeRange.end = it.time
+//                                }
+//                            )
                         }
                     }
                 }

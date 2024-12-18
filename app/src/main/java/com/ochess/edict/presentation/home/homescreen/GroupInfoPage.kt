@@ -14,17 +14,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.data.config.PathConf
 import com.ochess.edict.presentation.bookmark.BookMarkEvent
+import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowChapters
 import com.ochess.edict.presentation.home.wGroups
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.FlowRow
 import com.ochess.edict.presentation.navigation.NavScreen
+import com.ochess.edict.util.ActivityRun
+import com.ochess.edict.view.MPopMenu
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 import com.ochess.edict.presentation.main.extend.MText as Text
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -96,7 +106,45 @@ fun GroupInfoPage(ap: MutableState<Float>){
 //            val nowStatus = GlobalVal.wordViewModel.wordState.collectAsState()
 //            val nowModel = nowStatus.value.wordModel
 //            val words = GlobalVal.wordViewModel.cacheSub()
-            Title("WordList")
+            val historyViewModel: HistoryViewModel = hiltViewModel()
+            val clipboardManager = LocalClipboardManager.current
+            if(BookConf.words.size>0) {
+                val menu = MPopMenu(listOf(
+                    MPopMenu.dataClass("Copy"),
+                    MPopMenu.dataClass("export"),
+//                    MPopMenu.dataClass("exportAndOpen"),
+//                    MPopMenu.dataClass("exportAndJumpTo")
+                )).upMtTitle()
+                Title("WordList") {
+                    menu.show { k, v ->
+                        when(v.name){
+                            "Copy" ->{
+                                val words = BookConf.words.map{it.word}.joinToString(",")
+                                clipboardManager.setText(buildAnnotatedString {
+                                    append(words)
+                                })
+                                ActivityRun.msg(mt("Copied"))
+                            }
+                            else -> {
+                                val dateNow = Date(System.currentTimeMillis())
+                                val date = SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(dateNow)
+                                val file =PathConf.dcim + BookConf.instance.name  + "_" + date + ".jpg"
+                                historyViewModel.printWordModelsToImg(BookConf.words, file)
+                                ActivityRun.msg(mt("export") + file)
+                                when(v.name) {
+                                    "exportAndJumpTo" -> {
+                                        ActivityRun.openFile(file)
+                                    }
+                                    "exportAndOpen" -> {
+                                        ActivityRun.openImg(file)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                menu.add()
+            }
             FlowRow {
                 BookConf.words.forEach {
 //                val tColor = if(it.isStudyed)  Color.Red else MaterialTheme.colors.primary

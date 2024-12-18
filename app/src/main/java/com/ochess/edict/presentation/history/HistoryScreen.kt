@@ -36,6 +36,7 @@ import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.model.TestHistory
 import com.ochess.edict.presentation.history.components.HistoryPrint
 import com.ochess.edict.presentation.history.components.HistroyFilter
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.WordItemList
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.print.MPrinter
@@ -75,7 +76,7 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
             MPrinter.printer.upStatus(MPrinter.StatusNames.connected)
         }
     }
-    val titleMenu = MPopMenu.HistoryTypes()
+
     val dicType = remember {
         PageConf.getInt(PageConf.homePage.DicType,1)
     }
@@ -90,15 +91,19 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 16.dp),
 //                verticalAlignment = Alignment.CenterVertically
             ) {
+                val title= remember { mutableStateOf("History") }
+                val titleMenu = MPopMenu.HistoryTypes()
+
                 Text(
 //                    text = "History",
-                    stringResource(R.string.History),
+                    mt(title.value),
                     style = MaterialTheme.typography.headlineMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.combinedClickable(
                         onClick={
                             titleMenu.show{ _, v->
                                 boxVisable = v.value as Int
+                                title.value = v.name
                                 //testVisable = true
                             }
                         },
@@ -110,7 +115,6 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
                 Spacer(
                     modifier = Modifier
                         .weight(1f)
-                        .fillMaxWidth()
                 )
                 if (false) {
                     Text(
@@ -179,7 +183,8 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
                     Icon(
                         painter = painterResource(id = R.drawable.filter),
                         contentDescription = "过滤",
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
+//                        modifier = Modifier.padding(top=-10.dp)
                     )
                 }
             }
@@ -218,7 +223,7 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
         }
         if (history.isEmpty()) {
             Text(
-                text = "History is empty. Your search history will appear here",
+                text = mt("empty_history"),
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.ExtraLight,
                 textAlign = TextAlign.Center,

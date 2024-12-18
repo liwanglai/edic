@@ -56,19 +56,6 @@ class BookmarkViewModel @Inject constructor(private val wordRepo: WordRepository
         return rt
     }
 
-    fun upListByArticle(id: Int, function: (size:Int) -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) {
-            bookmarks.value = Db.user.article.findWords(id).map{
-                it.toWordModel()
-            }
-            val aModel = Db.user.article.find(id)
-            nowBook = BookConf(aModel.name,aModel.id,  aModel.intime)
-            BookConf.setBook(nowBook,true)
-
-            function(bookmarks.value.size)
-        }
-    }
-
     fun upListByWords(words: ArrayList<String>,function: (size:Int) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             bookmarks.value= Db.dictionary.dictionaryDao.search(words).map{
@@ -105,7 +92,7 @@ class BookmarkViewModel @Inject constructor(private val wordRepo: WordRepository
                 Thread.sleep(100);
             }
         }.start()
-        countDownLatch.await(15000, TimeUnit.MILLISECONDS)
+        countDownLatch.await(3500, TimeUnit.MILLISECONDS)
         GlobalVal.wordModelList
     }
 

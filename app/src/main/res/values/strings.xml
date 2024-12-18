@@ -293,5 +293,16 @@
     <string name="linkMeInfo">If there are any problems or good suggestions during software use, please feel free to contact me in a timely manner</string>
     <string name="Saved">Saved</string>
     <string name="Copied">Copied</string>
+    <string name="more">More..</string>
+    <string name="empty_history">History is empty. Your search history will appear here</string>
+    <string name="chapterPage">Chapters</string>
+    <string name="exportWordListToImg">Export Word List：</string>
+
+    <string name="export">Export</string>
+    <string name="exportAndOpen">Export And Open</string>
+    <string name="exportAndJumpTo">Export And JumpTo</string>
+    <string name="Speaking">Speaking</string>
+    <string name="PlaySpeed">Play Speed</string>
+    <string name="BookHistory">BookHistory</string>
 
 </resources>

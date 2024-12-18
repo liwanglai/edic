@@ -112,7 +112,9 @@ class WordModelViewModel @Inject constructor(
                 ?: DictionaryEntity.emptyDictionary()
             currentDictionary.value = result
             wordState.value = WordState(result.toWordModel())
-            detailState.value = true
+            if(result.word.length>0) {
+                detailState.value = true
+            }
         }
     }
 
@@ -137,7 +139,7 @@ class WordModelViewModel @Inject constructor(
         }
     }
 
-    fun prefixMatcher(query: String,onMatch:(word:String)->Unit) {
+    fun prefixMatcher(query: String,onMatch:(word:String)->Boolean) {
         clearSuggestions()
         prefixMatchJob?.cancel()
         prefixMatchJob = viewModelScope.launch(IO) {
@@ -152,7 +154,6 @@ class WordModelViewModel @Inject constructor(
                 sugs.addAll(a); sugs.addAll(c); sugs.addAll(l)
                 suggestions.value = sugs
             } else {
-
                 dictRepository.prefixMatch(query).collect { matches ->
                     matches.let { match ->
                         val sublist = match.map { it.word }
@@ -160,20 +161,26 @@ class WordModelViewModel @Inject constructor(
 
                         match.forEach {
                             if (it.word == query) {
-                                onMatch(query)
-                                val moreSug = arrayListOf<String>()
-                                moreSug.addAll(sublist)
-                                moreSug.addAll(Article.grep(query).map { "article.${it.id}:${it.name}" })
-                                val queryObj =Query(Db.user, "historyTable").like("word", query).build()
-                                moreSug.addAll(Db.user.wordModelDao.getHistoryList(queryObj).map {
-                                    val date = SimpleDateFormat("yyyy-MM-dd").format(Date(it.time))
-                                    "history:${date}"
-                                })
+                                val setSug = onMatch(query)
+                                if(setSug) {
+                                    val moreSug = arrayListOf<String>()
+                                    moreSug.addAll(sublist)
+                                    moreSug.addAll(
+                                        Article.grep(query).map { "article.${it.id}:${it.name}" })
+                                    val queryObj =
+                                        Query(Db.user, "historyTable").like("word", query).build()
+                                    moreSug.addAll(
+                                        Db.user.wordModelDao.getHistoryList(queryObj).map {
+                                            val date =
+                                                SimpleDateFormat("yyyy-MM-dd").format(Date(it.time))
+                                            "history:${date}"
+                                        })
 //                                if(it.level>0) {
 //                                    val levelEntity = Db.dictionary.levelDao.queryName(it.level)
 //                                    moreSug.add("level.${it.level}:" + levelEntity.name)
 //                                }
-                                suggestions.value = moreSug
+                                    suggestions.value = moreSug
+                                }
                             }
                         }
                     }
@@ -227,6 +234,7 @@ class WordModelViewModel @Inject constructor(
                 wordState.value = WordState(it.toWordModel())
                 currentDictionary.value = DictionaryEntity(it.meanings,it.word,it.wordsetId,it.ch,it.level)
                 currentDictionarySub.value = DictionarySubEntity(word = it.word, wordsetId = it.wordsetId, level = it.level)
+                BookConf.instance.next(wordState.value.wordModel!!)
                 if (isWordClick) insertHistory(it.toWordModel())
             }
         }
@@ -244,7 +252,11 @@ class WordModelViewModel @Inject constructor(
 
     fun insertHistory(wordModel: WordModel) {
         viewModelScope.launch(IO) {
-            wordRepo.insertHistory(wordModel.toHistoryEntity())
+            try {
+                wordRepo.insertHistory(wordModel.toHistoryEntity())
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
         }
     }
 
@@ -268,8 +280,8 @@ class WordModelViewModel @Inject constructor(
                 BookHistroy.lastWord(it.word)
             } ?: DictionarySubEntity.empty()
 
+            detailState.value = detailShow
         }
-        detailState.value = detailShow
     }
     fun cacheSub():List<WordModel>{
         return dictRepository.getWords()

@@ -7,7 +7,7 @@
     <TextView
         android:layout_marginTop="@dimen/print_head_margin_top"
         android:id="@+id/head_title"
-        android:text="欧骑士背单词"
+        android:text="@string/app_name"
         android:gravity="center"
         android:textColor="#4a4d4e"
         android:textSize="@dimen/print_head_title_size"

@@ -85,7 +85,7 @@ fun ClickAbelText(
     popupView.setOnClickListener {
         popupWindow.dismiss()
         if (word.isNotEmpty()) {
-            GlobalVal.wordViewModel.searcher(word)
+            GlobalVal.wordViewModel.searcher(word,true)
         }
     }
     fun showPopup(view: View,ch:String,startIndex:Int) {

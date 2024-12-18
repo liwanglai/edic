@@ -190,4 +190,19 @@
     <string name="encn">英汉双语词典</string>
     <string name="LinkMe">联系我</string>
     <string name="linkMeInfo">如果在软件使用过程中有任何问题或好的建议，请随时及时与我联系</string>
+    <string name="Saved">已保存</string>
+    <string name="Copied">已复制</string>
+    <string name="more">更多..</string>
+    <string name="empty_history">历史记录为空. 您的搜索历史后记录将显示在此处</string>
+    <string name="chapterPage">章节切换</string>
+    <string name="exportWordListToImg">导出单词列表到图片：</string>
+
+    <string name="export">导出</string>
+    <string name="exportAndOpen">导出并打开</string>
+    <string name="exportAndJumpTo">导出并跳转到</string>
+    <string name="Speaking">播放中..</string>
+    <string name="PlaySpeed">播放速度</string>
+    <string name="BookHistory">书本历史</string>
+
+
 </resources>

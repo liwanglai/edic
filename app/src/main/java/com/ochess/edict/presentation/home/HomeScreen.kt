@@ -84,8 +84,8 @@ fun HomeScreen(
          //返回功能
         ActivityRun.onBackPressed {
             HomeEvents.onback()
-//            !GlobalVal.nav.equals(NavScreen.HomeScreen)
-            false
+            var nav = GlobalVal.nav.currentDestination
+            !nav!!.route!!.startsWith(NavScreen.HomeScreen.route)
         }
         null
     }
@@ -104,7 +104,7 @@ fun HomeScreen(
                 BookConf.setBook()
                 homeReSetDefaultBook.value=false
             }
-            GlobalVal.wordModelList = bookmarkViewModel.bookmarks.value
+            GlobalVal.wordModelList = BookConf.words
             if (BookConf.instance.name.length > 0 && !BookConf.instance.name.equals(nowBook)) {
                 bookmarkViewModel.openBook()
                 wGroups = BookConf.chapters
@@ -145,25 +145,28 @@ fun HomeScreen(
         Row(modifier = Modifier.align(Alignment.TopEnd).padding(10.dp,15.dp)) {
             if (GlobalVal.isSearchVisible.value) {
                 SearchTool(wordViewModel)
-                if (GlobalVal.isSearchVisible.value) {
-                    if (wordViewModel.wordState.value.wordModel != null) {
+                if (GlobalVal.isSearchVisible.value && wordViewModel.wordState.value.wordModel != null) {
                         wordViewModel.detailState.value = true
-                    }
                 }
             } else {
-                IconButton(
-                    {
-                        GlobalVal.isSearchVisible.value = true
-                    },
-                    modifier = Modifier
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.search),
-                        contentDescription = "搜索",
-                        tint = MaterialTheme.colorScheme.onBackground,
+                val wordsMode = remember {
+                    MenuConf.modeGroups()["word_shows"]
+                }
+                if(viewMode in wordsMode!!) {
+                    IconButton(
+                        {
+                            GlobalVal.isSearchVisible.value = true
+                        },
                         modifier = Modifier
-                            .size(20.dp, 20.dp)
-                    )
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = "搜索",
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier
+                                .size(20.dp, 20.dp)
+                        )
+                    }
                 }
             }
             if(false) {

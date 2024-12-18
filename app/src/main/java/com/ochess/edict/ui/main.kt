@@ -32,10 +32,13 @@ import com.ochess.edict.presentation.main.MainScreen
 import com.ochess.edict.presentation.main.components.BottomNavigationBar
 import com.ochess.edict.presentation.main.components.provideBottomNavItems
 import com.ochess.edict.util.ActivityRun
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 fun bindkeyBoradEvent(view:View){
-    view.rootView.viewTreeObserver.addOnGlobalLayoutListener {
+    val run={
         val r = Rect()
         view.rootView.getWindowVisibleDisplayFrame(r)
         //屏幕显示高度
@@ -54,6 +57,13 @@ fun bindkeyBoradEvent(view:View){
             false
         }
         ActivityRun.onKeyBoardStatusChange(isOpen)
+    }
+    //延迟500ms之后再去触发键盘事件
+    view.rootView.viewTreeObserver.addOnGlobalLayoutListener {
+       GlobalScope.launch {
+           delay(500)
+           run()
+       }
     }
     /*
     //获取屏幕高度

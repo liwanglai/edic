@@ -358,11 +358,12 @@ fun MainScreen(
                 type = NavType.StringListType
                 defaultValue = listOf<String>()
             })) {
-            val words = when(it.arguments){
+            val args = it.arguments
+            val words = when(args){
                 null ->   listOf<String>()
                 else -> {
-                    val ws = it.arguments?.getString("words","")
-                    ws?.split(",")
+                    val ws = args?.getStringArray("words")
+                    ws!!.map{it}
                 }
             }
             if (words != null) {

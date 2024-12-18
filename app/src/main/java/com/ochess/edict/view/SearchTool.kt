@@ -28,9 +28,12 @@ import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
 import com.ochess.edict.presentation.home.components.AutoCompleteTextField
+import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.util.ActivityRun
 
 @Composable
@@ -65,6 +68,12 @@ fun SearchTool(wordViewModel :WordModelViewModel){
     ){
         var visible by remember { GlobalVal.isSearchVisible }
         var beforState: WordState? = null
+        remember {
+            ActivityRun.onKeyBoardStatusChange { isOpen ->
+                if (visible && !isOpen) visible = false
+            }
+        }
+
         AnimatedVisibility(visible = visible) {
             AutoCompleteTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -75,17 +84,14 @@ fun SearchTool(wordViewModel :WordModelViewModel){
                         beforState = wordViewModel.wordState.value
                         //wordViewModel.detailState.value = false
                         wordViewModel.wordState.value = WordState(null)
-                        ActivityRun.onKeyBoardStatusChange { isOpen ->
-                            if(visible && !isOpen) visible=false
-                        }
                         return@AutoCompleteTextField
                     }
                     //实际的search动作
                     val run = {
                         wordViewModel.prefixMatcher(it) {
                             wordViewModel.searcher(it)
-                            //搜索到单词就先隐藏搜索项
-                            wordViewModel.suggestions.value = emptyList<String>()
+                            wordViewModel.clearSuggestions()
+                            false
                         }
                     }
                     //延迟执行 不要输入一次就搜索一次
@@ -105,15 +111,20 @@ fun SearchTool(wordViewModel :WordModelViewModel){
 
                 onClear = {
                     wordViewModel.clearSuggestions()
-                    //失去焦点还原原始单词
+                    //失去焦点如果没有搜索到单词则还原原始单词
                     if(beforState!=null && wordViewModel.wordState.value.wordModel==null) {
                         visible=false
                         wordViewModel.wordState.value = beforState as WordState
                         beforState = null
                     }
                     //保证其他界面也有单词
-                    if(beforState!=null) {
+                    if(beforState!=null
+                        && wordViewModel.wordState.value.wordModel!=null
+                        && beforState!!.wordModel!!.word != wordViewModel.wordState.value.wordModel!!.word
+                    ) {
                         BookConf.instance.next(wordViewModel.wordState.value.wordModel!!)
+                        //插入历史记录
+                        wordViewModel.insertHistory(wordViewModel.wordState.value.wordModel!!)
                     }
                 },
                 //完成按钮单击

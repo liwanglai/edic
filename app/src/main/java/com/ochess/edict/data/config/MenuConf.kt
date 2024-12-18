@@ -18,11 +18,11 @@ class MenuConf {
         wordExtGame,
 
         title_book_shows,
-        chaptarPage,
+        chapterPage,
         listenBook,
-//        editBook,
-        print,
         findGame,
+//        editBook,
+//        print,
     }
 
     companion object {

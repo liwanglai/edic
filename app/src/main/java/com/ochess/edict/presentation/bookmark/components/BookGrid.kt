@@ -168,7 +168,7 @@ fun Item2(item: Any){
                         )
                     }
                 }else {
-                    Text(name.replace(Regex("_ISBN.+|\\.\\w+$"),""), fontSize = 10.sp)
+                    Text(mt(name.replace(Regex("\\.\\w+$"),"")), fontSize = 10.sp)
 //                    Spacer(modifier = Modifier.weight(1f))
 //                    Text(
 //                        item.upTime ?: "",
