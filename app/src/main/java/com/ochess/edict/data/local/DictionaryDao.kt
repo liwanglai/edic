@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.RawQuery
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
+import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.local.entity.DictionaryEntity
 import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.local.entity.WordExtendEntity
@@ -43,6 +44,11 @@ interface DictionaryDao {
         map.forEach{
             rt.addAll(wordIn(it.key+"_table",it.value))
         }
+         if(!PageConf.getBoolean(PageConf.homePage.SortWords,true)){
+             val wordMap = rt.groupBy { it.word }
+             return words.map{ wordMap.get(it)!!.first() }
+         }
+
         return rt
     }
 

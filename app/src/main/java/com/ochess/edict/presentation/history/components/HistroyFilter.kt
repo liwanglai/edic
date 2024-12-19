@@ -69,14 +69,14 @@ class HistroyFilter{
         fun add(vm:HistoryViewModel){
             hViewModel = vm
             if(showDialog) {
-                ActivityRun.onKeyBoardStatusChange {
-                    if(!it){
-                        showDialog = false
-                    }
-                }
+//                ActivityRun.onKeyBoardStatusChange {
+//                    if(!it){
+//                        showDialog = false
+//                    }
+//                }
                 AlertDialog(
                     onDismissRequest = {
-                        showDialog = false
+//                        showDialog = false
                     },
                     title = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -91,6 +91,7 @@ class HistroyFilter{
                         RowList()
                     },
                     confirmButton = { }
+                    , modifier = Modifier.alpha(0.9f)
                 )
             }
         }
@@ -269,29 +270,30 @@ class HistroyFilter{
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
 
-                        RadioButton(selected = dateIndex.value == 4, onClick = {
-                            hViewModel.selectDateIndex.value = 4
-                        })
-                        Text(text = "自定义", Modifier)
-                        
                         RadioButton(selected = dateIndex.value == 5, onClick = {
                             hViewModel.selectDateIndex.value = 5
                         })
                         Text(text = "艾宾浩斯遗忘曲线", Modifier)
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(selected = dateIndex.value == 4, onClick = {
+                            hViewModel.selectDateIndex.value = 4
+                        })
+                        Text(text = "自定义", Modifier)
 
                         if (dateIndex.value == 4) {
                             val startDate = mutableStateOf( SimpleDateFormat("yyyy-MM-dd").format(Date(timeRange.start)))
                             val endDate = mutableStateOf( SimpleDateFormat("yyyy-MM-dd").format(Date(timeRange.end)))
-//                            DateRangePicker(startDate,endDate,
-//                                onStartDateChange = {
-//                                    //timeRange.start = it.time
-//                                    timeRange = TimeStampScope(it.time, timeRange.end)
-//                                },
-//                                onEndDateChange = {
-//                                    timeRange = TimeStampScope(timeRange.start,it.time)
-////                                    timeRange.end = it.time
-//                                }
-//                            )
+                            DateRangePicker(startDate,endDate,
+                                onStartDateChange = {
+                                    //timeRange.start = it.time
+                                    timeRange = TimeStampScope(it.time, timeRange.end)
+                                },
+                                onEndDateChange = {
+                                    timeRange = TimeStampScope(timeRange.start,it.time)
+//                                    timeRange.end = it.time
+                                }
+                            )
                         }
                     }
                 }

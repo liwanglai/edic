@@ -66,7 +66,7 @@ var wGroups = arrayListOf<String>()
 var nowBook = ""
 var nowBookShowType = "word_shows" //word_shows book_shows
 
-
+val homeReSetDefaultBook = mutableStateOf(false)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
@@ -91,9 +91,7 @@ fun HomeScreen(
     }
     //组织全局数据
     var words = arrayListOf<String>()
-    val homeReSetDefaultBook = remember {
-        mutableStateOf(false)
-    }
+
     when (fromPage) {
         PAGE_FROM_LEVEL -> {
             GlobalVal.wordModelList = wordViewModel.cacheSub()
@@ -115,19 +113,16 @@ fun HomeScreen(
 
         PAGE_FROM_HISTORY -> {
             if(GlobalVal.historyGroup.size>0){
-                BookConf.instance.setContent("历史记录页",GlobalVal.historyGroup)
                 wGroups = BookConf.chapters
                 nowChapters = BookConf.instance.chapterName
                 nowBook = BookConf.instance.name
                 homeReSetDefaultBook.value = true
             }
-            GlobalVal.wordModelList = historyViewModel.history.value
-            wordViewModel.upList(GlobalVal.wordModelList)
         }
     }
-    words.addAll(GlobalVal.wordModelList.map { it.word })
+    words.addAll(BookConf.words.map { it.word })
     if (wordViewModel.wordState.value.wordModel == null && words.size > 0) {
-        wordViewModel.upList(GlobalVal.wordModelList)
+        wordViewModel.upList(BookConf.words)
     }
     val next:@Composable BoxScope.()->Unit = {
         PageSelect(viewMode,words, historyViewModel) {

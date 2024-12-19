@@ -50,9 +50,9 @@ fun study_word(){
     LayoutJdc.view(layouts.home) { it ->
         val box = it
         book.onNextDone {
-            Handler().postDelayed({
+            ActivityRun.runOnUiThread {
                 StudyWord(box, book.wordMode!!)
-            },10)
+            }
         }
         book.next(0)
         //val statusVal = upstatus.value

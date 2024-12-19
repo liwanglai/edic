@@ -44,7 +44,7 @@
     <string name="Selectdatabase">請點擊選擇詞庫</string>
 
     <string name="homePageSetting">主頁設置</string>
-    <string name="TitleClickEdit">標題單擊可編輯</string>
+    <string name="TitleClickEdit">標題長按可編輯</string>
     <string name="NextUnordered">單詞排序亂序</string>
     <string name="DefaultShowDetails">默認展示詳情</string>
     <string name="DicType">詞典類型</string>
@@ -176,6 +176,7 @@
     <string name="创建分类">創建分類</string>
     <string name="输入你的分类名字或文章名字">輸入你的分類名字或文章名字(支持多行多個）</string>
     <string name="从文件">從文件</string>
+    <string name="历史记录页">歷史記錄頁</string>
 
     <string name="app_name">電子詞典</string>
     <string name="systemTitle">系統標題</string>
@@ -199,4 +200,7 @@
     <string name="Speaking">播放中..</string>
     <string name="PlaySpeed">播放速度</string>
     <string name="BookHistory">書本歷史</string>
+
+    <string name="SortWords">單詞排序</string>
+    <string name="InLetter">短單詞</string>
 </resources>

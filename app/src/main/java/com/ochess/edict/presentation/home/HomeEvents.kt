@@ -115,8 +115,11 @@ class HomeEvents {
         lateinit var beforMode: MenuConf.mode
 
         fun onWordClick(it: WordModel) {
+            //设置单词重新刷新一下位置
             BookConf.instance.setWord(it)
-            showMainPage("")
+            GlobalVal.wordViewModel.upList(BookConf.words)
+            HistoryWords.reset()
+//            showMainPage("")
             viewMode = beforMode
         }
 
@@ -163,12 +166,16 @@ class HomeEvents {
     }
 
     object scapesGame{
+        lateinit var lastFindWordMode:WordModel
         /**
          * 单词找到事件
          */
         fun onFindWord(wm: WordModel?) {
             if(wm==null) return
-            if(wm.isStudyed) return
+            lastFindWordMode = wm
+            if(wm.isStudyed) {
+                return
+            }
             ActivityRun.runOnUiThread {
                 if(wm.ch!=null) {
                     ActivityRun.msg(wm.ch!!)

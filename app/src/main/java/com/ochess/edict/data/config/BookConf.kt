@@ -99,6 +99,7 @@ data class BookConf(
          */
         fun setBook(bookConf: BookConf?=null,saveDo:Boolean = false) {
             instance = if(bookConf==null) usBook() else bookConf
+            HistoryWords.reset()
             if(saveDo) {
                 usBook(instance)
             }
@@ -185,7 +186,7 @@ data class BookConf(
         if(mapWords.length>0) {
             chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，")).map{it.trim()}.filter{it.length>0}
         }
-        if(chapters.size ==1){
+        if(chapters.size ==1 && name!="历史记录页"){
             val first = chapters[0]
             chapters[0] = "defaultChapter"
             val newList = arrayListOf(first)
@@ -201,10 +202,10 @@ data class BookConf(
     }
 
     fun save(chapterName: String="",doSave:Boolean=true) {
-        //文章中没有此数据就不要保存防止下一次进来没数据
-        if(chapterName!="defaultChapter" && doc.indexOf(chapterName) == -1) {
-            return
-        }
+//        //文章中没有此数据就不要保存防止下一次进来没数据
+//        if(chapterName!="defaultChapter" && doc.indexOf(chapterName) == -1) {
+//            return
+//        }
         if(chapterName.length>0) {
             this.chapterName = mt(chapterName)
         }
@@ -215,14 +216,15 @@ data class BookConf(
         if(mWords!=null) {
             Article.getWords(mWords) {
                 words = it
-                GlobalVal.wordModelList = words
-                GlobalVal.wordViewModel.upList(GlobalVal.wordModelList)
                 if(!doSave) {
                     val word = BookHistroy.lastWord()
                     if (word.length > 0) {
                         setWordByString(word)
                     }
                 }
+                GlobalVal.wordModelList = words
+                GlobalVal.wordViewModel.upList(GlobalVal.wordModelList)
+
                 next(0)
             }
         }
@@ -247,7 +249,7 @@ data class BookConf(
         this.index+=n
         if(words.size==0 || index>= words.size || index<0) return false
         val word  =
-            if(n==0 && this.wordMode!=null && !(this.wordMode in words))
+            if(n==0 && this.wordMode!=null && !(this.wordMode!!.word in words.map{it.word}))
                 this.wordMode
             else
                 words[index]
@@ -339,6 +341,7 @@ data class BookConf(
             it.key +"\n"+ it.value.joinToString ( "," )
         }.joinToString ("\n\n" )
         initByData(rows)
+        //onOpenBook(instance)
     }
 
     fun cid(): Int {

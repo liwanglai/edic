@@ -34,6 +34,7 @@ import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.model.WordExtend
+import com.ochess.edict.presentation.home.HomeEvents.scapesGame.lastFindWordMode
 import com.ochess.edict.presentation.home.game.wordScapes.WordScapes
 import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.util.ActivityRun
@@ -45,10 +46,12 @@ var findedWords = mutableStateListOf<String>()
 val book = BookConf.instance
 //书本单词切换之后的当前单词
 var bookNowWord = mutableStateOf(book.word)
+//圆盘输入的字母列表
 var inputWord = mutableStateOf("")
 //导航按钮是否显示
 var navButtonVisitable by  mutableStateOf(false)
 var toNextWord:()->Unit = {}
+
 /**
  * 划词游戏
  */
@@ -93,7 +96,9 @@ fun WordScapesGame() {
         allWords = arrayListOf<String>()
         findedWords.clear()
         allWords.addAll(eWord.data)
-        allWords.addAll(eWord.inword)
+        if(PageConf.getBoolean(PageConf.sGamePage.InLetter,true)) {
+            allWords.addAll(eWord.inword)
+        }
 
         val words = allWords.filter { it.length<=book.word.length }
         ws.setWord(name, words, eWord.word)
@@ -208,8 +213,11 @@ fun sGameView(ws: WordScapes)
 @Composable
 fun myTitle(ws: WordScapes, word: String) {
     val title = remember { mutableStateOf(word) }
+    //标题单击提示的下一个单词
     val nw = ws.nextWord.collectAsState()
+    //before word
     val bw = remember { mutableStateOf(nw.value) }
+    //输入单词有改动的时候
     LaunchedEffect(key1 = inputWord.value) {
         if (ws.nowWord.length > 0) {
             title.value = ws.nowWord
@@ -219,6 +227,7 @@ fun myTitle(ws: WordScapes, word: String) {
             }
         }
     }
+    //下一个单词变动的时候
     LaunchedEffect(key1 = nw.value) {
         if(bw.value.word.length>0) {
             title.value = bw.value.word
@@ -232,7 +241,8 @@ fun myTitle(ws: WordScapes, word: String) {
                 title.value = nw.value.ch!!
                 return@combinedClickable
             }
-            ActivityRun.msg(nw.value.word)
+            val out = if(navButtonVisitable) nw.value.word else lastFindWordMode.ch
+            ActivityRun.msg(out!!)
         }, onDoubleClick = {
             ws.resetNextWord()
         })

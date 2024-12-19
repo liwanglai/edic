@@ -19,7 +19,8 @@ import kotlin.math.min
 
 open class WordScapesData {
     var name:String=""
-    var inword: List<String> = listOf<String>()
+    //所有可用的单词列表
+    var inwords: List<String> = listOf<String>()
     //空单词对象
     val emptyWordModel = WordModel(word = name, level = -1, wordsetId = "",ch=null, meanings = null)
     //下一个单词的提示信息
@@ -294,7 +295,7 @@ open class WordScapesData {
             }
         }
         //重复字母添加
-        inword.forEach {
+        inwords.forEach {
             reCountLet(it)
         }
         reLetters.forEach {
@@ -307,7 +308,7 @@ open class WordScapesData {
         inCircleChars.value = a
         //延迟获取单词对象hash
         Handler().postDelayed({
-            Article.getWords(inword) {
+            Article.getWords(inwords) {
                 it.map {
                     wordModelMaps[it.word] = it
                 }
@@ -416,7 +417,7 @@ open class WordScapesData {
      */
     fun setWord(name: String, allWords: List<String>, word: String="") {
         this.name = name
-        this.inword = allWords
+        this.inwords = allWords
         initData(word)
         //12*50的矩阵
         box = arrayListOf<ArrayList<Char>>()
@@ -434,7 +435,7 @@ open class WordScapesData {
         multipleUsedPoint.clear()
 
         //循环单词到矩阵
-        inword.forEach {
+        inwords.forEach {
             val pos = getPostion(it){
                 setOne(it, x, y, z)
             }
@@ -465,7 +466,7 @@ open class WordScapesData {
     }
 
     fun refrash() {
-        setWord(name, inword)
+        setWord(name, inwords)
     }
     fun resetNextWord(): Boolean {
         val noStudys = wordModelMaps.filter {

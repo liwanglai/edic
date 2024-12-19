@@ -182,6 +182,9 @@ class TTSListener(context: Context, private var onSpeechCompleted: () -> Unit) :
             Thread {
                 var i = 0
                 var okSize = 0
+                for (word in words!!) {
+                    imgsCreate(word)
+                }
                 GlobalVal.tts.setLocale(Locale.UK)
                 //循环创建mp3
                 for (word in words!!) {
@@ -201,9 +204,7 @@ class TTSListener(context: Context, private var onSpeechCompleted: () -> Unit) :
 //                ActivityRun.runOnUiThread {
 //                    function(okSize)
 //                }
-                for (word in words!!) {
-                    imgsCreate(word)
-                }
+
                 val dir2 = FileUtil.rootDir() + "/mp3/us/"
                 FileUtil.mkdir(dir2)
                 GlobalVal.tts.setLocale(Locale.US)

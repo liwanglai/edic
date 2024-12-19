@@ -59,8 +59,9 @@ import java.util.UUID
 
 @Composable
 fun ListenBookScreen(words: List<String>) {
-    val lbd = ListenBookData()
+    val lbd = remember {  ListenBookData() }
     val args = words
+
     lbd.apply {
         if (args.size == 1) {
             if(sampleFileUrl != args[0]) {
@@ -261,7 +262,7 @@ class ListenBookData :TextToSpeech.OnInitListener {
         speakOut(1000)
     }
     fun speakOut(sleep:Long=0) { // numSentences is the number of sentences to read at a time
-        if (!isInitialized)  return
+        if (!isInitialized || sentencesQueue.size==0)  return
 
         var sentencesToSpeak = sentencesQueue[currentSentenceIndex]
         //如果数据为空则继续查找

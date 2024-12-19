@@ -120,16 +120,18 @@ fun DefaultPage(navController: NavHostController,
                         modifier = Modifier
                             .combinedClickable(
                                 onLongClick = {
-//                                    if (wordModel.wordModel?.word.isNullOrEmpty()) {
-//                                        navController.navigate(NavScreen.LevelScreen.route) {
-//                                            launchSingleTop = true
-//                                        }
-//                                        wordViewModel.nextDictionaryWord()
-//                                    } else {
-//                                        GlobalVal.isSearchVisible.value = true
-//                                    }
+                                    //长按如果支持编辑则编辑 否则则搜索
                                     if (PageConf.getBoolean(PageConf.homePage.TitleClickEdit,true)) {
                                         wordCanEdit.value = 1
+                                    }else{
+//                                        if (wordModel.wordModel?.word.isNullOrEmpty()) {
+//                                            navController.navigate(NavScreen.LevelScreen.route) {
+//                                                launchSingleTop = true
+//                                            }
+//                                            wordViewModel.nextDictionaryWord()
+//                                        } else {
+                                            GlobalVal.isSearchVisible.value = true
+//                                        }
                                     }
                                 },
                                 onClick = {

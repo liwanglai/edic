@@ -109,9 +109,9 @@ fun SettingItem(name: String, value:String="", setting: SettingConf? =null) {
                     FlowRow {
                         childs.forEach {
                             if (PageConf.options.get(it) != null) {
-                                config.switchButton(it, PageConf.options.get(it)!!)
+                                config.switchButton(it, PageConf.options.get(it)!!,PageConf.default.get(it))
                             } else {
-                                config.booleanButton(it)
+                                config.booleanButton(it,PageConf.default.get(it))
                             }
                         }
                     }

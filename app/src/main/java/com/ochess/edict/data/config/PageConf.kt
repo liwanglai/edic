@@ -8,19 +8,21 @@ import com.ochess.edict.view.MPopMenu
 
 class PageConf {
     enum class homePage {
-        TitleClickEdit,         //标题单击可编辑
+        TitleClickEdit,         //标题长按可编辑
         NextUnordered,          //单词排序乱序
         DefaultShowDetails,     //默认展示详情
 //        UpDownDraggable,        //上下可拖动;
         DicType,                 //词典类型
         RemainViewMode,          //下一个单词保持当前的视图模式
-        viewMode
+        viewMode,               //首页默认显示方式
+        SortWords
     }
 
 
     enum class sGamePage {
         AutoNext,           //自动下一个
         LetterLen,          //单词长度过滤
+        InLetter,           //是否包括包含词
     }
 
     enum class DicType {
@@ -33,6 +35,13 @@ class PageConf {
             "LetterLen" to listOf(0,2,3,4,5,6,7,8,9,10,11).map { it.toString() },
             "DicType" to DicType.values().map { it.name },
             "viewMode" to MPopMenu.ViewModeMenu()
+        )
+        val default = linkedMapOf(
+            "InLetter" to true,
+            "TitleClickEdit" to true,
+            "DefaultShowDetails" to true,
+            "DicType" to 1,
+            "SortWords" to true,
         )
 
 //        public var ViewMode
@@ -51,9 +60,9 @@ class PageConf {
                 return@get it.getBoolean(t.name,defV)
             }
         }
-        fun getBoolean(t:sGamePage): Boolean {
+        fun getBoolean(t:sGamePage,defV:Boolean=false): Boolean {
             return UserStatus.get{
-                return@get it.getBoolean(t.name,false)
+                return@get it.getBoolean(t.name,defV)
             }
         }
         fun getInt(t:sGamePage): Int {
@@ -66,7 +75,6 @@ class PageConf {
                 return@get it.getInt(t.name,defv)
             }
         }
-
 
     }
 }

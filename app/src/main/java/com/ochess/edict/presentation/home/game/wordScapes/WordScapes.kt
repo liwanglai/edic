@@ -202,7 +202,7 @@ class WordScapes() : WordScapesData(){
                         nowWord += c
                         Log.d("drawLine: ","word:$nowWord ${points.size} index:$i")
                         var wordFindOk = false
-                        if (inword.indexOf(nowWord) != -1) {
+                        if (nowWord in inwords) {
                             onFindWordAdd(nowWord)
                             wordFindOk = true
                         }

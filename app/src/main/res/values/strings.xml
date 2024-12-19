@@ -148,7 +148,7 @@
     <string name="Selectdatabase">Please click to select the word library</string>
 
     <string name="homePageSetting">home page setting</string>
-    <string name="TitleClickEdit">title click to edit</string>
+    <string name="TitleClickEdit">Title LongClick Edit</string>
     <string name="NextUnordered">next word unorder</string>
     <string name="DefaultShowDetails">show details</string>
     <string name="DicType">Dictionary type</string>
@@ -280,6 +280,7 @@
     <string name="创建分类">Input Category</string>
     <string name="输入你的分类名字或文章名字">Input You name or names or article</string>
     <string name="从文件">by File</string>
+    <string name="历史记录页">From History</string>
 
     <string name="app_name">edic</string>
     <string name="systemTitle">SystemTitle</string>
@@ -304,5 +305,7 @@
     <string name="Speaking">Speaking</string>
     <string name="PlaySpeed">Play Speed</string>
     <string name="BookHistory">BookHistory</string>
+    <string name="SortWords">Sort Words</string>
+    <string name="InLetter">Contain Childs</string>
 
 </resources>

@@ -34,7 +34,11 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
+import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.domain.model.WordModel
+import com.ochess.edict.presentation.history.HistoryWords
+import com.ochess.edict.presentation.home.PAGE_FROM_HISTORY
+import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.DateUtil
 
 
@@ -69,12 +73,14 @@ fun WordItemList(
 
     LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)
     ) {
+        var title =""
         itemsIndexed(list) { index, item ->
             if (titleMap[index]!=null) {
                 Spacer(modifier = Modifier.height(15.dp))
-                TimeItem(titleMap[index]!!)
+                title = titleMap[index]!!
+                TimeItem(title)
             }
-            WordItem(index, wordModel = item, onItemClick, onDeleteClick,dicType=dicType)
+            WordItem(index, wordModel = item, title, onDeleteClick,dicType=dicType)
 
         }
 
@@ -93,7 +99,7 @@ fun TimeItem(lastDate: String) {
 fun WordItem(
     index: Int,
     wordModel: WordModel,
-    onItemClick: (Int) -> Unit,
+    title: String,
     onDeleteClick: (WordModel) -> Unit,
     dicType: Int =0
 ) {
@@ -103,7 +109,12 @@ fun WordItem(
             .padding(vertical = 6.dp)
             .wrapContentHeight()
             .clickable {
-                onItemClick(index)
+                BookConf.instance.apply {
+                    setContent("历史记录页",GlobalVal.historyGroup)
+                    save(title,false)
+                    next(wordModel)
+                }
+                NavScreen.openHome(PAGE_FROM_HISTORY)
             },
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,

@@ -80,10 +80,11 @@ class UserStatus() {
     }
 
     @Composable
-    fun booleanButton(name: String) {
+    fun booleanButton(name: String,defV: Any?=false) {
         val btMap = arrayMapOf(false to "close", true to "open")
         var v by remember {
-            mutableStateOf(config.getBoolean(name,false))
+            val dv = if(defV==null) false else defV as Boolean
+            mutableStateOf(config.getBoolean(name,dv))
         }
         val value = btMap[v]
         Button({
@@ -100,7 +101,7 @@ class UserStatus() {
     }
 
     @Composable
-    fun switchButton(name: String, wordLenList: Any) {
+    fun switchButton(name: String, wordLenList: Any,defV:Any?=0) {
         var pmenu:MPopMenu=MPopMenu.Unspecified
         if(wordLenList.javaClass.equals(pmenu.javaClass)){
             pmenu = wordLenList as MPopMenu
@@ -111,12 +112,13 @@ class UserStatus() {
             })
         }
         pmenu.upMtTitle()
-        switchButton(name,pmenu)
+        val dv = if(defV ==null) 0 else defV as Int
+        switchButton(name,pmenu,dv)
     }
     @Composable
-    fun switchButton(name: String, pmenu: MPopMenu) {
+    fun switchButton(name: String, pmenu: MPopMenu,defV:Int) {
         var v by remember {
-            mutableStateOf(config.getInt(name,0))
+            mutableStateOf(config.getInt(name,defV))
         }
 
         Row {

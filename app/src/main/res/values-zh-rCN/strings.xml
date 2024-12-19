@@ -46,7 +46,7 @@
     <string name="Selectdatabase">请点击选择词库</string>
 
     <string name="homePageSetting">默认页设置</string>
-    <string name="TitleClickEdit">标题单击可编辑</string>
+    <string name="TitleClickEdit">标题长按可编辑</string>
     <string name="NextUnordered">单词排序乱序</string>
     <string name="DefaultShowDetails">默认展示详情</string>
     <string name="DicType">词典类型</string>
@@ -179,6 +179,7 @@
     <string name="创建分类">创建分类</string>
     <string name="输入你的分类名字或文章名字">输入你的分类名字或文章名字(支持多行）</string>
     <string name="从文件">从文件</string>
+    <string name="历史记录页">历史记录页</string>
 
     <string name="app_name">电子词典</string>
     <string name="systemTitle">系统标题</string>
@@ -203,6 +204,7 @@
     <string name="Speaking">播放中..</string>
     <string name="PlaySpeed">播放速度</string>
     <string name="BookHistory">书本历史</string>
-
+    <string name="SortWords">单词排序</string>
+    <string name="InLetter">短单词</string>
 
 </resources>

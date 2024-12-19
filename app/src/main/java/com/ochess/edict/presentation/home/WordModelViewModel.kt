@@ -277,7 +277,8 @@ class WordModelViewModel @Inject constructor(
             dictRepository.getCacheSubEntity(index)?.let {
                 currentDictionarySub.value = it
                 wordState.value = WordState(it.toWordModel())
-                BookHistroy.lastWord(it.word)
+                BookConf.instance.index++
+                BookConf.instance.next(wordState.value.wordModel!!)
             } ?: DictionarySubEntity.empty()
 
             detailState.value = detailShow
@@ -294,10 +295,9 @@ class WordModelViewModel @Inject constructor(
     fun upList(wordModelList: List<WordModel>) {
         var wordList = wordModelList
         if(BookConf.instance.index>0 && wordModelList.size>0){
-            wordList=wordModelList.subList(BookConf.instance.index,wordModelList.size-1)
+            wordList = if(BookConf.instance.index+1 == wordList.size) arrayListOf<WordModel>() else wordModelList.subList(BookConf.instance.index+1,wordModelList.size-1)
         }
         dictRepository.setWords(wordList)
-
         //setWordState(0)
     }
 
