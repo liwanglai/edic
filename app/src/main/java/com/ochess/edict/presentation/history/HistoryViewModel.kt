@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.TextView
+import androidx.collection.arraySetOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ochess.edict.R
@@ -25,8 +26,11 @@ import com.ochess.edict.view.WordSearchView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
@@ -158,10 +162,6 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
             printListByWordModels(printList.map { it.toWordModel() }, printDate)
         }
     }
-    fun printWordModelsToImg(printList:List<WordModel>, file:String=""){
-        val printBitmap: Bitmap = itemToBitmap(printList, "")
-        MPrinter.printer.printImg(printBitmap,file)
-    }
     fun printListByWordModels(printList:List<WordModel>, printDate:String=""){
         //printText(printList)
         val printBitmap: Bitmap = itemToBitmap(printList, printDate)
@@ -191,7 +191,6 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
         val query = Query(Db.user,"historyTable").order("time desc")
         if(type != -1) {
             query.where("status", type)
-            selectTypeIndex.value = type
         }
         if(date!=null) {
             if(date.lists.size>0){
@@ -205,41 +204,14 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
             selectDate.value = date
         }
         viewModelScope.launch(Dispatchers.IO) {
-            if(levels!=null && levels.size>0) {
-                levels.forEach{
-                    setQueryBySearch(query,it)
-                }
-            }
             callback(query)
+            if(levels!=null && levels.size>0) {
+                history.value = filterByKeys(levels,history.value)
+            }
         }
     }
 
-    private fun setQueryBySearch(query: Query, input: String) {
-        val v = input.split(Regex("[:\\.]+"))
-        val key =v.first()
-        val id = v[1].toInt()
-        val value = v.last()
-        when(key) {
-            "history" -> {
-                //query.andWhere("word",id)
-            }
-            "level" -> {
-                query.andWhere("level",id)
-            }
-            "article" -> {
-                val aEntity = Db.user.article.find(id)
-                query.whereIn("word",aEntity.findWords())
-            }
-            "category" -> {
-                val cids = Category.getAllCids(id)
-                val words = arrayListOf<String>()
-                Db.user.article.search().map{
-                    words.addAll(it.findWords())
-                }
-                query.whereIn("word",words)
-            }
-        }
-    }
+
 
 
     init {
@@ -265,12 +237,83 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
         val UserSettingKey_CanEdinhos= "canEdinhos"
         @SuppressLint("SuspiciousIndentation")
         fun searchDay(day: String) {
-            val query = Query(Db.user,"historyTable").order("time desc")
+            val query = query()
             val date = SimpleDateFormat("yyyy-MM-dd").parse(day)
                 query.whereBetween("time",date.time,date.time+86400000)
             self.history.value = Db.user.wordModelDao.getHistoryList(query.build()).map { it.toWordModel() }
         }
 
+        fun printWordModelsToImg(printList:List<WordModel>, file:String=""){
+            val printBitmap: Bitmap = self.itemToBitmap(printList, "")
+            MPrinter.printer.printImg(printBitmap,file)
+        }
+        fun query(): Query {
+            val query = Query(Db.user,"historyTable").order("time desc")
+            return query
+        }
+        fun selectByType(type: Int, words: List<String>): List<String> {
+            val q = query()
+            return when(type){
+                0 -> {
+                    q.whereIn("word",words)
+                    val haves =Db.user.wordModelDao.getHistoryList(q.build()).map{it.word}
+                    return words.filter{ !(it in haves) }
+                }
+                else -> {
+                    q.where("status",type)
+                    return Db.user.wordModelDao.getHistoryList(q.build()).map{it.word}
+                }
+            }
+        }
+        fun filterByKeys(inputs: List<String>, query: List<WordModel>): List<WordModel> {
+            var rt = arrayOf<WordModel>()
+            query.forEachIndexed{i,it->
+                rt.set(i,it)
+            }
+
+            runBlocking {
+                inputs.asFlow().onEach {
+                    val newList = filterByKey(it,query)
+                    rt = rt.intersect(newList).toTypedArray()
+                }
+            }
+            return rt.toList()
+        }
+        fun filterByKey(input: String, query: List<WordModel>): List<WordModel> {
+                val v = input.split(Regex("[:\\.]+"))
+                val key = v.first()
+                val id = v[1].toInt()
+                val value = v.last()
+
+                return when (key) {
+//                    "history" -> {
+//                        //query.andWhere("word",id)
+//                    }
+
+                    "level" -> {
+                        query.filter { it.level == id }
+//                    query.andWhere("level",id)
+                    }
+
+                    "article" -> {
+                        val aEntity = Db.user.article.find(id)
+                        val haveWords = aEntity.findWords()
+                        query.filter { it.word in haveWords }
+                        //query.whereIn("word",aEntity.findWords())
+                    }
+
+                    "category" -> {
+                        val cids = Category.getAllCids(id)
+                        val words = arrayListOf<String>()
+                        Db.user.article.search().map {
+                            words.addAll(it.findWords())
+                        }
+                        query.filter { it.word in words }
+                        //query.whereIn("word",words)
+                    }
+                    else -> query
+                }
+        }
         const val TAG = "HistoryViewModel"
 
         const val TYPE_ALL = 0

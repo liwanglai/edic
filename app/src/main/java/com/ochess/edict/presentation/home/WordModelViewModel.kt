@@ -1,8 +1,12 @@
 package com.ochess.edict.presentation.home
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.accompanist.glide.rememberGlidePainter
 import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
@@ -16,6 +20,8 @@ import com.ochess.edict.domain.repository.DictionaryBaseRepository
 import com.ochess.edict.domain.repository.WordBaseRepository
 import com.ochess.edict.presentation.history.BookHistroy
 import com.ochess.edict.presentation.history.HistoryViewModel
+import com.ochess.edict.presentation.home.components.OverJump
+import com.ochess.edict.presentation.main.components.InfoDialog
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -139,11 +145,11 @@ class WordModelViewModel @Inject constructor(
         }
     }
 
-    fun prefixMatcher(query: String,onMatch:(word:String)->Boolean) {
+    fun prefixMatcher(query: String,searchWords:Boolean=true,onMatch:(word:String)->Boolean) {
         clearSuggestions()
         prefixMatchJob?.cancel()
         prefixMatchJob = viewModelScope.launch(IO) {
-            if (query.matches(Regex("[\u4E00-\u9FA5]+"))) {
+            if (!searchWords || query.matches(Regex("[\u4E00-\u9FA5]+"))) {
                 val sugs = arrayListOf<String>()
                 val aQuery = Article.self.query.like("name",query).build()
                 val cQuery = Category.self.query.like("name",query).build()
@@ -269,7 +275,10 @@ class WordModelViewModel @Inject constructor(
         if(dictRepository.size()>0) {
             var index = dictRepository.randomCacheSubEntityIdx()
             if(index<0) {
-                ActivityRun.msg("已经是最后一个了")
+                //ActivityRun.msg("已经是最后一个了")
+                InfoDialog.show{
+                    OverJump()
+                }
                 return
             }
             if(!uOrder) index =0
@@ -282,6 +291,10 @@ class WordModelViewModel @Inject constructor(
             } ?: DictionarySubEntity.empty()
 
             detailState.value = detailShow
+        }else{
+            InfoDialog.show{
+                OverJump()
+            }
         }
     }
     fun cacheSub():List<WordModel>{
@@ -289,7 +302,7 @@ class WordModelViewModel @Inject constructor(
     }
 
     fun upList(wordModelList: List<WordModel>) {
-        var wordList = if(BookConf.instance.index+1 == wordModelList.size) arrayListOf<WordModel>() else wordModelList.subList(BookConf.instance.index+1,wordModelList.size-1)
+        var wordList = if(BookConf.instance.index+1 == wordModelList.size || wordModelList.size==0) arrayListOf<WordModel>() else wordModelList.subList(BookConf.instance.index+1,wordModelList.size)
         dictRepository.setWords(wordList)
         //setWordState(0)
     }

@@ -65,7 +65,13 @@ class Query {
     }
 
     fun like(key: String?, `val`: String?): Query {
-        where += String.format(" and %s like '%%%s%%'", key, `val`)
+        if(`val`!=null) {
+            if (`val`.matches(Regex(".*%.*"))) {
+                where += String.format(" and %s like '%s'", key, `val`)
+            }else {
+                where += String.format(" and %s like '%%%s%%'", key, `val`)
+            }
+        }
         return this
     }
 

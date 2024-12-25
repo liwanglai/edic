@@ -1,26 +1,38 @@
 package com.ochess.edict.presentation.home
 
-import androidx.activity.result.ActivityResult
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.buildAnnotatedString
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
+import com.ochess.edict.data.GlobalVal.clipboardManager
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.data.config.PageConf
-import com.ochess.edict.data.local.entity.DictionarySubEntity
+import com.ochess.edict.data.config.PathConf
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.domain.model.WordModel
+import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.history.HistoryWords
+import com.ochess.edict.presentation.history.components.HistroyFilter
 import com.ochess.edict.presentation.home.game.inputWord
+import com.ochess.edict.presentation.main.components.Display.mt
+import com.ochess.edict.presentation.main.components.InputDialog
+import com.ochess.edict.presentation.main.extend.bgRun
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.media.Audio
+import com.ochess.edict.view.MPopMenu
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class HomeEvents {
     //状态或者说标志位
     object status  {
         var openDrowUp = true   //开启单指下拉功能
+        var enableDrowUp = true   //开启单指下拉功能
+
     }
     companion object {
         var downMenuOpen: Boolean by mutableStateOf(false)
@@ -113,6 +125,9 @@ class HomeEvents {
 
     object GroupInfoPage {
         lateinit var beforMode: MenuConf.mode
+        var filterType:Int = -1
+        var filterLevels:List<String> =listOf<String>()
+
 
         fun onWordClick(it: WordModel) {
             //设置单词重新刷新一下位置
@@ -126,6 +141,9 @@ class HomeEvents {
         fun onChapterClick(it: String) {
             nowChapters = it
             GlobalVal.bookmarkViewModel.changeChapter(it)
+            if(filterType>-1 || filterLevels.size>0){
+                Book.filter(filterType, filterLevels)
+            }
         }
 
         /**
@@ -155,12 +173,53 @@ class HomeEvents {
             TODO("Not yet implemented")
         }
 
-        fun onFunsClick(it: String) {
-                when(it){
-                    "edit" -> {
+        fun onFunsClick(menu: MPopMenu) {
+            menu.show { k, v ->
+                when (v.name) {
+                    "Save" -> {
+                        InputDialog.show(text = Book.words())
+                    }
+                    "SaveAll" -> {
+                        InputDialog.show(text = Book.words(true))
+                    }
 
+                    "过滤" -> {
+                        HistroyFilter.eventChange{type,date,levels,key->
+                            filterType = type
+                            filterLevels = levels
+                            bgRun {
+                                Book.filter(type, levels)
+                            }
+                        }
+                        HistroyFilter.show()
+                    }
+
+                    "Copy" -> {
+                        val words = BookConf.words.map { it.word }.joinToString(",")
+                        clipboardManager.setText(buildAnnotatedString {
+                            append(words)
+                        })
+                        ActivityRun.msg(mt("Copied"))
+                    }
+
+                    else -> {
+                        val dateNow = Date(System.currentTimeMillis())
+                        val date = SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(dateNow)
+                        val file = PathConf.dcim + BookConf.instance.name + "_" + date + ".jpg"
+                        HistoryViewModel.printWordModelsToImg(BookConf.words, file)
+                        ActivityRun.msg(mt("export") + file)
+                        when (v.name) {
+                            "exportAndJumpTo" -> {
+                                ActivityRun.openFile(file)
+                            }
+
+                            "exportAndOpen" -> {
+                                ActivityRun.openImg(file)
+                            }
+                        }
                     }
                 }
+            }
         }
 
     }

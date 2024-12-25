@@ -10,6 +10,13 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 
+fun bgRun(run:()->Unit)  {
+    runBlocking{
+        withContext(Dispatchers.IO) {
+            run()
+        }
+    }
+}
 fun MainRun(run:()->Unit)  {
     runBlocking{
         withContext(Dispatchers.Main) {

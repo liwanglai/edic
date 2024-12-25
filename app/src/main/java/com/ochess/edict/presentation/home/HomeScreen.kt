@@ -73,6 +73,8 @@ var nowBook = ""
 var nowBookShowType = "word_shows" //word_shows book_shows
 
 val homeReSetDefaultBook = mutableStateOf(false)
+val wordList = mutableStateOf(arrayListOf<String>())
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
@@ -89,7 +91,6 @@ fun HomeScreen(
 
     //组织全局数据
     var words = remember {
-         val wordList = mutableStateOf(arrayListOf<String>())
          //返回功能
          ActivityRun.onBackPressed {
             HomeEvents.onback()

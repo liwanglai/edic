@@ -76,9 +76,10 @@ import javax.inject.Inject
             }
         }
 
-        fun grep(s: String): Array<ArticleEntity> {
+        fun grep(s: String,q:Query.()->Unit={}): Array<ArticleEntity> {
             val query = self.query.like("content",s)
             query.select("name,cid,uptime,intime,id,'' as content")
+            q.invoke(query)
             val queryObj = query.build()
             return dao.select(queryObj)
         }

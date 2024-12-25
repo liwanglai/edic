@@ -25,16 +25,23 @@ class PageConf {
         InLetter,           //是否包括包含词
     }
 
+    enum class HistoryPage {
+        defaultHistoryView,           //自动下一个
+    }
+
     enum class DicType {
         en_en,     //英英
         en_cn,     //英汉
         encn       //英汉双语
     }
+
+
     companion object {
         val options = linkedMapOf(
             "LetterLen" to listOf(0,2,3,4,5,6,7,8,9,10,11).map { it.toString() },
             "DicType" to DicType.values().map { it.name },
-            "viewMode" to MPopMenu.ViewModeMenu()
+            "viewMode" to MPopMenu.ViewModeMenu(),
+            "defaultHistoryView" to MPopMenu.HistoryTypes()
         )
         val default = linkedMapOf(
             "InLetter" to true,
@@ -63,6 +70,11 @@ class PageConf {
         fun getBoolean(t:sGamePage,defV:Boolean=false): Boolean {
             return UserStatus.get{
                 return@get it.getBoolean(t.name,defV)
+            }
+        }
+        fun getInt(t:HistoryPage): Int {
+            return UserStatus.get{
+                return@get it.getInt(t.name,0)
             }
         }
         fun getInt(t:sGamePage): Int {

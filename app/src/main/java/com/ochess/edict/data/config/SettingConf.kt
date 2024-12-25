@@ -70,6 +70,7 @@ class SettingConf {
 //            "ret" to this.Ret,
             "language" to this.Language,
             "homePageSetting" to this.HomePageSetting,
+            "HistoryPageSetting" to this.HistoryPageSetting,
             "scapesGamePageSetting" to this.ScapesGamePageSetting,
             "blueTooth" to this.BlueTooth,
             "horizontalDrawAble" to this.HorizontalDrawAble,
@@ -182,10 +183,14 @@ class SettingConf {
             get() {
                 return "page:"+PageConf.homePage.values().joinToString ( "," )
             }
-        public val ScapesGamePageSetting:String
-            get() {
-                return "page:"+PageConf.sGamePage.values().joinToString ( "," )
-            }
+    public val ScapesGamePageSetting:String
+        get() {
+            return "page:"+PageConf.sGamePage.values().joinToString ( "," )
+        }
+    public val HistoryPageSetting:String
+        get() {
+            return "page:"+PageConf.HistoryPage.values().joinToString ( "," )
+        }
 
         public var MenuMode
             get() = MenuConf.name()

@@ -64,7 +64,14 @@ interface DictionaryDao {
         }
          if(!PageConf.getBoolean(PageConf.homePage.SortWords,true)){
              val wordMap = rt.groupBy { it.word }
-             return words.map{ wordMap.get(it)!!.first() }
+             rt.clear()
+             words.map{
+                 if(it in wordMap.keys) {
+                     rt.add(wordMap.get(it)!!.first())
+                 }else{
+                     rt.add(DictionaryEntity("[]",it,"","",0))
+                 }
+             }
          }
 
         return rt

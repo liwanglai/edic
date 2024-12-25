@@ -240,7 +240,7 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                         mvPos+=pan
 //                        if (!dragEnabled.value && points.size == 2) {
                         //没有开启滑动 并且双指或界面没有过长 并且向下或向上移动了一段距离了
-                        if (!dragEnabled.value && (points.size == 2 || HomeEvents.status.openDrowUp) &&
+                        if (HomeEvents.status.enableDrowUp && !dragEnabled.value && (points.size == 2 || HomeEvents.status.openDrowUp) &&
                             (
                                 (showPageIndex ==1 && mvPos.y > 10) || (showPageIndex ==0 && mvPos.y < -10)
                             )

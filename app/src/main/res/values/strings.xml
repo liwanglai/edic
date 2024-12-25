@@ -282,6 +282,11 @@
     <string name="从文件">by File</string>
     <string name="历史记录页">From History</string>
 
+    <string name="已经是最后一个了">It is already the last one</string>
+    <string name="重新开始">Restart</string>
+    <string name="下一个章节">Next Chapter</string>
+    <string name="章节选择">Chapter selection</string>
+
     <string name="app_name">edic</string>
     <string name="systemTitle">SystemTitle</string>
     <string name="about">About</string>
@@ -307,5 +312,11 @@
     <string name="BookHistory">BookHistory</string>
     <string name="SortWords">Sort Words</string>
     <string name="InLetter">Contain Childs</string>
+    <string name="HistoryPageSetting">HistoryPageSetting</string>
+    <string name="defaultHistoryView">DefaultHistoryView</string>
+    <string name="SaveAll">SaveAll</string>
+    <string name="AddActicle">Add Acticle</string>
+    <string name="SaveToFile">Save To File</string>
+
 
 </resources>

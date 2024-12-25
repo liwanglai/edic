@@ -1,17 +1,14 @@
 package com.ochess.edict.domain.model
 
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.room.Embedded
+import com.ochess.edict.data.Db
 import com.ochess.edict.data.config.PathConf
 import com.ochess.edict.data.local.entity.Meaning
 import com.ochess.edict.data.local.entity.BookmarkEntity
 import com.ochess.edict.data.local.entity.DictionaryEntity
 import com.ochess.edict.data.local.entity.HistoryEntity
-import com.ochess.edict.presentation.level.LevelViewModel
+import com.ochess.edict.data.model.Query
+import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.util.FileUtil
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.Date
 
 data class WordModel(
     val meanings: List<Meaning>?,
@@ -46,8 +43,9 @@ data class WordModel(
     }
 
     companion object {
-        const val STATUS_KNOW = 0
-        const val STATUS_VAGUE = 1
-        const val STATUS_FORGET = 2
+        const val STATUS_KNOW = 1
+        const val STATUS_VAGUE = 2
+        const val STATUS_FORGET = 3
+        const val STATUS_NEW = 0
     }
 }

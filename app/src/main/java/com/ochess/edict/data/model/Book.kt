@@ -10,6 +10,7 @@ import com.ochess.edict.data.config.BookConf.Companion.instance as book
 import com.ochess.edict.data.config.PathConf
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
+import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.FileUtil
 import com.ochess.edict.view.skin.LayoutJdc.Views.Adapter
@@ -110,6 +111,47 @@ class Book {
             }
 
             return nousedChars
+        }
+
+        fun reload() {
+            book.save(book.chapterName,false)
+        }
+
+        fun nextChapter(to:Boolean = false): String? {
+            val index = BookConf.chapters.indexOf(book.chapterName)
+            val rt =if(index+1<BookConf.chapters.size) BookConf.chapters[index+1] else null
+            if(to && rt!=null){
+                book.save(rt)
+            }
+            return rt
+        }
+
+        fun name(): String {
+            val bname = book.name.replace(Regex("\\..+$"),"")
+            return bname
+        }
+        fun words(all:Boolean=false): String {
+            if(!all) {
+                return name() + "_" + book.chapterName + "\n" + BookConf.words?.map { it.word }
+                    ?.joinToString(",")!!
+            }else{
+                val words = arrayListOf<String>()
+                BookConf.chapterMapWords.map { words.addAll(it.value) }
+                return name() + "\n" + words?.joinToString(",")!!
+            }
+        }
+
+        fun filter(type: Int, keys: List<String>) {
+            book.index =0
+            var rt = BookConf.chapterWordModels.toTypedArray()
+            if(type>-1) {
+                val historys = HistoryViewModel.selectByType(type,BookConf.words.map{it.word})
+                rt = rt.filter { it.word in historys }.toTypedArray()
+            }
+            if(keys.size > 0){
+                rt = HistoryViewModel.filterByKeys(keys,rt.toList()).toTypedArray()
+            }
+            book.upWords(rt.toList())
         }
     }
 

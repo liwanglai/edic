@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.ochess.edict.data.UserStatus
@@ -105,10 +107,11 @@ fun HistoryBookScreen() {
         LazyColumn {
             itemsIndexed(list) { index, it ->
                 val bColor = if (index % 2 == 0) Color.Gray else MaterialTheme.colorScheme.background
-                val name = mtCnReplace(it.name)
+                val name = it.name.replace(Regex("\\..+$"),"")
 
                 Row(modifier = Modifier
                     .fillMaxWidth()
+                    .padding(5.dp)
                     .background(bColor)
                     .clickable {
                         BookConf.setBook(it.id)
@@ -119,7 +122,6 @@ fun HistoryBookScreen() {
                     Spacer(modifier = Modifier.weight(1f))
                     Text(text = DateUtil.formatDateToDaysAgo(it.inTime))
                 }
-
             }
         }
     }

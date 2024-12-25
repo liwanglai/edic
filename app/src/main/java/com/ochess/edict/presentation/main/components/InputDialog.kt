@@ -58,17 +58,17 @@ class InputDialog {
                     Handler().postDelayed({
                         textFocus.requestFocus()
                     }, 500)
-                    ActivityRun.onKeyBoardStatusChange {
-                        if (!it) {
-                            showDialog = false
-                            cancelDo()
-                        }
-                    }
+//                    (ActivityRun.onKeyBoardStatusChange {
+//                        if (!it) {
+//                            showDialog = false
+//                            cancelDo()
+//                        }
+//                    })
                 }
                 AlertDialog(
                     onDismissRequest = {
-                        showDialog = false
-                        cancelDo()
+//                        showDialog = false
+//                        cancelDo()
                     },
                     title = {
                         Row {

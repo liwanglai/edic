@@ -132,7 +132,7 @@ fun HistoryPrint(
                                 .width(4.dp)
                         )
                         RadioButton(selected = typeIndex == 0, onClick = {
-                            viewModel.selectTypeIndex.value = 0
+                            viewModel.selectTypeIndex.value = -1
                         })
                         Text(text = "全部", Modifier.padding(0.dp))
                         RadioButton(selected = typeIndex == 1, onClick = {

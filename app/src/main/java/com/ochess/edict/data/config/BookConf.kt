@@ -14,6 +14,7 @@ import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.history.BookHistroy
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.main.extend.MainRun
+import com.ochess.edict.presentation.main.extend.bgRun
 import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.FileUtil
@@ -68,8 +69,10 @@ data class BookConf (
         val upStatus: MutableStateFlow<Int> = MutableStateFlow(0)
         var doc = ""
         var chapters = arrayListOf<String>()
+
         var chapterMapWords = arrayMapOf<String,List<String>>()
         var words by mutableStateOf(listOf<WordModel>())
+        var chapterWordModels = listOf<WordModel>()
         var inited = false
         fun userBook(v: BookConf?=null): BookConf {
             if(v!=null) {
@@ -140,7 +143,6 @@ data class BookConf (
         words = listOf<WordModel>()
         chapters.clear()
         chapterMapWords.clear()
-        words = listOf<WordModel>()
         index=0
         doc.split(Regex("[\\r\\n]")).forEach{
             if(beforeLine.length ==0 && it.length>0) {
@@ -161,7 +163,8 @@ data class BookConf (
         if(chapters.size ==1 && name!="历史记录页"){
             val first = chapters[0]
             chapters[0] = "defaultChapter"
-            val newList = arrayListOf(first)
+            val newList = arrayListOf<String>()
+            first.split(Regex(",|，")).map{it.trim()}.filter { it.length>0 }.filter { newList.add(it) }
             if(chapterMapWords.size>0) {
                 newList.addAll(chapterMapWords[first]!!)
             }
@@ -186,12 +189,9 @@ data class BookConf (
         index=0
         var mWords = chapterMapWords[chapterName]
         if(mWords!=null) {
-            runBlocking {
-                withContext(Dispatchers.IO){
-                    words = Article.getWords(mWords)
-                    next(0)
-                    event.onChaptersChange.invoke(instance)
-                }
+            bgRun{
+                chapterWordModels = Article.getWords(mWords)
+                upWords(chapterWordModels)
             }
         }
 
@@ -201,6 +201,12 @@ data class BookConf (
         upStatus.value++
     }
 
+    fun upWords(wds:List<WordModel>){
+        words = wds
+        next(0)
+        event.onChaptersChange.invoke(instance)
+    }
+
     fun next(d:Boolean):Boolean {
         val map = arrayMapOf(true to 1,false to -1)
         return next(map[d]!!)
@@ -208,7 +214,7 @@ data class BookConf (
 
     fun next(n:Int=1):Boolean {
         if(n==1 && !HomeEvents.onNextWordBefore()){
-            return false
+            return true
         }
         this.index+=n
         if(words.size==0 || index>= words.size || index<0) return false

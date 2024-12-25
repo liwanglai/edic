@@ -1,6 +1,7 @@
 package com.ochess.edict.presentation.history.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -57,7 +58,7 @@ class HistroyFilter{
     }
 
     companion object{
-        val showTypes = arrayListOf(types.type,types.date,types.level)
+        private var showTypes = arrayListOf<types>()
         private var showDialog by mutableStateOf(false)
         private lateinit var hViewModel:HistoryViewModel
         private var timeRange by mutableStateOf(TimeStampScope(System.currentTimeMillis(),System.currentTimeMillis()))
@@ -65,8 +66,22 @@ class HistroyFilter{
                      date:TimeStampScope?,
                      levels: ArrayList<String>,
                      key:String)->Unit = {a,b,c,d-> }
+
+        fun upTypes(newTypes:List<types> = listOf(
+            types.type,
+            types.date,
+            types.level)
+        ) {
+            showTypes.clear()
+            showTypes.addAll(newTypes)
+        }
         @Composable
-        fun add(vm:HistoryViewModel){
+        fun add(vm:HistoryViewModel,tps:List<types> = listOf<types>()){
+            if(tps.size>0) {
+                upTypes(tps)
+            }else{
+                upTypes()
+            }
             hViewModel = vm
             if(showDialog) {
 //                ActivityRun.onKeyBoardStatusChange {
@@ -91,7 +106,7 @@ class HistroyFilter{
                         RowList()
                     },
                     confirmButton = { }
-                    , modifier = Modifier.alpha(0.9f)
+                    , modifier = Modifier.alpha(0.8f)
                 )
             }
         }
@@ -170,9 +185,27 @@ class HistroyFilter{
                         }
                     }
                 }
+                reset()
             }
         }
-
+        @Composable
+        private fun reset(){
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .weight(1f)
+                )
+                Text("reset",Modifier.clickable {
+                    hViewModel.selectTypeIndex.value =-1
+                    hViewModel.selectDateIndex.value = 0
+                    hViewModel.selectLevels.value.clear()
+                }.padding(10.dp), color = MaterialTheme.colorScheme.onSurface)
+            }
+        }
         @Composable
         private fun filterKey(key:MutableState<String>) {
             Row(
@@ -206,9 +239,10 @@ class HistroyFilter{
                     mutableStateOf(TextFieldValue())
                 }
                 AutoCompleteTextField(
+                    autoFocus = false,
                     suggestions = wordViewModel.suggestions,
                     onSearch = {
-                        wordViewModel.prefixMatcher(it){
+                        wordViewModel.prefixMatcher(it,false){
                             true
                         }
                     },
@@ -322,6 +356,11 @@ class HistroyFilter{
                             hViewModel.selectTypeIndex.value = -1
                         })
                         Text(text = "全部", Modifier)
+
+                        RadioButton(selected = typeIndex.value == WordModel.STATUS_NEW, onClick = {
+                            hViewModel.selectTypeIndex.value = WordModel.STATUS_NEW
+                        })
+                        Text(text = "生词", Modifier)
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(selected = typeIndex.value == WordModel.STATUS_KNOW, onClick = {
@@ -337,7 +376,8 @@ class HistroyFilter{
                         RadioButton(selected = typeIndex.value == WordModel.STATUS_FORGET, onClick = {
                             hViewModel.selectTypeIndex.value = WordModel.STATUS_FORGET
                         })
-                        Text(text = "生词", Modifier)
+                        Text(text = "忘记", Modifier)
+
                     }
                 }
 
@@ -345,6 +385,7 @@ class HistroyFilter{
             }
 
         }
+
 
     }
 

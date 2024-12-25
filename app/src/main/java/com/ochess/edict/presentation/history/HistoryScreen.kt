@@ -62,7 +62,7 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
     val toastMessage = message
 
     val type = arg!!.getInt("type")
-    var boxVisable by remember{ mutableStateOf(0) }
+    var boxVisable by remember{ mutableStateOf(PageConf.getInt(PageConf.HistoryPage.defaultHistoryView)) }
     if(type==0) {
         viewModel.search(type = 0,date= DateUtil.abhsDays())
     }else {
@@ -93,6 +93,10 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
             ) {
                 val title= remember { mutableStateOf("History") }
                 val titleMenu = MPopMenu.HistoryTypes()
+                val hView = PageConf.getInt(PageConf.HistoryPage.defaultHistoryView)
+                if(hView>0){
+                    title.value = titleMenu.items.get(hView).title
+                }
 
                 Text(
 //                    text = "History",
@@ -238,7 +242,6 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
             ToastUtil.showToast(toastMessage)
         }
     }
-
 
     HistroyFilter.add(viewModel)
 }

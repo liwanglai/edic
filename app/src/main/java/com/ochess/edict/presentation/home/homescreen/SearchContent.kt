@@ -39,9 +39,16 @@ import com.ochess.edict.presentation.home.components.UtilButtons
 import com.ochess.edict.presentation.home.dictionaryStringBuilder
 import com.ochess.edict.presentation.level.LevelViewModel
 import com.ochess.edict.presentation.main.components.Display.mt
+import com.ochess.edict.presentation.main.extend.bgRun
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.view.ClickAbelText
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import kotlin.math.ln
 
 @Composable
 fun SearchContent(
@@ -58,27 +65,6 @@ fun SearchContent(
             .fillMaxSize()
             .padding(18.dp, 0.dp, 18.dp, 36.dp)
     ) {
-//        var lName by remember { mutableStateOf("") }
-//        LaunchedEffect(wordModel?.word) {
-//            lName = ""
-//            if(wordModel?.word==null) return@LaunchedEffect
-//            levelViewModel.getLevel(wordModel!!.level?:0) {
-//                lName = it
-//            }
-//        }
-//        Text(
-//            text = lName,
-//            style = MaterialTheme.typography.subtitle1,
-//            fontWeight = FontWeight.Bold,
-//            textAlign = TextAlign.Start,
-//            modifier = Modifier.clickable {
-//                GlobalVal.nav.navigate(NavScreen.LevelScreen.route) {
-//                    launchSingleTop = true
-//                }
-//            },
-//            color = MaterialTheme.colors.onSurface
-//        )
-
 
         wordModel?.let {
             dictionaryStringBuilder = dictionaryStringBuilder.clear()
@@ -88,28 +74,34 @@ fun SearchContent(
                 mutableStateOf(false)
             }
             val dicType = remember {
-                PageConf.getInt(PageConf.homePage.DicType,1)
+                PageConf.getInt(PageConf.homePage.DicType, 1)
             }
             var showCh by remember {
-                mutableStateOf( listOf(DicType.en_cn.ordinal,DicType.encn.ordinal).contains(dicType))
+                mutableStateOf(
+                    listOf(
+                        DicType.en_cn.ordinal,
+                        DicType.encn.ordinal
+                    ).contains(dicType)
+                )
             }
-            val showEn = listOf(DicType.en_en.ordinal,DicType.encn.ordinal).contains(dicType)
+            val showEn = listOf(DicType.en_en.ordinal, DicType.encn.ordinal).contains(dicType)
             val moreN = 3
-            Text(
-                text = "${it.ch ?: " "}",
-                fontStyle = FontStyle.Normal,
-                fontSize = 20.sp,
-                lineHeight = TextUnit(20f, TextUnitType.Sp),
-                style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
-                color = Color.Black,
-                modifier = Modifier.clickable{
-                    showCh = !showCh
-                }
-            )
-
+            if (showCh) {
+                Text(
+                    text = "${it.ch ?: " "}",
+                    fontStyle = FontStyle.Normal,
+                    fontSize = 20.sp,
+                    lineHeight = TextUnit(20f, TextUnitType.Sp),
+                    style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                    color = Color.Black,
+                    modifier = Modifier.clickable {
+                        showCh = !showCh
+                    }
+                )
+            }
             it.meanings?.forEachIndexed { index, meaning ->
-                if(!moreVisible && index>=moreN) {
-                    if(moreN==3) {
+                if (!moreVisible && index >= moreN) {
+                    if (moreN == 3) {
                         Text(
                             mt("more"),
                             Modifier
@@ -121,12 +113,12 @@ fun SearchContent(
                     }
                     return
                 }
-                val defChVisable = remember{ mutableStateOf(false) }
-                val examChVisable = remember{ mutableStateOf(false) }
-                val dEn = remember{ mutableStateOf(false) }
-                val eEn = remember{ mutableStateOf(false) }
+                val defChVisable = remember { mutableStateOf(false) }
+                val examChVisable = remember { mutableStateOf(false) }
+                val dEn = remember { mutableStateOf(false) }
+                val eEn = remember { mutableStateOf(false) }
                 dictionaryStringBuilder.append(meaning.speechPart).append("\n")
-                if(meaning.speechPart!=null) {
+                if (meaning.speechPart != null) {
                     Text(
                         text = meaning.speechPart,
                         style = MaterialTheme.typography.subtitle1,
@@ -137,20 +129,20 @@ fun SearchContent(
                 }
                 dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
 
-                if((showCh || defChVisable.value) && meaning.def_ch!=null) {
-                    Text(text="${index + 1}. "+meaning.def_ch, modifier = Modifier.clickable{
-                        if(dicType == DicType.en_cn.ordinal){
-                            dEn.value=!dEn.value
+                if ((showCh || defChVisable.value) && meaning.def_ch != null) {
+                    Text(text = "${index + 1}. " + meaning.def_ch, modifier = Modifier.clickable {
+                        if (dicType == DicType.en_cn.ordinal) {
+                            dEn.value = !dEn.value
                         }
                     })
                 }
-                if(showEn || dEn.value) {
+                if (showEn || dEn.value) {
                     ClickAbelText(
                         text = "${index + 1}. ${meaning.def}",
                         style = MaterialTheme.typography.subtitle2,
                         lineHeight = TextUnit(18f, TextUnitType.Sp),
                         color = MaterialTheme.colors.onSurface,
-                        modifier = Modifier.clickable{
+                        modifier = Modifier.clickable {
                             defChVisable.value = !defChVisable.value
                         },
                         onDbClick = {
@@ -171,14 +163,14 @@ fun SearchContent(
                     )
                 }
                 if (!meaning.example.isNullOrEmpty()) {
-                    val etitle = when(dicType){
-                        0->"Example:"
+                    val etitle = when (dicType) {
+                        0 -> "Example:"
                         else -> "例句："
                     }
-                    val example = etitle+"${meaning.example}"
+                    val example = etitle + "${meaning.example}"
                     dictionaryStringBuilder.append(example).append("\n")
-                    if((examChVisable.value) && meaning.example_ch!=null) {
-                        Text(text=meaning.example_ch, modifier = Modifier.clickable{
+                    if ((examChVisable.value) && meaning.example_ch != null) {
+                        Text(text = meaning.example_ch, modifier = Modifier.clickable {
                             eEn.value = !eEn.value
                         })
                     }
@@ -188,7 +180,7 @@ fun SearchContent(
                         lineHeight = TextUnit(16f, TextUnitType.Sp),
                         style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
                         color = Color.Gray,
-                        modifier = Modifier.clickable{
+                        modifier = Modifier.clickable {
                             examChVisable.value = !examChVisable.value
                         },
                         onDbClick = {
@@ -197,8 +189,8 @@ fun SearchContent(
                     )
                 }
                 if (!meaning.synonyms.isNullOrEmpty()) {
-                    val snomon = when(dicType){
-                        0->"Synonym(s)"
+                    val snomon = when (dicType) {
+                        0 -> "Synonym(s)"
                         else -> "同义词"
                     }
                     val synonym = "${snomon}: ${
@@ -221,6 +213,48 @@ fun SearchContent(
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
+            }
+
+            if (moreVisible) {
+                if (!showCh) {
+                    Text(
+                        text = "${it.ch ?: " "}",
+                        fontStyle = FontStyle.Normal,
+                        fontSize = 20.sp,
+                        lineHeight = TextUnit(20f, TextUnitType.Sp),
+                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        color = Color.Black,
+                        modifier = Modifier.clickable {
+                            showCh = !showCh
+                        }
+                    )
+                }
+                //级别
+                var lName by remember { mutableStateOf("") }
+                LaunchedEffect(wordModel?.word) {
+                    if (wordModel?.word == null) return@LaunchedEffect
+                    if(lName.length>0 && lName!=wordModel.word){
+                        moreVisible=false
+                    }
+                    lName = ""
+                    bgRun {
+                        levelViewModel.getLevel(wordModel) {
+                            lName = it
+                        }
+                    }
+                }
+                Text(
+                    text = lName,
+                    style = MaterialTheme.typography.subtitle1,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Start,
+//                    modifier = Modifier.clickable {
+//                        GlobalVal.nav.navigate(NavScreen.LevelScreen.route) {
+//                            launchSingleTop = true
+//                        }
+//                    },
+                    color = MaterialTheme.colors.onSurface
+                )
             }
         }
     }

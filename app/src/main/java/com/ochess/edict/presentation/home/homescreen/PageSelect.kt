@@ -39,6 +39,7 @@ fun PageSelect(
     defContent: @Composable ColumnScope.() -> Unit
 ) {
     HomeEvents.status.openDrowUp = true
+    HomeEvents.status.enableDrowUp = true
     Column (modifier = Modifier
         .onGloballyPositioned { layoutCoordinates ->
             val size = Display.getScreenSize()
@@ -65,6 +66,7 @@ fun PageSelect(
                 WordScapesGame()
             }
             wordExtGame -> {
+
                 ExtGame()
             }
 
@@ -74,7 +76,7 @@ fun PageSelect(
             }
 
             findGame -> {
-                HomeEvents.status.openDrowUp = false
+                HomeEvents.status.enableDrowUp = false
                 LineGameScreen(words)
                 //ActivityRun.start(GameActivity::class.java.name, words)
 //                viewMode = wordStudy

@@ -181,6 +181,12 @@
     <string name="从文件">从文件</string>
     <string name="历史记录页">历史记录页</string>
 
+
+    <string name="已经是最后一个了">已经是最后一个了</string>
+    <string name="重新开始">重新开始</string>
+    <string name="下一个章节">下一章</string>
+    <string name="章节选择">章节选择</string>
+
     <string name="app_name">电子词典</string>
     <string name="systemTitle">系统标题</string>
     <string name="about">关于</string>
@@ -207,4 +213,9 @@
     <string name="SortWords">单词排序</string>
     <string name="InLetter">短单词</string>
 
+    <string name="HistoryPageSetting">历史页配置</string>
+    <string name="defaultHistoryView">默认历史页视图</string>
+    <string name="SaveAll">保存所有</string>
+    <string name="AddActicle">添加文件</string>
+    <string name="SaveToFile">保存到文件</string>
 </resources>

@@ -178,6 +178,12 @@
     <string name="从文件">從文件</string>
     <string name="历史记录页">歷史記錄頁</string>
 
+
+    <string name="已经是最后一个了">已經是最後一個了</string>
+    <string name="重新开始">重新開始</string>
+    <string name="下一个章节">下一章</string>
+    <string name="章节选择">章节选择</string>
+
     <string name="app_name">電子詞典</string>
     <string name="systemTitle">系統標題</string>
     <string name="about">關於</string>
@@ -203,4 +209,10 @@
 
     <string name="SortWords">單詞排序</string>
     <string name="InLetter">短單詞</string>
+
+    <string name="HistoryPageSetting">歷史頁配置</string>
+    <string name="defaultHistoryView">默認歷史頁視圖</string>
+    <string name="SaveAll">保存所有</string>
+    <string name="AddActicle">添加文件</string>
+    <string name="SaveToFile">保存到文件</string>
 </resources>

@@ -3,6 +3,8 @@ package com.ochess.edict.presentation.home.homescreen
 import android.annotation.SuppressLint
 import androidx.collection.arraySetOf
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,33 +12,28 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
-import com.ochess.edict.data.config.PathConf
 import com.ochess.edict.data.model.Book
 import com.ochess.edict.presentation.bookmark.BookMarkEvent
 import com.ochess.edict.presentation.history.HistoryViewModel
+import com.ochess.edict.presentation.history.components.HistroyFilter
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowChapters
 import com.ochess.edict.presentation.home.wGroups
+import com.ochess.edict.presentation.level.LevelViewModel
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.FlowRow
+import com.ochess.edict.presentation.main.components.InputDialog
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.view.MPopMenu
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -49,6 +46,17 @@ fun GroupInfoPage(ap: MutableState<Float>){
     }
     val inSet = remember {
         arraySetOf<String>()
+    }
+    Box{
+        InputDialog.add("AddArticle","SaveToFile",{
+            BookMarkEvent.onAdd(it, 0)
+            ActivityRun.msg("Saved")
+        })
+        val historyViewModel: HistoryViewModel = hiltViewModel()
+        HistroyFilter.add(historyViewModel,listOf(
+            HistroyFilter.types.type,
+            HistroyFilter.types.level
+        ))
     }
     LazyColumn (modifier= Modifier
         .padding(30.dp)
@@ -107,44 +115,22 @@ fun GroupInfoPage(ap: MutableState<Float>){
 //            val nowStatus = GlobalVal.wordViewModel.wordState.collectAsState()
 //            val nowModel = nowStatus.value.wordModel
 //            val words = GlobalVal.wordViewModel.cacheSub()
-            val historyViewModel: HistoryViewModel = hiltViewModel()
-            val clipboardManager = LocalClipboardManager.current
             if(BookConf.words.size>0) {
                 val menu = MPopMenu(listOf(
                     MPopMenu.dataClass("Copy"),
                     MPopMenu.dataClass("export"),
+                    MPopMenu.dataClass("Save"),
+                    MPopMenu.dataClass("SaveAll"),
+                    MPopMenu.dataClass("过滤"),
 //                    MPopMenu.dataClass("exportAndOpen"),
 //                    MPopMenu.dataClass("exportAndJumpTo")
                 )).upMtTitle()
-                Title("WordList") {
-                    menu.show { k, v ->
-                        when(v.name){
-                            "Copy" ->{
-                                val words = BookConf.words.map{it.word}.joinToString(",")
-                                clipboardManager.setText(buildAnnotatedString {
-                                    append(words)
-                                })
-                                ActivityRun.msg(mt("Copied"))
-                            }
-                            else -> {
-                                val dateNow = Date(System.currentTimeMillis())
-                                val date = SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(dateNow)
-                                val file =PathConf.dcim + BookConf.instance.name  + "_" + date + ".jpg"
-                                historyViewModel.printWordModelsToImg(BookConf.words, file)
-                                ActivityRun.msg(mt("export") + file)
-                                when(v.name) {
-                                    "exportAndJumpTo" -> {
-                                        ActivityRun.openFile(file)
-                                    }
-                                    "exportAndOpen" -> {
-                                        ActivityRun.openImg(file)
-                                    }
-                                }
-                            }
-                        }
+                Column {
+                    Title("WordList") {
+                       HomeEvents.GroupInfoPage.onFunsClick(menu)
                     }
+                    menu.add()
                 }
-                menu.add()
             }
             FlowRow {
                 BookConf.words.forEach {
@@ -163,8 +149,19 @@ fun GroupInfoPage(ap: MutableState<Float>){
 }
 @Composable
 fun Title(txt:String,click:(()->Unit)?=null){
+    var more = when(txt){
+        "WordList" ->  "(${BookConf.words.size})"
+        else -> {
+            if(txt.startsWith("Top")){
+                LevelViewModel.getTopInfo(txt)
+            }else{
+                ""
+            }
+        }
+    }
+
     Row(modifier = Modifier.padding(start = 0.dp, end = 16.dp, bottom = 6.dp, top = 16.dp)){
-        Text(mt(txt), fontSize = 18.sp,color= MaterialTheme.colorScheme.onSurface, modifier = Modifier
+        Text(mt(txt)+more, fontSize = 18.sp,color= MaterialTheme.colorScheme.onSurface, modifier = Modifier
             .clickable {
                 if(click!=null) click()
             }

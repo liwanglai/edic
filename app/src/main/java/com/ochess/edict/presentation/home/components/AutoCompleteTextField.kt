@@ -53,7 +53,9 @@ fun AutoCompleteTextField(
     onClear: () -> Unit,
     onDoneActionClick: () -> Unit = {},
     onItemClick: (t:String) -> Unit = {},
+    autoFocus :Boolean = true,
     itemContent: @Composable (t:String) -> Unit = {}
+
 ) {
     var searchQuery by rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue())
@@ -61,13 +63,12 @@ fun AutoCompleteTextField(
     var expandedState by remember { mutableStateOf(false) }
     val sug by suggestions.collectAsState()
     val requester = FocusRequester()
-    Handler().postDelayed({
-        try {
+    if(autoFocus) {
+        setTimeout(200) {
             requester.requestFocus()
-        }catch (e:Exception){
-            e.printStackTrace()
         }
-    },200)
+    }
+
     expandedState=sug.isNotEmpty()
 
     Column {
