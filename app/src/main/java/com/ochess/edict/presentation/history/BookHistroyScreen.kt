@@ -111,7 +111,7 @@ fun HistoryBookScreen() {
                     .fillMaxWidth()
                     .background(bColor)
                     .clickable {
-                        BookConf.usBook(it.id)
+                        BookConf.setBook(it.id)
                         NavScreen.openHome(0)
                     }
                 ) {

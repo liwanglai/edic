@@ -23,6 +23,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -42,6 +43,7 @@ import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.PageConf
+import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.model.Article
 import com.ochess.edict.data.plug.CategoryTree
 import com.ochess.edict.domain.model.WordModel
@@ -71,29 +73,23 @@ fun DefaultPage(navController: NavHostController,
                 onToggleTheme: () -> Unit,
                 le: Int? = null
 ) {
+    BookConf.onWordChange { word->
+        GlobalVal.wordViewModel.setWord(DictionarySubEntity(word.wordsetId,word.word,word.level))
+    }
+
     val wordModelState by wordViewModel.wordState.collectAsState()
     val wordModel = wordModelState
-
     val detailState by wordViewModel.detailState.collectAsState()
     if(!detailState && PageConf.getBoolean(PageConf.homePage.DefaultShowDetails,true)){
-//        wordViewModel.detailState.value=true
         wordViewModel.searchByText()
     }
     val level by wordViewModel.selectLevel.collectAsState()
     val selectLevel = level > -1 || BookConf.instance.name.isNotEmpty()
-    when (fromPage) {
-        PAGE_FROM_BOOKMARK, PAGE_FROM_HISTORY -> {
-            if(wordModel.wordModel!=null) {
-                wordViewModel.currentDictionary.value = wordModel.wordModel.toDictionaryEntity()
-            }
-        }
-    }
-    Log.d(
-        TAG, "HomeScreen: fromPage" + fromPage + " word:" + wordModel.wordModel?.word
-                + " level:" + level + " wordIndex:" + uStatus.get("wordIndex")
-    )
     val hasWord = wordModel.wordModel?.word?.isNotEmpty() == true
+    HistoryWords.add(wordModel.wordModel)
     Log.d(TAG, "hasWord = $hasWord, selectLevel = $selectLevel, detail = $detailState")
+
+
     if (hasWord) {
         Column(
             modifier = Modifier
@@ -146,9 +142,7 @@ fun DefaultPage(navController: NavHostController,
                             //.fillMaxWidth()
                             .align(Alignment.Center)
                     )
-                    if(wordModel.wordModel!=null) {
-                         HistoryWords.add(wordModel.wordModel.word ?: "")
-                    }
+                    HistoryWords.menu()
                 }
                 if(isEdit) {
                     val word = wordModel.wordModel?.word

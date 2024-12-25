@@ -17,6 +17,7 @@ import com.ochess.edict.R
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.data.model.Article
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.presentation.home.PAGE_FROM_HOME
 import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.navigation.NavScreen
@@ -50,7 +51,7 @@ fun select_book(){
             ////列表 新增与删除
             findViewById<RecyclerView>(R.id.mRecyclerView).apply {
                 layoutManager = gridLayoutManager
-                adapter = BookConf.getHaveBooks(R.layout.item_gridview) { it, vItem ->
+                adapter = Book.getHaveBooks(R.layout.item_gridview) { it, vItem ->
                     it.apply {
                         //添加按钮
                         val bookFace = findViewById<ImageView>(R.id.file_image)

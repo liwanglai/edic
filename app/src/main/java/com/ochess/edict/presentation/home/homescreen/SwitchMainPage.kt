@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.data.model.WordExtend
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowBookShowType
@@ -54,7 +55,7 @@ fun SwitchMainPage(
     val pSize = Display.getScreenSize()
     //根据扩展词信息删除无效的视图
     if(nowBookShowType.equals("word_shows")) {
-        val ex = BookConf.instance.wordEx()
+        val ex = Book.wordEx()
         val p = itemGroups["word_shows"]
         if(p!=null && ex.data.size+ex.isize==0) {
             val i = p.indexOf(MenuConf.mode.wordScapesGame)

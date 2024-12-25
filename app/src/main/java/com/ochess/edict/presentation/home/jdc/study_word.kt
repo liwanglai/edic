@@ -21,6 +21,7 @@ import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.data.model.Word
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.home.HomeEvents
@@ -46,13 +47,10 @@ fun study_word(){
         NavScreen.openJdc(0)
         return
     }
-    book.initArticle()
     LayoutJdc.view(layouts.home) { it ->
         val box = it
-        book.onNextDone {
-            ActivityRun.runOnUiThread {
-                StudyWord(box, book.wordMode!!)
-            }
+        BookConf.onWordChange{
+            StudyWord(box, book.wordMode!!)
         }
         book.next(0)
         //val statusVal = upstatus.value
@@ -77,7 +75,7 @@ fun study_word(){
             var lastWord:View? = null
             //左侧单词列表
             findViewById<ListView>(R.id.list_view_study).apply{
-                adapter = BookConf.getChapterWords(R.layout.item_listview_word) { item, vItem ->
+                adapter = Book.getChapterWords(R.layout.item_listview_word) { item, vItem ->
                     item.apply {
                         findViewById<TextView>(R.id.tv_word).text = vItem.word
                         setOnClickListener {
@@ -110,7 +108,7 @@ class StudyWord(box: ViewGroup, vItem: WordModel) : tabs(box, vItem) {
     init {
         ct = box.context
         //图片
-        book.pic {imgFile->
+        Book.pic {imgFile->
             val dwa = Drawable.createFromPath(imgFile)
             img(R.id.word_img).apply{
                 setBackgroundDrawable(dwa)

@@ -115,7 +115,7 @@ object DateUtil {
         }
     }
 
-    fun formatDateToDaysAgo(date: String,format:String="yyyy-MM-dd"): String {
+    fun formatDateToDaysAgo(date: String,format:String="yyyy-MM-dd HH"): String {
         return formatDateToDaysAgo( SimpleDateFormat(format).parse(date))
     }
 

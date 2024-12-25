@@ -66,21 +66,6 @@ class BookmarkViewModel @Inject constructor(private val wordRepo: WordRepository
         }
     }
 
-    fun openBook() {
-        //if(bookmarks.value.size>0) return
-        BookConf.instance.initArticle()
-        val countDownLatch = CountDownLatch(1)
-        Thread{
-            var n = 140
-            while(n-- > 0) {
-                if (BookConf.words.size > 0) countDownLatch.countDown()
-                Thread.sleep(10);
-            }
-        }.start()
-        countDownLatch.await(3000, TimeUnit.MILLISECONDS)
-        bookmarks.value = BookConf.words
-    }
-
     fun changeChapter(k: String) {
         GlobalVal.wordModelList = listOf<WordModel>()
         BookConf.instance.save(k)

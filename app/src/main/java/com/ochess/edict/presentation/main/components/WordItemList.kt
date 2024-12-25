@@ -38,8 +38,10 @@ import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.home.PAGE_FROM_HISTORY
+import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.DateUtil
+import kotlinx.coroutines.delay
 
 
 @ExperimentalUnitApi
@@ -54,18 +56,18 @@ fun WordItemList(
 
     GlobalVal.historyGroup.clear()
     var words = arrayListOf<String>()
-    var lastDate=""
     var title = ""
     list.forEachIndexed{index,item->
         words.add(item.word)
-        if (!lastDate.equals(item.date.substring(0, 10))) {
+        val th = DateUtil.formatDateToDaysAgo(item.date.substring(0,13))
+        val thTitle = item.date.substring(0, 10) + " " +th
+        if (!title.equals(thTitle)) {
             if(title.length>0){
                 GlobalVal.historyGroup[title] = words.clone() as List<String>
                 words.clear()
             }
 
-            lastDate = item.date.substring(0, 10)
-            title = lastDate+ "  " +DateUtil.formatDateToDaysAgo(lastDate)
+            title = thTitle
             titleMap[index] =title
         }
     }
@@ -109,6 +111,7 @@ fun WordItem(
             .padding(vertical = 6.dp)
             .wrapContentHeight()
             .clickable {
+                BookConf.onChaptersChange{}
                 BookConf.instance.apply {
                     setContent("历史记录页",GlobalVal.historyGroup)
                     save(title,false)

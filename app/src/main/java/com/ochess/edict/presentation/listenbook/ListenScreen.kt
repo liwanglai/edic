@@ -46,6 +46,7 @@ import com.google.accompanist.glide.rememberGlidePainter
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.NetConf
 import com.ochess.edict.data.model.Article
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.exception.TipException
 import com.ochess.edict.presentation.bookmark.data.VirtualCommonItem
 import com.ochess.edict.presentation.main.components.AddButton
@@ -76,7 +77,7 @@ fun ListenScreen(arguments: Bundle?) {
             }
         }else {
             val haveBooks = arrayListOf<String>()
-            BookConf.getHaveBooks{
+            Book.getHaveBooks{
                 haveBooks.addAll(it.map { it.name })
             }
             loadList(NetConf.data+"/books.json") {
@@ -157,7 +158,7 @@ fun ListenBooksItem(item:LoadJsonItem){
                 },
                 onLongClick = {
                     val value = item.url
-                    BookConf.downLoad(value,item.preface)
+                    Book.downLoad(value,item.preface)
                     ActivityRun.runOnUiThread {
                         NavScreen.BookmarkScreen.open("?pid=" + VirtualCommonItem.getId(VirtualCommonItem.Type.donwload)  )
                     }

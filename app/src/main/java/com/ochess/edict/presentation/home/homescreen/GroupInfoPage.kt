@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.PathConf
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.presentation.bookmark.BookMarkEvent
 import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.home.HomeEvents
@@ -35,7 +37,6 @@ import com.ochess.edict.view.MPopMenu
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
-import com.ochess.edict.presentation.main.extend.MText as Text
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -85,7 +86,7 @@ fun GroupInfoPage(ap: MutableState<Float>){
                }
        */
             Title(name.replace(Regex("\\.\\w+$"),"")){
-                val pid = BookConf.instance.cid()
+                val pid = Book.cid()
                 BookMarkEvent.bookId = BookConf.instance.id
                 NavScreen.BookmarkScreen.open("?pid=${pid}")
             }
@@ -94,7 +95,7 @@ fun GroupInfoPage(ap: MutableState<Float>){
                     wGroups.forEach {
                         val tColor =
                             if (it.equals(nowChapters)) Color.Red else MaterialTheme.colorScheme.primary
-                        Text(text = it, color = tColor, fontSize = 14.sp, modifier = Modifier
+                        Text(text = mt(it), color = tColor, fontSize = 14.sp, modifier = Modifier
                             .padding(10.dp)
                             .clickable { HomeEvents.GroupInfoPage.onChapterClick(it) }
                         )
@@ -163,7 +164,7 @@ fun GroupInfoPage(ap: MutableState<Float>){
 @Composable
 fun Title(txt:String,click:(()->Unit)?=null){
     Row(modifier = Modifier.padding(start = 0.dp, end = 16.dp, bottom = 6.dp, top = 16.dp)){
-        Text(txt, fontSize = 18.sp,color= MaterialTheme.colorScheme.onSurface, modifier = Modifier
+        Text(mt(txt), fontSize = 18.sp,color= MaterialTheme.colorScheme.onSurface, modifier = Modifier
             .clickable {
                 if(click!=null) click()
             }

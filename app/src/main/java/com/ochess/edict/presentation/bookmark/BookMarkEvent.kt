@@ -276,7 +276,7 @@ class BookMarkEvent {
             when(item.type) {
                 BookItemType.article -> {
                     BookHistroy.add(item)
-                    BookConf.usBook(item.id)
+                    BookConf.setBook(item.id)
                     NavScreen.refrash()
                     if(!item.inited){
                         item.initStatusText = mt("下载中")

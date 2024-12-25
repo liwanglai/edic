@@ -116,7 +116,7 @@ class HomeEvents {
 
         fun onWordClick(it: WordModel) {
             //设置单词重新刷新一下位置
-            BookConf.instance.setWord(it)
+            BookConf.instance.setWordByString(it.word)
             GlobalVal.wordViewModel.upList(BookConf.words)
             HistoryWords.reset()
 //            showMainPage("")

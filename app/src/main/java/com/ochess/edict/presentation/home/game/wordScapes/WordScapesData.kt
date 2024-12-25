@@ -214,9 +214,9 @@ open class WordScapesData {
         //扩展点新增 上下左右四个点有两个以上点空闲就是可扩展点
         val rmAll = canExts.filter {
             val ball= listOf(
-                if (it.y + 1 < maxX) box[it.x][it.y + 1] else '0',
+                if (it.y + 1 < maxX-1) box[it.x][it.y + 1] else '0',
                 if (it.y - 1 >= 0) box[it.x][it.y - 1] else '0',
-                if (it.x + 1 < maxY) box[it.x + 1][it.y] else '0',
+                if (it.x + 1 < maxY-1) box[it.x + 1][it.y] else '0',
                 if (it.x - 1 >= 0) box[it.x - 1][it.y] else '0',
             )
             val b4 = ball.filter { it == '0' }.size

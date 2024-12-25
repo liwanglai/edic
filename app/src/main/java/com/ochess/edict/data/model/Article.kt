@@ -4,12 +4,15 @@ import androidx.collection.arraySetOf
 import androidx.lifecycle.viewModelScope
 import com.ochess.edict.data.Db
 import com.ochess.edict.data.local.entity.ArticleEntity
+import com.ochess.edict.data.local.entity.DictionaryEntity
 import com.ochess.edict.domain.model.WordModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -83,6 +86,10 @@ import javax.inject.Inject
         /**
          * 通过单词获取对象
          */
+        fun getWords(words: List<String>): List<WordModel> =runBlocking {
+            val rt =Db.dictionary.dictionaryDao.search(words.map { it.trim() })
+            rt.map{it.toWordModel()}
+        }
         fun getWords(words: List<String>,f:(a:List<WordModel>) -> Unit) {
             self.launch {
                 val sHave = arraySetOf<String>()

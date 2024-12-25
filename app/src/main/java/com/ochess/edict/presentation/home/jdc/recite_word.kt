@@ -22,6 +22,7 @@ import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.local.entity.TestEntity
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.navigation.NavScreen
@@ -43,8 +44,6 @@ import java.util.Random
 @Composable
 @Preview
 fun recite_word(){
-    book.initArticle()
-
     LayoutJdc.view(layouts.select){
         HomeEvents.onDownMenuShow{
             it.findViewById<TextView>(R.id.s_types).performClick()
@@ -123,7 +122,7 @@ fun typetab(){
         }
         //第四个按钮改为看图选词
         if(tIndex==3) {
-            book.pic {
+            Book.pic {
                 Glide.with(context)
                     .load(it)
                     .into(findViewById<ImageView>(R.id.iv_question))

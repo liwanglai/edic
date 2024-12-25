@@ -10,6 +10,11 @@ import com.ochess.edict.data.local.entity.DictionaryEntity
 import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.local.entity.WordExtendEntity
 import com.ochess.edict.domain.model.WordModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 
 @Dao
 interface DictionaryDao {
@@ -28,7 +33,7 @@ interface DictionaryDao {
         val queryObj = SimpleSQLiteQuery(sql, words.toArray())
         return prefixMatch(queryObj)
     }
-     fun search(words: List<String>): List<DictionaryEntity> {
+    fun search(words: List<String>): List<DictionaryEntity> {
         val rt = arrayListOf<DictionaryEntity>()
         val map = arrayMapOf<Char,ArrayList<String>>()
          val cAll = "a".."z"
@@ -41,8 +46,21 @@ interface DictionaryDao {
                 map[c]?.add(it)
             }
         }
-        map.forEach{
-            rt.addAll(wordIn(it.key+"_table",it.value))
+        runBlocking {
+//            map.map {
+//                async {
+//                    val words = wordIn(it.key + "_table", it.value)
+//                    rt.addAll(words)
+//                }
+//            }.forEach { it.join() }
+            flow {
+                map.forEach {
+                    val words = wordIn(it.key + "_table", it.value)
+                    emit(words)
+                }
+            }.collect {
+                rt.addAll(it)
+            }
         }
          if(!PageConf.getBoolean(PageConf.homePage.SortWords,true)){
              val wordMap = rt.groupBy { it.word }

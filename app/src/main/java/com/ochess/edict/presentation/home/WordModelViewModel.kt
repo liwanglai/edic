@@ -212,7 +212,7 @@ class WordModelViewModel @Inject constructor(
                         NavScreen.openHome(PAGE_FROM_HISTORY)
                     }
                     "article" ->{
-                        BookConf.usBook(id)
+                        BookConf.setBook(id)
                         NavScreen.openHome(PAGE_FROM_BOOKMARK)
                     }
                     "category" ->{
@@ -288,15 +288,8 @@ class WordModelViewModel @Inject constructor(
         return dictRepository.getWords()
     }
 
-    fun wordIndex(): Int {
-        return workIndex
-    }
-
     fun upList(wordModelList: List<WordModel>) {
-        var wordList = wordModelList
-        if(BookConf.instance.index>0 && wordModelList.size>0){
-            wordList = if(BookConf.instance.index+1 == wordList.size) arrayListOf<WordModel>() else wordModelList.subList(BookConf.instance.index+1,wordModelList.size-1)
-        }
+        var wordList = if(BookConf.instance.index+1 == wordModelList.size) arrayListOf<WordModel>() else wordModelList.subList(BookConf.instance.index+1,wordModelList.size-1)
         dictRepository.setWords(wordList)
         //setWordState(0)
     }

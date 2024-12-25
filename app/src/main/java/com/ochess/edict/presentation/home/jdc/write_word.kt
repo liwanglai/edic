@@ -22,6 +22,7 @@ import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.local.entity.TestEntity
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.jdc.write_word.ListenWritePlay
 import com.ochess.edict.presentation.home.jdc.write_word.ListenWritePlay.BMode
@@ -66,12 +67,10 @@ fun write_word(){
     var configShow=false
     val bgColor = MaterialTheme.colors.background.value.toInt()
     LayoutJdc.view(layouts.listen){
-        book.onNextDone{
-            ActivityRun.runOnUiThread {
-                initWord()
-            }
+        BookConf.onWordChange{
+            initWord()
         }
-        book.initArticle()
+        initWord()
         HomeEvents.onDownMenuShow{
 //            show(R.id.page1_title)
             id(R.id.tv_config).performClick()
@@ -258,7 +257,7 @@ fun initWord(){
         val bKey = children.last()
         removeView(bKey)
         removeAllViews()
-        book.getInputKeys(bUpper).forEach { c->
+        Book.getInputKeys(bUpper).forEach { c->
             addView(bv<TextView>(R.layout.input_select_keyboard, R.id.s_letter).apply {
                 text = c.toString()
                 setOnClickListener {
@@ -289,7 +288,7 @@ fun initWord(){
     row(R.id.line_your_input_smt).apply {
         removeAllViews()
         var rowBox: ViewGroup? =null
-        book.getInputKeys(bUpper,25).forEachIndexed{ i,c->
+        Book.getInputKeys(bUpper,25).forEachIndexed{ i,c->
             if(i%5==0){
                 rowBox=bv<LinearLayout>(R.layout.input_select_keyboard_smt,R.id.smt_row)
                 addView(rowBox)
@@ -376,7 +375,7 @@ fun showResult(){
     }
     text(R.id.tv_already_add,"已添加"+bNum)
     val everyOne = arrayListOf<String>()
-    id<ListView>(R.id.list_view_result).adapter = BookConf.getChapterWords(R.layout.listview_result_item){it,wm->
+    id<ListView>(R.id.list_view_result).adapter = Book.getChapterWords(R.layout.listview_result_item){ it, wm->
         it.apply {
             findViewById<TextView>(R.id.number).text = ""
             findViewById<TextView>(R.id.tv_correct_answer).text = wm.word

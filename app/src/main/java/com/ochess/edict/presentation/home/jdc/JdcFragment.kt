@@ -25,13 +25,6 @@ var yoursAnswersMap = arrayMapOf<String,String>()
 @Composable
 fun JdcFragment() {
     book = BookConf.instance
-    val bname = book.name
-    //没有选择课本
-    if(bname.length==0) {
-        BookConf.selectBook()
-        return
-    }
-    book.initArticle()
     LayoutJdc.view(layouts.main){
         it.apply {
             val a = arrayOf(

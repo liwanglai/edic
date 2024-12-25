@@ -3,6 +3,7 @@ package com.ochess.edict.presentation.history
 import androidx.compose.runtime.Composable
 import com.ochess.edict.data.GlobalVal.wordViewModel
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.view.MPopMenu
 
 /**
@@ -12,15 +13,20 @@ class HistoryWords {
     companion object {
         val menu: MPopMenu = MPopMenu(arrayListOf<MPopMenu.dataClass>())
         var size=0
-        @Composable
-        fun add(word: String) {
+        fun add(wordModel:WordModel?){
+            if(wordModel == null) return
+            val word = wordModel.word
             val index =menu.items.size
             if(menu.items.size==0 || menu.items[menu.items.size-1].name!=word) {
                 menu.items.add(MPopMenu.dataClass(word, word, value = index))
             }
+        }
+        @Composable
+        fun menu() {
             size = menu.items.size
-            if(size>1)
-            menu.add()
+            if(size>1) {
+                menu.add()
+            }
         }
         //配合返回后退事件
         fun pop(){

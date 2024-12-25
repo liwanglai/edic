@@ -33,15 +33,21 @@ import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.data.config.BookConf.Companion.instance
 import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.BookmarkViewModel
 import com.ochess.edict.presentation.bookmark.data.BookMark
+import com.ochess.edict.presentation.history.BookHistroy
 import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.history.HistoryViewModel.Companion.UserSettingKey_CanEdinhos
+import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.home.homescreen.DefaultPage
 import com.ochess.edict.presentation.home.homescreen.PageSelect
 import com.ochess.edict.presentation.home.homescreen.SlidingEnable
+import com.ochess.edict.presentation.main.extend.oneRun
+import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.DateUtil
@@ -80,17 +86,45 @@ fun HomeScreen(
     onToggleTheme: () -> Unit,
     le: Int? = null
 ) {
-     remember {
+
+    //组织全局数据
+    var words = remember {
+         val wordList = mutableStateOf(arrayListOf<String>())
          //返回功能
-        ActivityRun.onBackPressed {
+         ActivityRun.onBackPressed {
             HomeEvents.onback()
             var nav = GlobalVal.nav.currentDestination
             !nav!!.route!!.startsWith(NavScreen.HomeScreen.route)
-        }
-        null
+         }
+         BookConf.onBookChange {
+             nowBook = name
+             initArticle()
+             setTimeout(10) {
+                 HistoryWords.reset()
+             }
+         }
+         BookConf.onChaptersChange{
+             wGroups = BookConf.chapters
+             nowChapters = BookConf.instance.chapterName
+             wordList.value.clear()
+             wordList.value.addAll(BookConf.words.map { it.word })
+
+             GlobalVal.wordModelList = BookConf.words
+             GlobalVal.wordViewModel.upList(GlobalVal.wordModelList)
+
+             setTimeout(10) {
+                 HistoryWords.reset()
+             }
+             oneRun{
+                 val word = BookHistroy.lastWord()
+                 if (word.length > 0) {
+                     setWordByString(word)
+                 }
+             }
+         }
+        BookConf.initOnce()
+        wordList.value
     }
-    //组织全局数据
-    var words = arrayListOf<String>()
 
     when (fromPage) {
         PAGE_FROM_LEVEL -> {
@@ -103,24 +137,15 @@ fun HomeScreen(
                 homeReSetDefaultBook.value=false
             }
             GlobalVal.wordModelList = BookConf.words
-            if (BookConf.instance.name.length > 0 && !BookConf.instance.name.equals(nowBook)) {
-                bookmarkViewModel.openBook()
-                wGroups = BookConf.chapters
-                nowChapters = BookConf.instance.chapterName
-                nowBook = BookConf.instance.name
-            }
         }
 
         PAGE_FROM_HISTORY -> {
             if(GlobalVal.historyGroup.size>0){
-                wGroups = BookConf.chapters
-                nowChapters = BookConf.instance.chapterName
-                nowBook = BookConf.instance.name
                 homeReSetDefaultBook.value = true
             }
         }
     }
-    words.addAll(BookConf.words.map { it.word })
+
     if (wordViewModel.wordState.value.wordModel == null && words.size > 0) {
         wordViewModel.upList(BookConf.words)
     }
