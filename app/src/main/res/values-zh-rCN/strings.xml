@@ -218,4 +218,5 @@
     <string name="SaveAll">保存所有</string>
     <string name="AddActicle">添加文件</string>
     <string name="SaveToFile">保存到文件</string>
+    <string name="reset">重置</string>
 </resources>

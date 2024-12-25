@@ -317,6 +317,7 @@
     <string name="SaveAll">SaveAll</string>
     <string name="AddActicle">Add Acticle</string>
     <string name="SaveToFile">Save To File</string>
+    <string name="reset">Reset</string>
 
 
 </resources>

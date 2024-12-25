@@ -142,7 +142,9 @@ class HomeEvents {
             nowChapters = it
             GlobalVal.bookmarkViewModel.changeChapter(it)
             if(filterType>-1 || filterLevels.size>0){
-                Book.filter(filterType, filterLevels)
+                bgRun {
+                    Book.filter(filterType, filterLevels)
+                }
             }
         }
 
