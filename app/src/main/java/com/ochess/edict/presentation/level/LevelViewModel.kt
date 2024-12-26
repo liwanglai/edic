@@ -41,13 +41,15 @@ class LevelViewModel @Inject constructor(private val levelDao: LevelDao) : ViewM
     fun getLevel(wm: WordModel, over:(lName:String)->Unit) {
         var rt: String
         val le = wm.level
-        rt = Article.grep(wm.word){
+        val arts = Article.grep(wm.word){
             this.like("name","Top%")
-        }.first().name.substring(0,4)
-        if(rt.length>0)
-        {
-            rt += getTopInfo(rt)
-            over(rt)
+        }
+        if(arts.size>0) {
+            rt = arts.first().name.substring(0, 4)
+            if (rt.length > 0) {
+                rt += getTopInfo(rt)
+                over(rt)
+            }
         }
         viewModelScope.launch(Dispatchers.IO) {
             val lEntity = levelDao.queryName(le)
