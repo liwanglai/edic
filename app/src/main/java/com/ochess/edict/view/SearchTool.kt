@@ -3,11 +3,9 @@ package com.ochess.edict.view
 import android.os.Handler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
@@ -18,9 +16,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -28,12 +23,9 @@ import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
-import com.ochess.edict.data.config.MenuConf
-import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
 import com.ochess.edict.presentation.home.components.AutoCompleteTextField
-import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.util.ActivityRun
 
 @Composable

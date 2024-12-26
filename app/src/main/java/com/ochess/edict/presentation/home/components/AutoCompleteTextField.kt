@@ -60,9 +60,14 @@ fun AutoCompleteTextField(
     var expandedState by remember { mutableStateOf(false) }
     val sug by suggestions.collectAsState()
     val requester = FocusRequester()
+
     if(autoFocus) {
-        MainRun(200) {
-            requester.requestFocus()
+        try {
+            MainRun(200) {
+                requester.requestFocus()
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 
