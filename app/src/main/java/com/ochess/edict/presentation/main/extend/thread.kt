@@ -19,7 +19,11 @@ fun bgRun(run:()->Unit)  {
 }
 fun MainRun(time:Long,run:()->Unit)  {
     Handler().postDelayed({
-        run()
+        try{
+            run()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     },time)
 }
 fun MainRun(run:()->Unit)  {

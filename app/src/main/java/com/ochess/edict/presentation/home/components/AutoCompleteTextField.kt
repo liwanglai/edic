@@ -62,12 +62,8 @@ fun AutoCompleteTextField(
     val requester = FocusRequester()
 
     if(autoFocus) {
-        try {
-            MainRun(200) {
-                requester.requestFocus()
-            }
-        }catch (e:Exception){
-            e.printStackTrace()
+        MainRun(200) {
+            requester.requestFocus()
         }
     }
 
