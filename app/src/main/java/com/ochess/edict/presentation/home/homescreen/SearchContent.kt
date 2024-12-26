@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -57,7 +57,7 @@ fun SearchContent(
 ) {
 
     val levelViewModel: LevelViewModel = hiltViewModel()
-
+    val tColor = MaterialTheme.colorScheme.onBackground
     UtilButtons( wordViewModel)
 
     Column(
@@ -86,14 +86,15 @@ fun SearchContent(
             }
             val showEn = listOf(DicType.en_en.ordinal, DicType.encn.ordinal).contains(dicType)
             val moreN = 3
+            val mSize = it.meanings?.size
             if (showCh) {
                 Text(
                     text = "${it.ch ?: " "}",
                     fontStyle = FontStyle.Normal,
                     fontSize = 20.sp,
                     lineHeight = TextUnit(20f, TextUnitType.Sp),
-                    style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
-                    color = Color.Black,
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Normal),
+                    color = tColor,
                     modifier = Modifier.clickable {
                         showCh = !showCh
                     }
@@ -101,16 +102,6 @@ fun SearchContent(
             }
             it.meanings?.forEachIndexed { index, meaning ->
                 if (!moreVisible && index >= moreN) {
-                    if (moreN == 3) {
-                        Text(
-                            mt("more"),
-                            Modifier
-                                .clickable {
-                                    moreVisible = true
-                                }
-                                .align(Alignment.End)
-                        )
-                    }
                     return
                 }
                 val defChVisable = remember { mutableStateOf(false) }
@@ -121,10 +112,10 @@ fun SearchContent(
                 if (meaning.speechPart != null) {
                     Text(
                         text = meaning.speechPart,
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
-                        color = MaterialTheme.colors.onSurface
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
@@ -134,14 +125,14 @@ fun SearchContent(
                         if (dicType == DicType.en_cn.ordinal) {
                             dEn.value = !dEn.value
                         }
-                    })
+                    }, color = tColor)
                 }
                 if (showEn || dEn.value) {
                     ClickAbelText(
                         text = "${index + 1}. ${meaning.def}",
-                        style = MaterialTheme.typography.subtitle2,
+                        style = MaterialTheme.typography.titleSmall,
                         lineHeight = TextUnit(18f, TextUnitType.Sp),
-                        color = MaterialTheme.colors.onSurface,
+                        color = tColor,
                         modifier = Modifier.clickable {
                             defChVisable.value = !defChVisable.value
                         },
@@ -158,7 +149,7 @@ fun SearchContent(
                     Text(
                         text = label,
                         fontStyle = FontStyle.Italic,
-                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
                         color = Color.Gray
                     )
                 }
@@ -178,7 +169,7 @@ fun SearchContent(
                         text = example,
                         fontStyle = FontStyle.Italic,
                         lineHeight = TextUnit(16f, TextUnitType.Sp),
-                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
                         color = Color.Gray,
                         modifier = Modifier.clickable {
                             examChVisable.value = !examChVisable.value
@@ -203,16 +194,27 @@ fun SearchContent(
                         text = synonym,
                         fontStyle = FontStyle.Italic,
                         lineHeight = TextUnit(16f, TextUnitType.Sp),
-                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
                         color = Color.Gray
                     )
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Divider(
                     thickness = 0.4.dp,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f)
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
+                if (index == moreN-1 || index== mSize!!-1) {
+                    Text(
+                        mt("more"),
+                        Modifier
+                            .clickable {
+                                moreVisible = true
+                            }
+                            .align(Alignment.End)
+                        , color = tColor
+                    )
+                }
             }
 
             if (moreVisible) {
@@ -222,7 +224,7 @@ fun SearchContent(
                         fontStyle = FontStyle.Normal,
                         fontSize = 20.sp,
                         lineHeight = TextUnit(20f, TextUnitType.Sp),
-                        style = MaterialTheme.typography.subtitle2.copy(fontWeight = FontWeight.Normal),
+                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
                         color = Color.Black,
                         modifier = Modifier.clickable {
                             showCh = !showCh
@@ -245,7 +247,7 @@ fun SearchContent(
                 }
                 Text(
                     text = lName,
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start,
 //                    modifier = Modifier.clickable {
@@ -253,7 +255,7 @@ fun SearchContent(
 //                            launchSingleTop = true
 //                        }
 //                    },
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

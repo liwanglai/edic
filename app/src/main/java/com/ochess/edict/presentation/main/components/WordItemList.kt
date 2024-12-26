@@ -13,12 +13,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.contentColorFor
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -120,9 +120,9 @@ fun WordItem(
                 NavScreen.openHome(PAGE_FROM_HISTORY)
             },
         shape = RoundedCornerShape(8.dp),
-        elevation = 0.dp,
-        backgroundColor = MaterialTheme.colors.surface,
-        contentColor = contentColorFor(backgroundColor = MaterialTheme.colors.surface)
+//        elevation = 0.dp
+//        backgroundColor = MaterialTheme.colorScheme.surface,
+//        contentColor = contentColorFor(backgroundColor = MaterialTheme.colorScheme.surface)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -135,7 +135,7 @@ fun WordItem(
                 Row {
                     Text(
                         text = wordModel.word,
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.titleMedium,
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                     )
@@ -152,7 +152,7 @@ fun WordItem(
                 }
                 Text(
                     text = "1. ${mean}",
-                    style = MaterialTheme.typography.subtitle2,
+                    style = MaterialTheme.typography.titleSmall,
                     maxLines = 2,
                     lineHeight = TextUnit(16f, TextUnitType.Sp),
                     overflow = TextOverflow.Ellipsis,
@@ -169,7 +169,7 @@ fun WordItem(
                             it.toString().removePrefix("[")
                                 .removeSuffix("]")
                         }",
-                        style = MaterialTheme.typography.subtitle2,
+                        style = MaterialTheme.typography.titleSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         lineHeight = TextUnit(14f, TextUnitType.Sp),
@@ -185,7 +185,7 @@ fun WordItem(
                 wordModel.meanings?.get(0)?.example?.let {
                     Text(
                         text = ex,
-                        style = MaterialTheme.typography.subtitle2,
+                        style = MaterialTheme.typography.titleSmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         lineHeight = TextUnit(14f, TextUnitType.Sp),
