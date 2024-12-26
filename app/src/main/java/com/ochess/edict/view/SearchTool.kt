@@ -114,9 +114,9 @@ fun SearchTool(wordViewModel :WordModelViewModel){
                         && wordViewModel.wordState.value.wordModel!=null
                         && beforState!!.wordModel!!.word != wordViewModel.wordState.value.wordModel!!.word
                     ) {
-                        BookConf.instance.next(wordViewModel.wordState.value.wordModel!!)
                         //插入历史记录
                         wordViewModel.insertHistory(wordViewModel.wordState.value.wordModel!!)
+                        BookConf.instance.next(wordViewModel.wordState.value.wordModel!!)
                     }
                 },
                 //完成按钮单击
