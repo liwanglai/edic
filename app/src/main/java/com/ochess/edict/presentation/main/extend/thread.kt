@@ -17,6 +17,11 @@ fun bgRun(run:()->Unit)  {
         }
     }
 }
+fun MainRun(time:Long,run:()->Unit)  {
+    Handler().postDelayed({
+        run()
+    },time)
+}
 fun MainRun(run:()->Unit)  {
     runBlocking{
         withContext(Dispatchers.Main) {

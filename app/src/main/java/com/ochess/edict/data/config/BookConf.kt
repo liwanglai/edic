@@ -144,7 +144,7 @@ data class BookConf (
         chapters.clear()
         chapterMapWords.clear()
         index=0
-        doc.split(Regex("[\\r\\n]")).forEach{
+        doc.split(Regex("[\\r\\n]")).map{it.trim()}.forEach{
             if(beforeLine.length ==0 && it.length>0) {
                 if(mapWords.length>0) {
                     chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，")).map{it.trim()}.filter { it.length>0 }//a.findWords(mapWords)

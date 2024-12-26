@@ -1,6 +1,5 @@
 package com.ochess.edict.presentation.home.components
 
-import android.os.Handler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
@@ -19,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +30,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,8 +37,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.ochess.edict.R
-import com.ochess.edict.presentation.main.extend.setTimeout
-import com.ochess.edict.view.MPopMenu
+import com.ochess.edict.presentation.main.extend.MainRun
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +61,7 @@ fun AutoCompleteTextField(
     val sug by suggestions.collectAsState()
     val requester = FocusRequester()
     if(autoFocus) {
-        setTimeout(200) {
+        MainRun(200) {
             requester.requestFocus()
         }
     }
