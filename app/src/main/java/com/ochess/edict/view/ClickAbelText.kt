@@ -138,7 +138,7 @@ fun ClickAbelText(
                     word = tag.lowercase(Locale.getDefault())
                     if(beforword.equals(word)){
                         onDbClick(word)
-                        //return@post
+                        return@post
                     }
                     if (tag.matches(Regex(".*\\W.*"))) {
                         word = word.replace(Regex("^\\W+|\\W+$"),"")

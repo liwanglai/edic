@@ -1,17 +1,14 @@
 package com.ochess.edict.presentation.home.homescreen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,15 +21,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.config.PageConf.DicType
+import com.ochess.edict.data.local.entity.Meaning
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.components.UtilButtons
@@ -40,15 +36,7 @@ import com.ochess.edict.presentation.home.dictionaryStringBuilder
 import com.ochess.edict.presentation.level.LevelViewModel
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.extend.bgRun
-import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.view.ClickAbelText
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import kotlin.math.ln
 
 @Composable
 fun SearchContent(
@@ -58,6 +46,9 @@ fun SearchContent(
 
     val levelViewModel: LevelViewModel = hiltViewModel()
     val tColor = MaterialTheme.colorScheme.onBackground
+    var moreVisible by remember {
+        mutableStateOf(false)
+    }
     UtilButtons( wordViewModel)
 
     Column(
@@ -70,9 +61,6 @@ fun SearchContent(
             dictionaryStringBuilder = dictionaryStringBuilder.clear()
             dictionaryStringBuilder.append(it.word).append("\n")
 
-            var moreVisible by remember {
-                mutableStateOf(false)
-            }
             val dicType = remember {
                 PageConf.getInt(PageConf.homePage.DicType, 1)
             }
@@ -100,14 +88,13 @@ fun SearchContent(
                     }
                 )
             }
-            it.meanings?.forEachIndexed { index, meaning ->
-                if (!moreVisible && index >= moreN) {
-                    return
-                }
-                val defChVisable = remember { mutableStateOf(false) }
-                val examChVisable = remember { mutableStateOf(false) }
-                val dEn = remember { mutableStateOf(false) }
-                val eEn = remember { mutableStateOf(false) }
+            @Composable
+            fun runOneMeaning(index:Int, meaning:Meaning){
+                val defChVisable = remember {  mutableStateOf(false) }
+                val examChVisable = remember {mutableStateOf(false) }
+                val dEn =  remember { mutableStateOf(false) }
+                val eEn =  remember { mutableStateOf(false) }
+
                 dictionaryStringBuilder.append(meaning.speechPart).append("\n")
                 if (meaning.speechPart != null) {
                     Text(
@@ -133,9 +120,6 @@ fun SearchContent(
                         style = MaterialTheme.typography.titleSmall,
                         lineHeight = TextUnit(18f, TextUnitType.Sp),
                         color = tColor,
-                        modifier = Modifier.clickable {
-                            defChVisable.value = !defChVisable.value
-                        },
                         onDbClick = {
                             defChVisable.value = !defChVisable.value
                         }
@@ -171,9 +155,6 @@ fun SearchContent(
                         lineHeight = TextUnit(16f, TextUnitType.Sp),
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
                         color = Color.Gray,
-                        modifier = Modifier.clickable {
-                            examChVisable.value = !examChVisable.value
-                        },
                         onDbClick = {
                             examChVisable.value = !examChVisable.value
                         }
@@ -204,33 +185,40 @@ fun SearchContent(
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                if (index == moreN-1 || index== mSize!!-1) {
-                    Text(
-                        mt("more"),
-                        Modifier
-                            .clickable {
-                                moreVisible = true
-                            }
-                            .align(Alignment.End)
-                        , color = tColor
-                    )
-                }
             }
-
-            if (moreVisible) {
-                if (!showCh) {
-                    Text(
-                        text = "${it.ch ?: " "}",
-                        fontStyle = FontStyle.Normal,
-                        fontSize = 20.sp,
-                        lineHeight = TextUnit(20f, TextUnitType.Sp),
-                        style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
-                        color = Color.Black,
-                        modifier = Modifier.clickable {
-                            showCh = !showCh
-                        }
-                    )
+            val moreMeaning= if(mSize!! >moreN){
+                it.meanings?.subList(0,moreN)!!.forEachIndexed{ index, meaning ->
+                        runOneMeaning(index,meaning)
                 }
+                it.meanings?.subList(moreN,mSize)
+            }else{
+                listOf<Meaning>()
+            }
+            if(!moreVisible){
+                Text(
+                    mt("more"),
+                    Modifier
+                        .clickable {
+                            moreVisible = true
+                        }
+                        .align(Alignment.End)
+                    , color = tColor
+                )
+            }else {
+                moreMeaning.forEachIndexed{index,meanning->
+                    runOneMeaning(index+moreN,meanning)
+                }
+                Text(
+                    text = "${it.ch ?: " "}",
+                    fontStyle = FontStyle.Normal,
+                    fontSize = 20.sp,
+                    lineHeight = TextUnit(20f, TextUnitType.Sp),
+                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
+                    color = tColor,
+                    modifier = Modifier.clickable {
+                        showCh = !showCh
+                    }
+                )
                 //级别
                 var lName by remember { mutableStateOf("") }
                 LaunchedEffect(wordModel?.word) {

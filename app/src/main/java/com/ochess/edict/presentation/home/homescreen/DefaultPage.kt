@@ -56,7 +56,6 @@ import com.ochess.edict.presentation.home.PAGE_FROM_HISTORY
 import com.ochess.edict.presentation.home.TAG
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
-import com.ochess.edict.presentation.home.uStatus
 import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.presentation.main.components.Display.px2dp
 import com.ochess.edict.presentation.navigation.NavScreen
@@ -73,10 +72,6 @@ fun DefaultPage(navController: NavHostController,
                 onToggleTheme: () -> Unit,
                 le: Int? = null
 ) {
-    BookConf.onWordChange { word->
-        GlobalVal.wordViewModel.setWord(DictionarySubEntity(word.wordsetId,word.word,word.level))
-    }
-
     val wordModelState by wordViewModel.wordState.collectAsState()
     val wordModel = wordModelState
     val detailState by wordViewModel.detailState.collectAsState()
@@ -215,11 +210,12 @@ fun DefaultPage(navController: NavHostController,
         }
     }
 
-    AnimatedVisibility(
-        visible = detailState && hasWord,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
+//    AnimatedVisibility(
+//        visible = detailState && hasWord,
+//        enter = fadeIn(),
+//        exit = fadeOut()
+//    )
+    if(detailState && hasWord){
         SearchComponent(wordModel,  wordViewModel){
             onOpenNextWord(wordIndex?:0, fromPage)
             HistoryWords.reset()

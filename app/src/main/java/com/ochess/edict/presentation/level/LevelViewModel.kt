@@ -39,7 +39,7 @@ class LevelViewModel @Inject constructor(private val levelDao: LevelDao) : ViewM
     }
 
     fun getLevel(wm: WordModel, over:(lName:String)->Unit) {
-        var rt: String
+        var rt: String=""
         val le = wm.level
         val arts = Article.grep(wm.word){
             this.like("name","Top%")

@@ -55,7 +55,6 @@ import com.ochess.edict.view.MPopMenu
 import com.ochess.edict.view.SearchTool
 
 var dictionaryStringBuilder = StringBuilder()
-var uStatus = UserStatus()
 const val TAG = "HomeScreen"
 
 const val PAGE_FROM_HOME = 0
@@ -123,6 +122,9 @@ fun HomeScreen(
                  }
              }
          }
+        BookConf.onWordChange { word->
+            GlobalVal.wordViewModel.setWord(DictionarySubEntity(word.wordsetId,word.word,word.level))
+        }
         BookConf.initOnce()
         wordList.value
     }
@@ -147,8 +149,8 @@ fun HomeScreen(
         }
     }
 
-    if (wordViewModel.wordState.value.wordModel == null && words.size > 0) {
-        wordViewModel.upList(BookConf.words)
+    if (wordViewModel.wordState.value.wordModel == null && GlobalVal.wordModelList.size > 0) {
+        wordViewModel.upList(GlobalVal.wordModelList)
     }
     val next:@Composable BoxScope.()->Unit = {
         PageSelect(viewMode,words, historyViewModel) {
