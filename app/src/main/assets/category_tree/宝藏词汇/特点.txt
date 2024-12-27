@@ -1,0 +1,1 @@
+big,small,long,short,new,old,heavy,cute,beautiful,pretty,useful,helpful,interesting,lovely,expensive,cheap 

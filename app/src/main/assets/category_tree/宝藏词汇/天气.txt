@@ -1,0 +1,1 @@
+warm，windy，hot，rainy，cloudy，cold，snowy，sunny， cool，fine 

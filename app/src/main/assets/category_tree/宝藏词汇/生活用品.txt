@@ -1,0 +1,1 @@
+clock,computer,tv,bike,light,fan,lamp,umbrella 
