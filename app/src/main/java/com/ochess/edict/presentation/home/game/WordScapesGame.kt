@@ -100,8 +100,8 @@ fun WordScapesGame() {
             allWords.addAll(eWord.inword)
         }
 
-        val words = allWords.filter { it.length<=book.word.length }
-        ws.setWord(name, words, eWord.word)
+//        val words = allWords.filter { it.length<=book.word.length }
+        ws.setWord(name, allWords, eWord.word)
     }
     toNextWord = {
         if (nextWord()) {

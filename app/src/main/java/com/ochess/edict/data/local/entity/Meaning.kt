@@ -63,4 +63,14 @@ data class Meaning(
      * 音标   首词条 英,美
      */
     val symbol: List<String>?,
-)
+){
+    companion object {
+        val typeMap = mapOf(
+            "nonu" to "名词",
+            "verb" to "动词",
+            "adjective" to "形容词",
+            "adverb" to "副词",
+            "preposition" to "介词",
+        )
+    }
+}

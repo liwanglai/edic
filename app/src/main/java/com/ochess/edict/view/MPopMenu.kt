@@ -176,7 +176,7 @@ class MPopMenu(var items: ArrayList<dataClass>) {
 
         fun categoryEditMenu(item: BookItem):MPopMenu{
             val rt = MPopMenu(arrayListOf(
-                dataClass("首页打开","toMain"),
+                dataClass("打开","toMain"),
                 dataClass("听书页打开","toBook"),
 //                dataClass("选择","select"),
                 dataClass("剪切","cut"),
@@ -205,6 +205,7 @@ class MPopMenu(var items: ArrayList<dataClass>) {
             return MPopMenu(arrayListOf(
                 dataClass("添加分类","open"),
                 dataClass("添加文件","openFile"),
+//                dataClass("绑定目录","bindDir"),
 //                dataClass("默认功能","default"),
 //                dataClass("搜索","search"),
                 dataClass("选择","select"),

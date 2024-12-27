@@ -15,6 +15,7 @@ import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.local.entity.HistoryEntity
 import com.ochess.edict.data.model.Category
 import com.ochess.edict.data.model.Query
+import com.ochess.edict.data.model.Word
 import com.ochess.edict.data.repository.WordRepository
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.print.MPrinter
@@ -266,26 +267,23 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
             }
         }
         fun filterByKeys(inputs: List<String>, query: List<WordModel>): List<WordModel> {
-            var rt = arrayOf<WordModel>()
-            query.forEachIndexed{i,it->
-                rt.set(i,it)
-            }
+            var rt = query.map{it.word}.toTypedArray()
 
             runBlocking {
                 inputs.asFlow().onEach {
                     val newList = filterByKey(it,query)
                     rt = rt.intersect(newList).toTypedArray()
-                }
+                }.collect{it}
             }
-            return rt.toList()
+            return query.filter { rt.contains(it.word)}
         }
-        fun filterByKey(input: String, query: List<WordModel>): List<WordModel> {
+        fun filterByKey(input: String, query: List<WordModel>): List<String> {
                 val v = input.split(Regex("[:\\.]+"))
                 val key = v.first()
                 val id = v[1].toInt()
                 val value = v.last()
 
-                return when (key) {
+                val rt= when (key) {
 //                    "history" -> {
 //                        //query.andWhere("word",id)
 //                    }
@@ -313,6 +311,7 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
                     }
                     else -> query
                 }
+           return rt.map { it.word }
         }
         const val TAG = "HistoryViewModel"
 

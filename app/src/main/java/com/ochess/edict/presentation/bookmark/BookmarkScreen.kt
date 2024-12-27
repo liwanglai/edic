@@ -38,7 +38,6 @@ import com.ochess.edict.presentation.main.extend.MText as Text
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BookmarkScreen() {
-    GlobalVal.clipboardManager = LocalClipboardManager.current
     val titleMenu by remember {
         mutableStateOf(MPopMenu(arrayListOf()))
     }

@@ -41,6 +41,8 @@ import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.home.components.AutoCompleteTextField
 import com.ochess.edict.presentation.main.components.CloseButton
 import com.ochess.edict.presentation.main.components.DateRangePicker
+import com.ochess.edict.presentation.main.extend.MainRun
+import com.ochess.edict.presentation.main.extend.bgRun
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.DateUtil
 import com.ochess.edict.util.TimeStampScope
@@ -175,10 +177,9 @@ class HistroyFilter{
                                 Spacer(modifier = Modifier.weight(1f))
                                 CloseButton(onClick = {
                                     val index = levelIndexs.value.indexOf(it)
-                                    levelIndexs.value.removeAt(index)
                                     val a = arrayListOf<String>()
                                     a.addAll(levelIndexs.value)
-                                    a.add(it)
+                                    a.removeAt(index)
                                     hViewModel.selectLevels.value = a
                                 })
                             }
@@ -202,7 +203,8 @@ class HistroyFilter{
                 Text("reset",Modifier.clickable {
                     hViewModel.selectTypeIndex.value =-1
                     hViewModel.selectDateIndex.value = 0
-                    hViewModel.selectLevels.value.clear()
+                    hViewModel.selectLevels.value =  arrayListOf<String>()
+
                 }.padding(10.dp), color = MaterialTheme.colorScheme.onSurface)
             }
         }

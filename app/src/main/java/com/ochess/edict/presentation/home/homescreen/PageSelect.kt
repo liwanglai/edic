@@ -14,6 +14,7 @@ import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.data.config.MenuConf.mode.*
+import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.home.HomeEvents
@@ -28,6 +29,7 @@ import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.listenbook.ListenBookScreen
 import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.presentation.main.components.InputDialog
+import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.print.MPrinter
 import com.ochess.edict.util.ActivityRun
 
@@ -40,12 +42,16 @@ fun PageSelect(
 ) {
     HomeEvents.status.openDrowUp = true
     HomeEvents.status.enableDrowUp = true
+    val dSize = Display.getScreenSize()
     Column (modifier = Modifier
         .onGloballyPositioned { layoutCoordinates ->
-            val size = Display.getScreenSize()
-            HomeEvents.status.openDrowUp = layoutCoordinates.size.height <= size.y+2
+            HomeEvents.status.openDrowUp =if(vmode in listOf(jdc_select,jdc_write)) true
+                else layoutCoordinates.size.height <= dSize.y+20
         }
     ){
+        BookConf.onWordChange{word->
+            GlobalVal.wordViewModel.setWord(DictionarySubEntity(word.wordsetId,word.word,word.level))
+        }
         when (vmode) {
             wordStudy -> {
                 defContent()
@@ -66,10 +72,8 @@ fun PageSelect(
                 WordScapesGame()
             }
             wordExtGame -> {
-
                 ExtGame()
             }
-
             listenBook -> {
                 ListenBookScreen(words)
 //                viewMode = wordStudy

@@ -59,6 +59,9 @@ class BookMarkEvent {
                         GlobalVal.isSearchVisible.value = true
                     "select" ->
                         clickModel=clickModelItem.isSelect
+                    "bindDir" -> {
+
+                    }
                 }
             }
         }
@@ -88,7 +91,8 @@ class BookMarkEvent {
             menu.show { k, v ->
                 when (v.name) {
                     "toMain" ->
-                        Run.open(item,true)
+//                        Run.open(item,true)
+                        Run.open(item)
                     "toBook" ->
                         Run.openBook(item)
                     "select" -> {

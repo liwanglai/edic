@@ -312,7 +312,7 @@ open class WordScapesData {
                 it.map {
                     wordModelMaps[it.word] = it
                 }
-                if(word.length>0) {
+                if(word.length>0 && word in wordModelMaps) {
                     nextWord.value = wordModelMaps[word]!!
                     Thread.sleep(100)
                     GlobalScope.launch {

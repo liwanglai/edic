@@ -122,9 +122,7 @@ fun HomeScreen(
                  }
              }
          }
-        BookConf.onWordChange { word->
-            GlobalVal.wordViewModel.setWord(DictionarySubEntity(word.wordsetId,word.word,word.level))
-        }
+
         BookConf.initOnce()
         wordList.value
     }

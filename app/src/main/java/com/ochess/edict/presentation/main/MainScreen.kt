@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
@@ -80,6 +81,7 @@ fun MainScreen(
     GlobalVal.bookmarkViewModel = bookmarkViewModel
     GlobalVal.nav = navController
     GlobalVal.wordViewModel = wordViewModel
+    GlobalVal.clipboardManager = LocalClipboardManager.current
 
     val fullWidth = with(LocalContext. current) {
         resources. displayMetrics. widthPixels

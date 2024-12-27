@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.config.PageConf.DicType
 import com.ochess.edict.data.local.entity.Meaning
+import com.ochess.edict.data.local.entity.Meaning.Companion.typeMap
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.components.UtilButtons
@@ -46,9 +47,7 @@ fun SearchContent(
 
     val levelViewModel: LevelViewModel = hiltViewModel()
     val tColor = MaterialTheme.colorScheme.onBackground
-    var moreVisible by remember {
-        mutableStateOf(false)
-    }
+
     UtilButtons( wordViewModel)
 
     Column(
@@ -74,19 +73,12 @@ fun SearchContent(
             }
             val showEn = listOf(DicType.en_en.ordinal, DicType.encn.ordinal).contains(dicType)
             val moreN = 3
-            val mSize = it.meanings?.size
-            if (showCh) {
-                Text(
-                    text = "${it.ch ?: " "}",
-                    fontStyle = FontStyle.Normal,
-                    fontSize = 20.sp,
-                    lineHeight = TextUnit(20f, TextUnitType.Sp),
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Normal),
-                    color = tColor,
-                    modifier = Modifier.clickable {
-                        showCh = !showCh
-                    }
-                )
+            val mSize = if(it.meanings!=null) it.meanings.size else 0
+            var moreVisible by remember {
+                mutableStateOf(mSize<=moreN)
+            }
+            if(mSize==1 && it.meanings!![0].def==null){
+                moreVisible = true
             }
             @Composable
             fun runOneMeaning(index:Int, meaning:Meaning){
@@ -96,19 +88,27 @@ fun SearchContent(
                 val eEn =  remember { mutableStateOf(false) }
 
                 dictionaryStringBuilder.append(meaning.speechPart).append("\n")
+                var typeName =""
+                var typeZhName =""
+
                 if (meaning.speechPart != null) {
-                    Text(
-                        text = meaning.speechPart,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Start,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    typeName = "("+meaning.speechPart+")"
+                    if(meaning.speechPart in typeMap.keys){
+                        typeZhName = "("+typeMap[meaning.speechPart]+")"
+                    }
+//                    Text(
+//                        text = meaning.speechPart,
+//                        style = MaterialTheme.typography.titleSmall,
+//                        fontWeight = FontWeight.Bold,
+//                        textAlign = TextAlign.Start,
+//                        color = MaterialTheme.colorScheme.onSurface
+//                    )
                 }
+
                 dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
 
                 if ((showCh || defChVisable.value) && meaning.def_ch != null) {
-                    Text(text = "${index + 1}. " + meaning.def_ch, modifier = Modifier.clickable {
+                    Text(text = "${index + 1}. $typeZhName" + meaning.def_ch, modifier = Modifier.clickable {
                         if (dicType == DicType.en_cn.ordinal) {
                             dEn.value = !dEn.value
                         }
@@ -116,7 +116,7 @@ fun SearchContent(
                 }
                 if (showEn || dEn.value) {
                     ClickAbelText(
-                        text = "${index + 1}. ${meaning.def}",
+                        text = "${index + 1}. ${typeName}${meaning.def}",
                         style = MaterialTheme.typography.titleSmall,
                         lineHeight = TextUnit(18f, TextUnitType.Sp),
                         color = tColor,
@@ -186,14 +186,30 @@ fun SearchContent(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
             }
+            Text(
+                text = "${it.ch ?: " "}",
+//                fontStyle = FontStyle.Italic,
+                //fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                lineHeight = TextUnit(20f, TextUnitType.Sp),
+                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
+                color = tColor,
+                modifier = Modifier.clickable {
+                    showCh = !showCh
+                }.padding(bottom = 15.dp)
+            )
             val moreMeaning= if(mSize!! >moreN){
                 it.meanings?.subList(0,moreN)!!.forEachIndexed{ index, meaning ->
                         runOneMeaning(index,meaning)
                 }
                 it.meanings?.subList(moreN,mSize)
             }else{
+                it.meanings?.forEachIndexed{ index, meaning ->
+                    runOneMeaning(index,meaning)
+                }
                 listOf<Meaning>()
             }
+
             if(!moreVisible){
                 Text(
                     mt("more"),
@@ -205,26 +221,16 @@ fun SearchContent(
                     , color = tColor
                 )
             }else {
-                moreMeaning.forEachIndexed{index,meanning->
-                    runOneMeaning(index+moreN,meanning)
+                moreMeaning.forEachIndexed { index, meanning ->
+                    runOneMeaning(index + moreN, meanning)
                 }
-                Text(
-                    text = "${it.ch ?: " "}",
-                    fontStyle = FontStyle.Normal,
-                    fontSize = 20.sp,
-                    lineHeight = TextUnit(20f, TextUnitType.Sp),
-                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
-                    color = tColor,
-                    modifier = Modifier.clickable {
-                        showCh = !showCh
-                    }
-                )
+
                 //级别
                 var lName by remember { mutableStateOf("") }
                 LaunchedEffect(wordModel?.word) {
                     if (wordModel?.word == null) return@LaunchedEffect
-                    if(lName.length>0 && lName!=wordModel.word){
-                        moreVisible=false
+                    if (lName.length > 0 && lName != wordModel.word) {
+                        moreVisible = false
                     }
                     lName = ""
                     bgRun {
@@ -243,9 +249,11 @@ fun SearchContent(
 //                            launchSingleTop = true
 //                        }
 //                    },
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = Color.LightGray,
+                    modifier = Modifier.padding(top=15.dp)
                 )
             }
         }
+
     }
 }

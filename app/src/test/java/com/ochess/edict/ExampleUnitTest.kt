@@ -16,9 +16,16 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
     }
 
-
+data class aa(var a:Int){
+}
     @Test
     fun ref(){
+
+        val a = arrayOf(aa(1),aa(2),aa(3))
+        var b = listOf<aa>(aa(2))
+        val c =a.intersect(b).toTypedArray()
+        System.out.print(c.toString())
+        assertEquals(c.size,1)
 //        val kClass = SettingConf::class
 //        kClass.memberProperties.forEach { property ->
 //            System.out.print(property)

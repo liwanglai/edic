@@ -147,7 +147,7 @@ data class BookConf (
         doc.split(Regex("[\\r\\n]")).map{it.trim()}.forEach{
             if(beforeLine.length ==0 && it.length>0) {
                 if(mapWords.length>0) {
-                    chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，")).map{it.trim()}.filter { it.length>0 }//a.findWords(mapWords)
+                    chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，|\\s+")).map{it.trim()}.filter { it.length>0 }//a.findWords(mapWords)
                     mapWords = ""
                 }
                 chapters.add(it)
@@ -158,13 +158,13 @@ data class BookConf (
             beforeLine = it
         }
         if(mapWords.length>0) {
-            chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，")).map{it.trim()}.filter{it.length>0}
+            chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，|\\s+")).map{it.trim()}.filter{it.length>0}
         }
         if(chapters.size ==1 && name!="历史记录页"){
             val first = chapters[0]
             chapters[0] = "defaultChapter"
             val newList = arrayListOf<String>()
-            first.split(Regex(",|，")).map{it.trim()}.filter { it.length>0 }.filter { newList.add(it) }
+            first.split(Regex(",|，|\\s+")).map{it.trim()}.filter { it.length>0 }.filter { newList.add(it) }
             if(chapterMapWords.size>0) {
                 newList.addAll(chapterMapWords[first]!!)
             }

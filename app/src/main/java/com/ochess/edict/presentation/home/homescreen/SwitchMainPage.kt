@@ -57,7 +57,7 @@ fun SwitchMainPage(
     if(nowBookShowType.equals("word_shows")) {
         val ex = Book.wordEx()
         val p = itemGroups["word_shows"]
-        if(p!=null && ex.data.size+ex.isize==0) {
+        if(p!=null && ex.data.size+ex.isize<2) {
             val i = p.indexOf(MenuConf.mode.wordScapesGame)
             p.removeAt(i)
         }

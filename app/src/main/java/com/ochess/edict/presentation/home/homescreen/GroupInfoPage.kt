@@ -150,7 +150,14 @@ fun GroupInfoPage(ap: MutableState<Float>){
 @Composable
 fun Title(txt:String,click:(()->Unit)?=null){
     var more = when(txt){
-        "WordList" ->  "(${BookConf.words.size})"
+        "WordList" -> {
+            var rt = "(${BookConf.words.size})"
+            val cname = BookConf.instance.chapterName
+            if(cname.startsWith("Top")){
+                rt=LevelViewModel.getTopInfo(cname)
+            }
+            rt
+        }
         else -> {
             if(txt.startsWith("Top")){
                 LevelViewModel.getTopInfo(txt)

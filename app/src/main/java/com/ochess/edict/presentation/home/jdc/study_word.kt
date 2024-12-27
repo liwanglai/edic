@@ -29,6 +29,8 @@ import com.ochess.edict.presentation.home.jdc.study_word.tabs
 import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.presentation.main.components.InfoDialog
+import com.ochess.edict.presentation.main.extend.MainRun
+import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.ActivityRun.Companion.msg
@@ -38,6 +40,7 @@ import com.ochess.edict.view.skin.LayoutJdc.layouts.methods.click
 import com.ochess.edict.view.skin.LayoutJdc.layouts.methods.img
 import com.ochess.edict.view.skin.LayoutJdc.layouts.methods.toggle
 import com.ochess.edict.view.skin.view.SkinView
+import kotlinx.coroutines.delay
 import java.util.Locale
 
 @Composable
@@ -229,9 +232,9 @@ class StudyWord(box: ViewGroup, vItem: WordModel) : tabs(box, vItem) {
                     }
                 }
             }
-            Handler().postDelayed({
+            setTimeout(200){
                 GlobalVal.tts.play(vItem.word)
-            },200)
+            }
 //            findViewById<ViewGroup>(R.id.rg_tab).children.first().performClick()
         }
     }
