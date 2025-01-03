@@ -30,4 +30,5 @@ interface DictionaryBaseRepository {
 
     fun getWords():List<WordModel>
     fun setWords(wList: List<WordModel>)
+    fun searchByCh(query: String): Flow<List<DictionaryEntity>>
 }

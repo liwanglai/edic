@@ -14,8 +14,12 @@ import com.ochess.edict.data.local.entity.LevelEntity
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.domain.repository.DictionaryBaseRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import java.util.LinkedHashMap
 import java.util.LinkedList
 import java.util.Random
@@ -156,6 +160,22 @@ class DictionaryRepository @Inject constructor(
             val queryObj = SimpleSQLiteQuery(query, arrayOf(text))
             emit(dictionaryDao.search(queryObj))
         }
+    }
+
+    override fun searchByCh(text: String): Flow<List<DictionaryEntity>> = flow {
+            val words = arrayListOf<DictionaryEntity>()
+            ('a'..'z').asFlow().onEach {
+                val query = """
+                    SELECT * FROM ${it}_table WHERE ch like '%${text}%' limit 10
+                """
+                val queryObj = SimpleSQLiteQuery(query)
+                val finds = dictionaryDao.prefixMatch(queryObj)
+                if(finds.size>0) {
+                    words.addAll(finds)
+                }
+            }.onCompletion {
+                emit(words)
+            }.collect{}
     }
 
     override fun searchByWordSetId(text: String, wordSetId: String): Flow<DictionaryEntity> = flow {

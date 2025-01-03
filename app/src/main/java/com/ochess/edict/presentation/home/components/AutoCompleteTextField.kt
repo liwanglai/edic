@@ -3,6 +3,7 @@ package com.ochess.edict.presentation.home.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -131,9 +132,21 @@ fun AutoCompleteTextField(
         if (sug.isNotEmpty()) {
             Card(modifier = Modifier.padding(5.dp).alpha( 0.8f )) {
                 sug.forEach {
-                    Text(it, modifier = Modifier.clickable {
-                        onItemClick(it)
-                    }.fillMaxWidth().height(30.dp).padding(start = 10.dp, bottom = 10.dp))
+                    var word = it
+                    var ch = ""
+                    if(it.matches(Regex("\\w+:[^:]+"))){
+                        val split2 = it.split(":")
+                        word = split2[0]
+                        ch = split2[1]
+                    }
+                    Row(modifier = Modifier.clickable {
+                        onItemClick(word)
+                    }.fillMaxWidth().height(30.dp).padding(start = 10.dp, bottom = 10.dp)){
+                        Text(word, modifier = Modifier.weight(1f))
+                        if(ch.length>0){
+                            Text(ch, color = Color.Gray)
+                        }
+                    }
 
                 }
             }

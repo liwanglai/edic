@@ -149,7 +149,7 @@ class WordModelViewModel @Inject constructor(
         clearSuggestions()
         prefixMatchJob?.cancel()
         prefixMatchJob = viewModelScope.launch(IO) {
-            if (!searchWords || query.matches(Regex("[\u4E00-\u9FA5]+"))) {
+            if (!searchWords) {
                 val sugs = arrayListOf<String>()
                 val aQuery = Article.self.query.like("name",query).build()
                 val cQuery = Category.self.query.like("name",query).build()
@@ -159,7 +159,11 @@ class WordModelViewModel @Inject constructor(
                 val l = Db.dictionary.levelDao.select(lQuery).map { "level.${it.id}:${it.name}" }
                 sugs.addAll(a); sugs.addAll(c); sugs.addAll(l)
                 suggestions.value = sugs
-            } else {
+            } else  if(query.matches(Regex("[\u4E00-\u9FA5]+"))) {
+                dictRepository.searchByCh(query).collect { matches ->
+                    suggestions.value = matches.map{ it.word+":"+it.ch}
+                }
+            }else{
                 dictRepository.prefixMatch(query).collect { matches ->
                     matches.let { match ->
                         val sublist = match.map { it.word }
