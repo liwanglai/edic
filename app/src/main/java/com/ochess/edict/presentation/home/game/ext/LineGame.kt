@@ -113,7 +113,12 @@ class LineGame  {
         val ws = arrayOfNulls<String>(args.size)
         var i = 0
         for (k in args) {
-            ws[i++] = k + " " + wordMap[k]
+//            ws[i++] = k + " " + wordMap[k]
+            if(wordMap[k]!=null && wordMap[k]?.length!! >0){
+                ws[i++] = wordMap[k]
+            }else {
+                ws[i++] = k
+            }
         }
         val gameAdapter: ListAdapter = object : StringsAdapter(ws, true) {
             override fun getView(i: Int, view: View?, viewGroup: ViewGroup?): View {

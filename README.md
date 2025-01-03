@@ -42,7 +42,30 @@
     <img src="./blob/demo/history.jpg" width="150px" height="auto"/>
     <img src="./blob/demo/setting.jpg" width="150px" height="auto"/>
 </p>
-
+## 操作demo
+<table>
+<tr ><td>
+<img src="./blob/demo/first.gif" width="150px" height="auto"/><br>
+初始化
+</td>
+<td>
+<img src="./blob/demo/up_down.gif" width="150px" height="auto"/><br>
+上下滑动
+</td>
+<td>
+<img src="./blob/demo/back.gif" width="150px" height="auto"/><br>
+返回
+</td>
+<td>
+<img src="./blob/demo/wViews.gif" width="150px" height="auto"/><br>
+单词展示方式
+</td>
+<td>
+<img src="./blob/demo/wsViews.gif" width="150px" height="auto"/><br>
+列表展示方式
+</td>
+</tr>
+</table>
 ## 自定义的接口
 在线资源地址：NetConf
 
