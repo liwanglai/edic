@@ -203,6 +203,7 @@ data class BookConf (
 
     fun upWords(wds:List<WordModel>){
         words = wds
+        wordMode=null
         next(0)
         event.onChaptersChange.invoke(instance)
     }
@@ -246,6 +247,7 @@ data class BookConf (
 
     fun setWordByString(word:String) {
         index = max(0,words.map{it.word}.indexOf(word))
+        wordMode = null
         next(0)
     }
 

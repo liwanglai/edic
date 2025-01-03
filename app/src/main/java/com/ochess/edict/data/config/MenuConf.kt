@@ -75,12 +75,17 @@ class MenuConf {
 
         fun modeNow(id:Int=-1): mode {
             if(id == -1) {
-                var index = UserStatus().get("viewMode",1)
+                var index = UserStatus.get{
+                    it.getInt("viewMode",1)
+                }
                 val m = mode.values().get(index)
                 return m
             }
 
-            UserStatus().set("viewMode",id)
+            UserStatus.set{
+                it.putInt("viewMode",id)
+                "viewMode"
+            }
 
             return mode.values().get(id)
         }

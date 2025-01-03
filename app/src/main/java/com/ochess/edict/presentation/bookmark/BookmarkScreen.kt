@@ -68,7 +68,7 @@ fun BookmarkScreen() {
 
             ActivityRun.onBackPressed {
                 val pid = BookMark.pid
-                if (BookMark.pid > 0) {
+                if (BookMark.pid != 0) {
                     BookMark.changePid(nowMenu.pid)
                 }
                 pid == 0

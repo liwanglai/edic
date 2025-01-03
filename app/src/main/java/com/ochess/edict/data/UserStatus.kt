@@ -76,7 +76,7 @@ class UserStatus() {
         set(name,jsonString)
     }
     fun getString(k:String) :String{
-        return config.getString(k,"").toString()
+        return config.getString(k,"")?:""
     }
 
     @Composable
