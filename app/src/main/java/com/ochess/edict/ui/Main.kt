@@ -6,7 +6,10 @@ package com.ochess.edict.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Rect
+import android.os.Process
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -28,9 +31,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.compose.rememberNavController
 import com.ochess.edict.R
+import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.presentation.main.MainScreen
 import com.ochess.edict.presentation.main.components.BottomNavigationBar
-import com.ochess.edict.presentation.main.components.provideBottomNavItems
+import com.ochess.edict.presentation.main.components.Confirm
+import com.ochess.edict.presentation.main.components.PrivacyPolicy
 import com.ochess.edict.util.ActivityRun
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -81,6 +86,29 @@ fun bindkeyBoradEvent(view:View){
     } */
 }
 
+@Composable
+fun Main(){
+    //Android判断程序是否第一次启动   https://www.jb51.net/article/109558.htm
+    val setting: SharedPreferences = ActivityRun.context.getSharedPreferences("toy.keli.edic", 0)
+    val user_first = setting.getBoolean("FIRST", true)
+    if (user_first) { // 第一次则跳转到欢迎页面
+        ActivityRun.onBackPressed { false }
+        PrivacyPolicy{
+            setting.edit().putBoolean("FIRST", false).commit()
+            ActivityRun.restart()
+        }
+        return
+    }
+
+    val mType = MenuConf.type()
+    when (mType.value) {
+        MenuConf.right ->
+            RootContent()
+        MenuConf.bottom ->{
+            MainContent()
+        }
+    }
+}
 @OptIn(InternalCoroutinesApi::class)
 @SuppressLint("ClickableViewAccessibility", "InflateParams")
 @Composable

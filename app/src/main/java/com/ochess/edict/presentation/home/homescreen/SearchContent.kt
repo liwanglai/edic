@@ -108,7 +108,7 @@ fun SearchContent(
                 dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
 
                 if ((showCh || defChVisable.value) && meaning.def_ch != null) {
-                    Text(text = "${index + 1}. $typeZhName" + meaning.def_ch, modifier = Modifier.clickable {
+                    Text(text = "${index + 1}. $typeZhName " + meaning.def_ch, modifier = Modifier.clickable {
                         if (dicType == DicType.en_cn.ordinal) {
                             dEn.value = !dEn.value
                         }
@@ -116,7 +116,7 @@ fun SearchContent(
                 }
                 if (showEn || dEn.value) {
                     ClickAbelText(
-                        text = "${index + 1}. ${typeName}${meaning.def}",
+                        text = "${index + 1}. ${typeName} ${meaning.def}",
                         style = MaterialTheme.typography.titleSmall,
                         lineHeight = TextUnit(18f, TextUnitType.Sp),
                         color = tColor,

@@ -32,12 +32,12 @@ fun MText(text: String,
 }
 
 @Composable
-fun HtmlView(source:String){
+fun HtmlView(source:String,height:Float=1f){
     val p = Display.getScreenSize()
     AndroidView(
         modifier = Modifier
             .width(px2dp(p.x))
-            .height(px2dp(p.y)),
+            .height(px2dp(p.y)*height),
         factory = { context ->
             WebView(context).apply {
                 setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)

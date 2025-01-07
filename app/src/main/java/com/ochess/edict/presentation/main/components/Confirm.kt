@@ -11,11 +11,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 class Confirm {
+    constructor(title0:String,msg0:String,onOk0:()->Unit,onCancel0:(()->Unit)?=null){
+        title = title0
+        msg = msg0
+        onOk = onOk0
+        onCancel = onCancel0
+    }
     companion object {
         var onOk: () -> Unit ={}
+        var onCancel: (() -> Unit)? = null
         var title: String = "确认"
         var msg: String = "你确定要删除吗？"
         var showDialog by mutableStateOf(false)
+
         @Composable
         fun add() {
 
@@ -40,6 +48,9 @@ class Confirm {
                             onClick = {
                                 // 执行取消操作
                                 showDialog = false
+                                if(onCancel!=null){
+                                    onCancel?.invoke()
+                                }
                             }
                         ) {
                             Text("取消")

@@ -17,6 +17,7 @@ import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.presentation.level.LevelViewModel
 import com.ochess.edict.presentation.ui.theme.EnglishWhizTheme
 import com.ochess.edict.ui.MTheme
+import com.ochess.edict.ui.Main
 import com.ochess.edict.ui.MainContent
 import com.ochess.edict.ui.RootContent
 import com.ochess.edict.ui.bindkeyBoradEvent
@@ -41,14 +42,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             MTheme  {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    val mType = MenuConf.type()
-                    when (mType.value) {
-                        MenuConf.right ->
-                            RootContent()
-                        MenuConf.bottom ->{
-                            MainContent()
-                        }
-                    }
+                    Main()
                 }
             }
         }
