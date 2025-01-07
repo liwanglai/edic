@@ -17,6 +17,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.Display.px2dp
+import com.ochess.edict.util.ActivityRun
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.jetbrains.annotations.Blocking
 
 
 @Composable
@@ -32,7 +38,7 @@ fun MText(text: String,
 }
 
 @Composable
-fun HtmlView(source:String,height:Float=1f){
+fun HtmlView(source:String,height:Float=1f,linkBlockOpen:Boolean=true){
     val p = Display.getScreenSize()
     AndroidView(
         modifier = Modifier
@@ -43,14 +49,33 @@ fun HtmlView(source:String,height:Float=1f){
                 setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)
                 setHorizontalScrollBarEnabled(false)
                 getSettings().apply {
-                      webViewClient=object : WebViewClient() {
-                          //重写shouldOverrideUrlLoading方法，使点击链接后不使用其他的浏览器打开。
-                          override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                              view.loadUrl(url)
-                              //如果不需要其他对点击链接事件的处理返回true，否则返回false
-                              return true
-                          }
-                      }
+                    if(!linkBlockOpen) {
+                        webViewClient = object : WebViewClient() {
+                            //重写shouldOverrideUrlLoading方法，使点击链接后不使用其他的浏览器打开。
+                            override fun shouldOverrideUrlLoading(
+                                view: WebView,
+                                url: String
+                            ): Boolean {
+                                if (url.matches(Regex(".+\\.htm*"))) {
+                                    view.loadUrl(url)
+                                    //如果不需要其他对点击链接事件的处理返回true，否则返回false
+                                    return true
+                                } else {
+                                    val request = Request.Builder().url(url).build()
+                                    bgRun {
+                                        OkHttpClient().newCall(request).execute().use { response ->
+                                            var textData = response.body?.string() ?: ""
+                                            MainScope().launch {
+                                                view.loadData(textData, "text/html", "UTF-8")
+                                            }
+                                        }
+                                    }
+                                    return true
+                                }
+                            }
+                        }
+                        javaScriptEnabled = true
+                    }
 //                    setUseWideViewPort(true)
 //                    setLoadWithOverviewMode(true)
                 }
