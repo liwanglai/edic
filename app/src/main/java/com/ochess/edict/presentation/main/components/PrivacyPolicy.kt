@@ -18,7 +18,7 @@ fun PrivacyPolicy(onOk:()->Unit){
     AlertDialog(
         onDismissRequest = { showDialog = false },
         title = { Text("隐私政策") },
-        text = { HtmlView("欢迎使用“电子词典”，我们非常重视您的隐私保护，在您使用本应用之前，请仔细阅读<a href='https://gitee.com/kelioc/edic/blob/master/pp.html'>《》</a>我们将按照您同意的条款使用您的个人信息，以便为您提供服务",0.7f) },
+        text = { HtmlView("欢迎使用“电子词典”，我们非常重视您的隐私保护，在您使用本应用之前，请仔细阅读<a href='https://gitee.com/kelioc/edic/blob/master/pp.html'>《隐私政策》</a>我们将按照您同意的条款使用您的个人信息，以便为您提供服务",0.5f) },
         confirmButton = {
             Button(
                 onClick = {

@@ -1,8 +1,8 @@
 package com.ochess.edict.presentation.main.extend
 
 import android.view.View
-import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.LocalTextStyle
@@ -37,12 +37,20 @@ fun HtmlView(source:String,height:Float=1f){
     AndroidView(
         modifier = Modifier
             .width(px2dp(p.x))
-            .height(px2dp(p.y)*height),
+            .height(px2dp(p.y) * height),
         factory = { context ->
             WebView(context).apply {
                 setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)
                 setHorizontalScrollBarEnabled(false)
                 getSettings().apply {
+                      webViewClient=object : WebViewClient() {
+                          //重写shouldOverrideUrlLoading方法，使点击链接后不使用其他的浏览器打开。
+                          override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                              view.loadUrl(url)
+                              //如果不需要其他对点击链接事件的处理返回true，否则返回false
+                              return true
+                          }
+                      }
 //                    setUseWideViewPort(true)
 //                    setLoadWithOverviewMode(true)
                 }
