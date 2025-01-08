@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.1">
     <title>电子词典隐私政策</title>
+        <style>
+        p {
+            word-wrap: break-word;
+            word-break: break-all;
+            width: 100%; /* 或者其他适当的宽度 */
+        }
+    </style>
 </head>
 
 <body>
