@@ -118,6 +118,8 @@ dependencies {
     implementation(mapOf( "group" to "com.fasterxml.jackson.core", "name" to "jackson-core", "version" to "2.13.3"))
     implementation(mapOf( "group" to "com.fasterxml.jackson.core", "name" to "jackson-databind", "version" to "2.13.3"))
 
+//    api("com.alipay.sdk:alipaysdk-android:+@aar")
+//    api("com.tencent.mm.opensdk:wechat-sdk-android:+")
 //    //markdown
 //    implementation("com.halilibo.richtext:richtext-ui-compose:latest.release")
 //    implementation("com.halilibo.richtext:markdown-commonmark:latest.release")

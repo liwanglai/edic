@@ -9,19 +9,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.ochess.edict.data.UserStatus
-import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.presentation.level.LevelViewModel
-import com.ochess.edict.presentation.ui.theme.EnglishWhizTheme
 import com.ochess.edict.ui.MTheme
 import com.ochess.edict.ui.Main
-import com.ochess.edict.ui.MainContent
-import com.ochess.edict.ui.RootContent
 import com.ochess.edict.ui.bindkeyBoradEvent
-import com.ochess.edict.ui.theme.EdicTheme
 import com.ochess.edict.util.ActivityRun
 import com.ochess.edict.util.ScreenUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             MTheme  {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    Main()
+                        Main()
                 }
             }
         }
