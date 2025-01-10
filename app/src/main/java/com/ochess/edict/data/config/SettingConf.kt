@@ -48,6 +48,8 @@ class SettingConf {
                 this.SystemTitle = ""
             "about" ->
                 this.About = ""
+            "privacy" ->
+                this.Privacy = ""
             else ->{
 
             }
@@ -78,6 +80,7 @@ class SettingConf {
             "themeType" to this.ThemeType,
             "orientation" to this.Orientation,
             "systemTitle" to this.SystemTitle, //显示系统标题栏
+            "privacy" to this.Privacy, //显示系统标题栏
             "about" to this.About, //显示系统标题栏
             "quit" to this.Quit,
         )
@@ -163,6 +166,12 @@ class SettingConf {
                 },500)
             }
     }
+
+    public var Privacy: String
+        get()= ""
+        set(v){
+            NavScreen.openRoute(NavScreen.routes.About+"?page=privacy")
+        }
 
     public var About: String
         get()= ""

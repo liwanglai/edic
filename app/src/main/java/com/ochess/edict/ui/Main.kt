@@ -90,7 +90,7 @@ fun bindkeyBoradEvent(view:View){
 fun Main(){
     //Android判断程序是否第一次启动   https://www.jb51.net/article/109558.htm
     val setting: SharedPreferences = ActivityRun.context.getSharedPreferences("toy.keli.edic", 0)
-    val user_first = setting.getBoolean("FIRST", true)
+    val user_first = true;//setting.getBoolean("FIRST", true)
     if (user_first) { // 第一次则跳转到欢迎页面
         ActivityRun.onBackPressed { false }
         PrivacyPolicy{

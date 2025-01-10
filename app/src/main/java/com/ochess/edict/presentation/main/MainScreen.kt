@@ -381,8 +381,15 @@ fun MainScreen(
         ) {
             JdcScreen(it.arguments!!.getInt("page",0))
         }
-        composable(route = NavScreen.routes.About) {
-            AboutScreen()
+        composable(route = NavScreen.routes.About+"?page={page}",arguments = listOf(
+            navArgument("page") {
+                type = NavType.StringType
+                defaultValue = "" })
+        ) {
+            when(it.arguments!!.getString("page","")){
+                "" -> AboutScreen()
+                "privacy" -> PrivacyScreen()
+            }
         }
     }
     }

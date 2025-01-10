@@ -1,17 +1,19 @@
 package com.ochess.edict.presentation.main.components
 
+import android.content.DialogInterface
 import android.os.Process
+import android.view.Gravity
+import android.widget.Button
+import android.widget.LinearLayout
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
-import com.ochess.edict.presentation.main.components.Confirm.Companion.msg
-import com.ochess.edict.presentation.main.components.Confirm.Companion.onCancel
-import com.ochess.edict.presentation.main.components.Confirm.Companion.onOk
+import androidx.compose.ui.graphics.Color
 import com.ochess.edict.presentation.main.components.Confirm.Companion.showDialog
-import com.ochess.edict.presentation.main.components.Confirm.Companion.title
 import com.ochess.edict.presentation.main.extend.HtmlView
 import com.ochess.edict.presentation.main.extend.MText as Text
+
 
 @Composable
 fun PrivacyPolicy(onOk:()->Unit){
@@ -37,6 +39,7 @@ fun PrivacyPolicy(onOk:()->Unit){
                     showDialog = false
                     Process.killProcess(Process.myPid())
                 }
+                , colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray)
             ) {
                 Text("不同意")
             }

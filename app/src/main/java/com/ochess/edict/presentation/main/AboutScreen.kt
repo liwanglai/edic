@@ -28,6 +28,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,11 +48,22 @@ import com.ochess.edict.data.config.SettingConf
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.FlowRow
 import com.ochess.edict.presentation.main.extend.HtmlView
+import com.ochess.edict.presentation.main.extend.MainRun
 import com.ochess.edict.presentation.main.extend.MarkdownContent
+import com.ochess.edict.presentation.main.extend.bgRun
+import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.FileUtil
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 @Composable
-fun AboutScreen() {
+fun HtmlPage(title:String,htmlCode:String){
     Column {
         Row(
             modifier = Modifier
@@ -59,7 +72,7 @@ fun AboutScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                mt("about"),
+                mt(title),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -72,17 +85,20 @@ fun AboutScreen() {
         Column (Modifier.padding(10.dp)
             //.verticalScroll(rememberScrollState())
         ){
-//            Card {
-//                Text(mt("LinkMe"), fontSize = 25.sp)
-//                Text(mt("linkMeInfo") + "：" + NetConf.email)
-//            }
-            var data = FileUtil.getRes(R.raw.about)
-            if(data!=null) {
-                data = data.replace("\$email",NetConf.email)
-                HtmlView(data)
-            }
-
-
+                HtmlView(htmlCode)
         }
     }
+}
+@Composable
+fun AboutScreen() {
+    var data = FileUtil.getRes(R.raw.about)
+    if(data!=null) {
+        data = data.replace("\$email", NetConf.email)
+        HtmlPage("about",data)
+    }
+}
+@Composable
+fun PrivacyScreen() {
+    var data = FileUtil.getRes(R.raw.pp)!!
+    HtmlPage("Privacy", data)
 }

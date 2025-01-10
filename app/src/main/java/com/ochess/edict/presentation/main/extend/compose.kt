@@ -67,6 +67,8 @@ fun HtmlView(source:String,height:Float=1f,linkBlockOpen:Boolean=true){
                                             var textData = response.body?.string() ?: ""
                                             MainScope().launch {
                                                 view.loadData(textData, "text/html", "UTF-8")
+                                                setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY)
+                                                setHorizontalScrollBarEnabled(false)
                                             }
                                         }
                                     }
