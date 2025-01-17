@@ -40,21 +40,21 @@ class HomeEvents {
         val events = Events()
 
 
-        fun onback(){
+        fun onback(abs:Boolean=false){
             //底部菜单退出和现实方式退出
-            if(!events.onBackPressed()){
+            if(!abs && !events.onBackPressed()){
                 return
             }
             when(nowBookShowType){
                 "word_shows" -> {
                     val modeNow = MenuConf.modeNow()
                     //历史记录
-                    if(viewMode == modeNow && HistoryWords.size>1){
+                    if(!abs && viewMode == modeNow && HistoryWords.size>1){
                         HistoryWords.pop()
                         return
                     }
                     //其他模式返回主模式 或者返回列表
-                    if(viewMode != modeNow && false === PageConf.getBoolean(PageConf.homePage.RemainViewMode)){
+                    if(viewMode != modeNow && false === PageConf.getBoolean(PageConf.homePage.RemainViewMode,true)){
                         viewMode = modeNow
                     }else {
                         GroupInfoPage.beforMode = viewMode
@@ -111,6 +111,13 @@ class HomeEvents {
             var onDownMenuHide: () -> Unit ={}
             var onDownMenuShow: () -> Unit ={}
             var onBackPressed: () -> Boolean = {true}
+        }
+    }
+    object searchTools{
+        var defaultText=""
+        fun show(word: String="") {
+            GlobalVal.isSearchVisible.value = true
+            defaultText = word
         }
     }
     object SwitchMainPage {

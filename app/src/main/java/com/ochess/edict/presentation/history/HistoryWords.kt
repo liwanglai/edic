@@ -14,7 +14,7 @@ class HistoryWords {
         val menu: MPopMenu = MPopMenu(arrayListOf<MPopMenu.dataClass>())
         var size=0
         fun add(wordModel:WordModel?){
-            if(wordModel == null) return
+            if(wordModel == null || wordModel.word.length==0) return
             val word = wordModel.word
             val index =menu.items.size
             if(menu.items.size==0 || menu.items[menu.items.size-1].name!=word) {

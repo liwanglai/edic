@@ -2,14 +2,18 @@ package com.ochess.edict.presentation.home.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,6 +36,8 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -46,6 +52,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun AutoCompleteTextField(
     modifier: Modifier = Modifier,
+    text:String = "",
     suggestions: MutableStateFlow<List<String>>,
     onSearch: (String) -> Unit,
     onClear: () -> Unit,
@@ -56,7 +63,10 @@ fun AutoCompleteTextField(
 
 ) {
     var searchQuery by rememberSaveable(stateSaver = TextFieldValue.Saver) {
-        mutableStateOf(TextFieldValue())
+        mutableStateOf(TextFieldValue(
+            annotatedString = AnnotatedString(text=text),
+            selection = if(text.length>0) TextRange(0,text.length) else TextRange.Zero
+        ))
     }
     var expandedState by remember { mutableStateOf(false) }
     val sug by suggestions.collectAsState()
@@ -123,14 +133,18 @@ fun AutoCompleteTextField(
                 .focusRequester(requester)
                 .onFocusChanged {
                     if(it.isFocused){
-                        onSearch("")
+                        onSearch(text)
                     }else{
                         onClear()
                     }
                 }
         )
         if (sug.isNotEmpty()) {
-            Card(modifier = Modifier.padding(5.dp).alpha( 0.8f )) {
+            Card(modifier = Modifier
+                .padding(5.dp)
+                .alpha( 0.8f )
+                .verticalScroll(rememberScrollState())
+            ) {
                 sug.forEach {
                     var word = it
                     var ch = ""

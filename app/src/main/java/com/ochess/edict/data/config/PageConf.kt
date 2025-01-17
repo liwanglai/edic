@@ -47,8 +47,9 @@ class PageConf {
             "InLetter" to true,
             "TitleClickEdit" to true,
             "DefaultShowDetails" to true,
-            "DicType" to 1,
+            "DicType" to 2,
             "SortWords" to true,
+            "RemainViewMode" to true,
         )
 
 //        public var ViewMode

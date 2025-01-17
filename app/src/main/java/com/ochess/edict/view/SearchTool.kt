@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.ochess.edict.R
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
 import com.ochess.edict.presentation.home.components.AutoCompleteTextField
@@ -45,7 +46,7 @@ fun SearchButton(onClink:() -> Unit){
     )
 }
 @Composable
-fun SearchTool(wordViewModel :WordModelViewModel){
+fun SearchTool(wordViewModel :WordModelViewModel,defaultText:String=""){
     val keyboardController = LocalSoftwareKeyboardController.current
     var lastSugTime = System.currentTimeMillis()
 
@@ -56,18 +57,21 @@ fun SearchTool(wordViewModel :WordModelViewModel){
     Row (modifier = Modifier
         .padding(15.dp)
 //        .height(50.dp)
-        ,
     ){
         var visible by remember { GlobalVal.isSearchVisible }
         var beforState: WordState? = null
         remember {
             ActivityRun.onKeyBoardStatusChange { isOpen ->
+                if(wordViewModel.suggestions.value.size>0){
+                    return@onKeyBoardStatusChange
+                }
                 if (visible && !isOpen) visible = false
             }
         }
 
         AnimatedVisibility(visible = visible) {
             AutoCompleteTextField(
+                text = defaultText,
                 modifier = Modifier.fillMaxWidth(),
                 suggestions = wordViewModel.suggestions,
                 onSearch = {

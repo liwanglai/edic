@@ -2,8 +2,6 @@ package com.ochess.edict.presentation.home.homescreen
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -23,7 +21,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -43,16 +40,13 @@ import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.PageConf
-import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.model.Article
 import com.ochess.edict.data.plug.CategoryTree
 import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.BookmarkViewModel
 import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.history.HistoryWords
-import com.ochess.edict.presentation.history.HistoryWords.Companion.menu
-import com.ochess.edict.presentation.home.PAGE_FROM_BOOKMARK
-import com.ochess.edict.presentation.home.PAGE_FROM_HISTORY
+import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.TAG
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
@@ -100,8 +94,9 @@ fun DefaultPage(navController: NavHostController,
                 val wordCanEdit = UserStatus().getMutableStatus("wordCanEdit")
                 val isEdit =  (wordCanEdit.value==1)
                 if(!isEdit) {
+                    val word = wordModel.wordModel?.word ?: "";
                     Text(
-                        text = wordModel.wordModel?.word ?: "",
+                        text = word,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 48.sp,
@@ -121,11 +116,14 @@ fun DefaultPage(navController: NavHostController,
 //                                            }
 //                                            wordViewModel.nextDictionaryWord()
 //                                        } else {
-                                            GlobalVal.isSearchVisible.value = true
+                                            HomeEvents.searchTools.show(word);
 //                                        }
                                     }
                                 },
                                 onClick = {
+                                    HomeEvents.searchTools.show(word);
+                                },
+                                onDoubleClick = {
                                     if(HistoryWords.size>1) {
                                         HistoryWords.menu.show { _, v ->
                                             wordViewModel.searcher(v.name)

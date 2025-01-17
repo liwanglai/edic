@@ -144,7 +144,7 @@ fun typetab(){
             if(i!=ro) {
                 //其他选项去重
                 while (index in setIndexs && tryMax-- > 0) {
-                    index = r.nextInt(book.size)
+                    index = r.nextInt(book.size-1)
                     if (book.size < 5) break
                 }
             }

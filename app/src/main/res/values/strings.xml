@@ -319,6 +319,7 @@
     <string name="SaveToFile">Save To File</string>
     <string name="reset">Reset</string>
     <string name="privacy">Privacy</string>
+    <string name="backToWordList">Back To Word List</string>
 
 
 </resources>

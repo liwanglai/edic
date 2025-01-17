@@ -2,10 +2,12 @@ package com.ochess.edict.presentation.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,6 +48,7 @@ import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.home.homescreen.DefaultPage
 import com.ochess.edict.presentation.home.homescreen.PageSelect
 import com.ochess.edict.presentation.home.homescreen.SlidingEnable
+import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.extend.oneRun
 import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.presentation.navigation.NavScreen
@@ -163,10 +166,24 @@ fun HomeScreen(
                 le
             )
         }
-        Row(modifier = Modifier.align(Alignment.TopEnd).padding(10.dp,15.dp)) {
+        if(HomeEvents.downMenuOpen && nowBookShowType.equals("word_shows") && !GlobalVal.isSearchVisible){
+            Box (modifier = Modifier
+                .clickable  { HomeEvents.onback(true) }
+            ){
+                Icon(
+                    painter = painterResource(id = R.drawable.abc_ic_ab_back_material),
+                    contentDescription = "返回单词列表",
+                    tint = MaterialTheme.colorScheme.onBackground,
+//                        modifier = Modifier.size(25.dp)
+                )
+                Text(mt("backToWordList"), modifier = Modifier.padding(start=20.dp))
+            }
+        }
+        Row(modifier = Modifier.padding(10.dp,15.dp)) {
+            Spacer(modifier = Modifier.weight(1f))
             if (GlobalVal.isSearchVisible.value) {
-                SearchTool(wordViewModel)
-                if (GlobalVal.isSearchVisible.value && wordViewModel.wordState.value.wordModel != null) {
+                SearchTool(wordViewModel,HomeEvents.searchTools.defaultText)
+                if (wordViewModel.wordState.value.wordModel != null) {
                         wordViewModel.detailState.value = true
                 }
             } else {
@@ -176,7 +193,7 @@ fun HomeScreen(
                 if(viewMode in wordsMode!!) {
                     IconButton(
                         {
-                            GlobalVal.isSearchVisible.value = true
+                            HomeEvents.searchTools.show();
                         },
                         modifier = Modifier
                     ) {

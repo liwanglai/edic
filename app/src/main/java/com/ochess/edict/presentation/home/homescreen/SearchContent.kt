@@ -61,7 +61,7 @@ fun SearchContent(
             dictionaryStringBuilder.append(it.word).append("\n")
 
             val dicType = remember {
-                PageConf.getInt(PageConf.homePage.DicType, 1)
+                PageConf.getInt(PageConf.homePage.DicType, 2)
             }
             var showCh by remember {
                 mutableStateOf(
@@ -108,7 +108,11 @@ fun SearchContent(
                 dictionaryStringBuilder.append("${index + 1}. ${meaning.def}").append("\n")
 
                 if ((showCh || defChVisable.value) && meaning.def_ch != null) {
-                    Text(text = "${index + 1}. $typeZhName " + meaning.def_ch, modifier = Modifier.clickable {
+                    var defch = ""
+                    if(meaning.def_ch!=null){
+                        defch = if(meaning.def_ch.startsWith("(")) meaning.def_ch.substring(1,-1) else meaning.def_ch
+                    }
+                    Text(text = "${index + 1}. $typeZhName " + defch, modifier = Modifier.clickable {
                         if (dicType == DicType.en_cn.ordinal) {
                             dEn.value = !dEn.value
                         }
@@ -116,7 +120,7 @@ fun SearchContent(
                 }
                 if (showEn || dEn.value) {
                     ClickAbelText(
-                        text = "${index + 1}. ${typeName} ${meaning.def}",
+                        text = "${index + 1}. ${typeName} " + (if(meaning.def==null) "" else meaning.def),
                         style = MaterialTheme.typography.titleSmall,
                         lineHeight = TextUnit(18f, TextUnitType.Sp),
                         color = tColor,
@@ -139,13 +143,13 @@ fun SearchContent(
                 }
                 if (!meaning.example.isNullOrEmpty()) {
                     val etitle = when (dicType) {
-                        0 -> "Example:"
-                        else -> "例句："
+                        0 -> "Example: "
+                        else -> "例句: "
                     }
                     val example = etitle + "${meaning.example}"
                     dictionaryStringBuilder.append(example).append("\n")
-                    if ((examChVisable.value) && meaning.example_ch != null) {
-                        Text(text = meaning.example_ch, modifier = Modifier.clickable {
+                    if ((showCh || examChVisable.value) && meaning.example_ch != null) {
+                        Text(text =etitle+ meaning.example_ch, modifier = Modifier.clickable {
                             eEn.value = !eEn.value
                         })
                     }
@@ -186,6 +190,34 @@ fun SearchContent(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
             }
+            //级别
+            var lName by remember { mutableStateOf("") }
+            LaunchedEffect(wordModel?.word) {
+                if (wordModel?.word == null) return@LaunchedEffect
+                if (lName.length > 0 && lName != wordModel.word) {
+                    moreVisible = false
+                }
+                lName = ""
+                bgRun {
+                    levelViewModel.getLevel(wordModel) {
+                        lName = it
+                    }
+                }
+            }
+            Text(
+                text = lName,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Start,
+//                    modifier = Modifier.clickable {
+//                        GlobalVal.nav.navigate(NavScreen.LevelScreen.route) {
+//                            launchSingleTop = true
+//                        }
+//                    },
+                color = Color.LightGray,
+                modifier = Modifier.padding(top=15.dp)
+            )
+
             Text(
                 text = "${it.ch ?: " "}",
 //                fontStyle = FontStyle.Italic,
@@ -224,34 +256,6 @@ fun SearchContent(
                 moreMeaning.forEachIndexed { index, meanning ->
                     runOneMeaning(index + moreN, meanning)
                 }
-
-                //级别
-                var lName by remember { mutableStateOf("") }
-                LaunchedEffect(wordModel?.word) {
-                    if (wordModel?.word == null) return@LaunchedEffect
-                    if (lName.length > 0 && lName != wordModel.word) {
-                        moreVisible = false
-                    }
-                    lName = ""
-                    bgRun {
-                        levelViewModel.getLevel(wordModel) {
-                            lName = it
-                        }
-                    }
-                }
-                Text(
-                    text = lName,
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Start,
-//                    modifier = Modifier.clickable {
-//                        GlobalVal.nav.navigate(NavScreen.LevelScreen.route) {
-//                            launchSingleTop = true
-//                        }
-//                    },
-                    color = Color.LightGray,
-                    modifier = Modifier.padding(top=15.dp)
-                )
             }
         }
 
