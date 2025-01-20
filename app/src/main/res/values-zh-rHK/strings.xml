@@ -217,4 +217,5 @@
     <string name="SaveToFile">保存到文件</string>
     <string name="reset">重置</string>
     <string name="backToWordList">返回單詞列表</string>
+    <string name="WordHistory">歷史單詞</string>
 </resources>

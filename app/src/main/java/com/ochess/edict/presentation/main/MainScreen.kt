@@ -87,8 +87,8 @@ fun MainScreen(
         resources. displayMetrics. widthPixels
     }
     val dragAble = UserStatus.get{
-        val defv = !ActivityRun.isHorizontalScreens()
-        it.getBoolean("HorizontalDrawAble",defv)
+//        val defv = !ActivityRun.isHorizontalScreens()
+        it.getBoolean("HorizontalDrawAble",true)
     }
     val dragEnabled = remember {
         mutableStateOf(false)
@@ -100,9 +100,11 @@ fun MainScreen(
     val dragEvent = remember{
         object {
             val move:(y:Float) ->Unit ={
-                if(pageIndex<2 && it>0) {
+                if(pageIndex<1 && it>0) {
+                    pageIndex = 1
+                       // NavScreen.openHome(0,0,-1)
                         //最左侧
-                }else if(pageIndex>NavScreen.rotesList.size-2 && it<0) {
+                }else if(pageIndex>=NavScreen.rotesList.size-1 && it<0) {
                         //最右侧
                 }else if(dragAble || dragEnabled.value)
                     dragDistance+=it

@@ -19,10 +19,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.model.Book
+import com.ochess.edict.domain.model.WordModel
 import com.ochess.edict.presentation.bookmark.BookMarkEvent
 import com.ochess.edict.presentation.history.HistoryViewModel
+import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.history.components.HistroyFilter
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.nowChapters
@@ -93,6 +96,33 @@ fun GroupInfoPage(ap: MutableState<Float>){
                    }
                }
        */
+            if(HistoryWords.size>1) {
+                Title(mt("WordHistory"))
+                Row {
+                    HistoryWords.menu.items.reversed().forEach {
+                        Text(text = it.title,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .clickable {
+                                    HistoryWords.slice(it.index)
+                                    HomeEvents.GroupInfoPage.onHistoryWordClick(it.value as WordModel)
+                                }
+                        )
+                    }
+                    HistoryWords.sliceDiscard.reversed().forEach {
+                        Text(text = it.word, color = Color.Gray,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .clickable {
+                                    HomeEvents.GroupInfoPage.onHistoryWordClick(it)
+                                }
+                        )
+                    }
+                }
+            }
+
             Title(name.replace(Regex("\\.\\w+$"),"")){
                 val pid = Book.cid()
                 BookMarkEvent.bookId = BookConf.instance.id

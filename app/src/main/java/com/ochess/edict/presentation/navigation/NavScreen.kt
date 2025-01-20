@@ -43,7 +43,7 @@ sealed class NavScreen(val route: String) {
     companion object {
         val lastUptime = MutableStateFlow(0L)
         val simpleRouteTitles= listOf(routes.Home,routes.Book,routes.History,routes.Setting)
-        val rotesList = listOf(routes.Switch,routes.Home,routes.Book,routes.History,routes.Setting)
+        val rotesList = listOf(routes.Home,routes.Book,routes.History,routes.Setting)
         var showPageIndex =1
         fun openHome(fromPage: Int, wordIndex:Int = 0, level:Int =-1) {
             val route = "${routes.Home}?wordIndex=${wordIndex}?fromPage=${fromPage}?level=${level}"

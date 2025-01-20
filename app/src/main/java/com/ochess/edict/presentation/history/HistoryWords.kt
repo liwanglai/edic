@@ -13,12 +13,16 @@ class HistoryWords {
     companion object {
         val menu: MPopMenu = MPopMenu(arrayListOf<MPopMenu.dataClass>())
         var size=0
+        var sliceDiscard= arrayListOf<WordModel>()
         fun add(wordModel:WordModel?){
             if(wordModel == null || wordModel.word.length==0) return
+            if(sliceDiscard.size>0 && wordModel.word in sliceDiscard.map{it.word}) return
             val word = wordModel.word
             val index =menu.items.size
-            if(menu.items.size==0 || menu.items[menu.items.size-1].name!=word) {
-                menu.items.add(MPopMenu.dataClass(word, word, value = index))
+            if(menu.items.size==0 || menu.items[0].name!=word) {
+                menu.items= arrayListOf( MPopMenu.dataClass(word, word, value = wordModel,index=index)).apply {
+                    addAll(menu.items)
+                }
             }
         }
         @Composable
@@ -31,10 +35,10 @@ class HistoryWords {
         //配合返回后退事件
         fun pop(){
             if(menu.items.size>0) {
-                menu.items.removeAt(menu.items.size - 1)
+                menu.items.removeAt(0)
             }
             if(menu.items.size>0) {
-                val last = menu.items.last()
+                val last = menu.items.first()
                 wordViewModel.searcher(last.name)
             }
             size = menu.items.size
@@ -42,14 +46,16 @@ class HistoryWords {
 
         //截取 配合单词选择事件
         fun slice(index: Int) {
-
-            val items = menu.items.subList(0,index).map{it}
+            val len = menu.items.size-index
+            val items = menu.items.subList(len,size).map{it}
+            sliceDiscard.addAll(menu.items.subList(0,len-1).map{it.value as WordModel})
             menu.items.clear()
             menu.items.addAll(items)
         }
 
         fun reset() {
             menu.items.clear()
+            sliceDiscard.clear()
             size= 0
         }
 

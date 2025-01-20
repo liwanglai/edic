@@ -127,7 +127,7 @@ fun DefaultPage(navController: NavHostController,
                                     if(HistoryWords.size>1) {
                                         HistoryWords.menu.show { _, v ->
                                             wordViewModel.searcher(v.name)
-                                            HistoryWords.slice(v.value as Int)
+                                            HistoryWords.slice(v.index)
                                         }
                                     }
                                 }

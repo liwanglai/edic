@@ -49,6 +49,8 @@ import com.ochess.edict.presentation.home.homescreen.DefaultPage
 import com.ochess.edict.presentation.home.homescreen.PageSelect
 import com.ochess.edict.presentation.home.homescreen.SlidingEnable
 import com.ochess.edict.presentation.main.components.Display.mt
+import com.ochess.edict.presentation.main.components.Display.setBitMapByPageScreen
+import com.ochess.edict.presentation.main.extend.MainRun
 import com.ochess.edict.presentation.main.extend.oneRun
 import com.ochess.edict.presentation.main.extend.setTimeout
 import com.ochess.edict.presentation.navigation.NavScreen
@@ -166,7 +168,7 @@ fun HomeScreen(
                 le
             )
         }
-        if(HomeEvents.downMenuOpen && nowBookShowType.equals("word_shows") && !GlobalVal.isSearchVisible){
+        if(HomeEvents.downMenuOpen && nowBookShowType.equals("word_shows") && !GlobalVal.isSearchVisible.value){
             Box (modifier = Modifier
                 .clickable  { HomeEvents.onback(true) }
             ){
@@ -294,6 +296,9 @@ fun HomeScreen(
 //            IconThemeSwitch(modifier = Modifier.align(Alignment.End)) {
 //                onToggleTheme()
 //            }
+        }
+        MainRun(1000) {
+            setBitMapByPageScreen("0")
         }
     }
 

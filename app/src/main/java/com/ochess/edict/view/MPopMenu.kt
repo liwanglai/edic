@@ -147,7 +147,7 @@ class MPopMenu(var items: ArrayList<dataClass>) {
         return this
     }
 
-    data class dataClass(var title:String="", var name:String="", var value: Any=0, val child:ArrayList<dataClass> = arrayListOf(), var selected:Boolean=false)
+    data class dataClass(var title:String="", var name:String="", var value: Any=0, val index:Int=0, val child:ArrayList<dataClass> = arrayListOf(), var selected:Boolean=false)
 
 
     companion object {

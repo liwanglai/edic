@@ -221,4 +221,6 @@
     <string name="reset">重置</string>
     <string name="privacy">隐私政策</string>
     <string name="backToWordList">返回单词列表</string>
+    <string name="WordHistory">历史单词</string>
+
 </resources>

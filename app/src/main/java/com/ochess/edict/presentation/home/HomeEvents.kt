@@ -107,6 +107,17 @@ class HomeEvents {
             return true
         }
 
+        fun onDragAbout(x: Float) {
+            var pIndex = if(viewMode == MenuConf.mode.chapterPage) 0 else 1
+            pIndex += if(x>0) -1 else 1;
+            when(pIndex){
+                0-> onback(true)
+                1-> onback(true)
+                2-> NavScreen.BookmarkScreen.open()
+                else->{}
+            }
+        }
+
         class Events{
             var onDownMenuHide: () -> Unit ={}
             var onDownMenuShow: () -> Unit ={}
@@ -231,6 +242,10 @@ class HomeEvents {
             }
         }
 
+        fun onHistoryWordClick(it: WordModel) {
+            GlobalVal.wordViewModel.searcher(it.word)
+            viewMode = beforMode
+        }
     }
 
     object scapesGame{

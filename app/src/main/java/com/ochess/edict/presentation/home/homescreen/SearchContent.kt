@@ -110,7 +110,7 @@ fun SearchContent(
                 if ((showCh || defChVisable.value) && meaning.def_ch != null) {
                     var defch = ""
                     if(meaning.def_ch!=null){
-                        defch = if(meaning.def_ch.startsWith("(")) meaning.def_ch.substring(1,-1) else meaning.def_ch
+                        defch = if(meaning.def_ch.startsWith("（")) meaning.def_ch.substring(1,meaning.def_ch.length-2) else meaning.def_ch
                     }
                     Text(text = "${index + 1}. $typeZhName " + defch, modifier = Modifier.clickable {
                         if (dicType == DicType.en_cn.ordinal) {
@@ -118,7 +118,7 @@ fun SearchContent(
                         }
                     }, color = tColor)
                 }
-                if (showEn || dEn.value) {
+                if ((showEn || dEn.value) && meaning.def != null) {
                     ClickAbelText(
                         text = "${index + 1}. ${typeName} " + (if(meaning.def==null) "" else meaning.def),
                         style = MaterialTheme.typography.titleSmall,
@@ -190,6 +190,20 @@ fun SearchContent(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
             }
+
+
+            Text(
+                text = "${it.ch ?: " "}",
+//                fontStyle = FontStyle.Italic,
+                //fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                lineHeight = TextUnit(20f, TextUnitType.Sp),
+                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
+                color = tColor,
+                modifier = Modifier.clickable {
+                    showCh = !showCh
+                }.padding(bottom = 15.dp)
+            )
             //级别
             var lName by remember { mutableStateOf("") }
             LaunchedEffect(wordModel?.word) {
@@ -216,19 +230,6 @@ fun SearchContent(
 //                    },
                 color = Color.LightGray,
                 modifier = Modifier.padding(top=15.dp)
-            )
-
-            Text(
-                text = "${it.ch ?: " "}",
-//                fontStyle = FontStyle.Italic,
-                //fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                lineHeight = TextUnit(20f, TextUnitType.Sp),
-                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Normal),
-                color = tColor,
-                modifier = Modifier.clickable {
-                    showCh = !showCh
-                }.padding(bottom = 15.dp)
             )
             val moreMeaning= if(mSize!! >moreN){
                 it.meanings?.subList(0,moreN)!!.forEachIndexed{ index, meaning ->

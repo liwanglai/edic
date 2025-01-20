@@ -320,6 +320,7 @@
     <string name="reset">Reset</string>
     <string name="privacy">Privacy</string>
     <string name="backToWordList">Back To Word List</string>
+    <string name="WordHistory">Word History</string>
 
 
 </resources>

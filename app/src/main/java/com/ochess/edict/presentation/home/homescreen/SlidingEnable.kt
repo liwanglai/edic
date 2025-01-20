@@ -33,6 +33,7 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import com.ochess.edict.data.config.MenuConf
+import com.ochess.edict.presentation.history.HistoryWords.Companion.sliceDiscard
 import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.TAG
 import com.ochess.edict.presentation.home.nowBookShowType
@@ -233,19 +234,23 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                 awaitPointerEventScope {
                     awaitFirstDown(false)
                     var mvPos = Offset.Zero
+                    val minMove = 20;
                     do {
                         val event = awaitPointerEvent()
                         val points = event.changes
                         val pan = event.calculatePan()
+
                         mvPos+=pan
+                        if(abs(mvPos.y)<abs(mvPos.x)*2) continue
+
 //                        if (!dragEnabled.value && points.size == 2) {
                         //没有开启滑动 并且双指或界面没有过长 并且向下或向上移动了一段距离了
                         if (HomeEvents.status.enableDrowUp && !dragEnabled.value && (points.size == 2 || HomeEvents.status.openDrowUp) &&
                             (
-                                (showPageIndex ==1 && mvPos.y > 10) || (showPageIndex ==0 && mvPos.y < -10)
+                                (showPageIndex ==1 && mvPos.y > minMove) || (showPageIndex ==0 && mvPos.y < -minMove)
                             )
                         ) {
-                            if(!HomeEvents.onDragDownBefore()) {
+                            if(mvPos.y>minMove && !HomeEvents.onDragDownBefore()) {
 //                                do{
 //                                    val ev=awaitPointerEvent()
 //                                    if(ev.type == PointerEventType.Release) break
@@ -256,13 +261,11 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                             Log.d(TAG, "SlidingEnable: open")
                         }
                         //没有开启滑动 并且双指或界面没有过长 并且向上滑动了一段距离了
-                        if (!dragEnabled.value && (points.size == 2 || HomeEvents.status.openDrowUp) && (showPageIndex ==1 && mvPos.y < -200)){
-                            HomeEvents.onDragUp()
+                        if (!dragEnabled.value && (points.size == 2 || HomeEvents.status.openDrowUp) && (showPageIndex ==1 && mvPos.y < -200)) {
+                                HomeEvents.onDragUp()
                         }
                         if(dragEnabled.value) {
-                            if(abs(mvPos.y)>abs(mvPos.x)*2) {
-                                onDelta(pan.y)
-                            }
+                            onDelta(pan.y)
                         }
                     } while (points.any { it.pressed })
                     Log.d(TAG, "SlidingEnable: up")
@@ -272,9 +275,14 @@ fun SlidingEnable(enabled:Boolean,contentBox: @Composable BoxScope.() -> Unit) {
                             onDrawEnd(0f)
                         },200)
                     }
+
                     if (dragEnabled.value) {
                         dragEnabled.value = false
                         Log.d(TAG, "SlidingEnable: close")
+                    }else{
+                        if(abs(mvPos.x)> abs(mvPos.y)*2 && abs(mvPos.x) > minMove){
+                            HomeEvents.onDragAbout(mvPos.x)
+                        }
                     }
                 }
             }

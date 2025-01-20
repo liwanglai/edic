@@ -17,14 +17,14 @@ fun bgRun(run:()->Unit)  {
         }
     }
 }
-fun MainRun(time:Long,run:()->Unit)  {
+fun MainRun(timeMs:Long,run:()->Unit)  {
     Handler().postDelayed({
         try{
             run()
         }catch (e:Exception){
             e.printStackTrace()
         }
-    },time)
+    },timeMs)
 }
 fun MainRun(run:()->Unit)  {
     runBlocking{

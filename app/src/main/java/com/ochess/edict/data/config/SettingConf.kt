@@ -120,10 +120,10 @@ class SettingConf {
 
             )
 
-             fun booleanGet(name:String): String {
+             fun booleanGet(name:String,defVal:Boolean=false): String {
                  val config = UserStatus.defInterface
                  val c = config.config
-                 return bNameMap[c.getBoolean(name,false)].toString()
+                 return bNameMap[c.getBoolean(name,defVal)].toString()
              }
              fun booleanSet(name:String){
                 var value = false
@@ -234,7 +234,7 @@ class SettingConf {
             }
 
         public var HorizontalDrawAble:String
-            get() = booleanGet("HorizontalDrawAble")
+            get() = booleanGet("HorizontalDrawAble",true)
             set(v){
                 booleanSet("HorizontalDrawAble")
                 ActivityRun.restart()
