@@ -98,7 +98,7 @@ fun GroupInfoPage(ap: MutableState<Float>){
        */
             if(HistoryWords.size>1) {
                 Title(mt("WordHistory"))
-                Row {
+                FlowRow {
                     HistoryWords.menu.items.reversed().forEach {
                         Text(text = it.title,
                             fontSize = 14.sp,
