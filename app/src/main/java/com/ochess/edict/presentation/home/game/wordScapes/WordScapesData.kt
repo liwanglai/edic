@@ -112,7 +112,7 @@ open class WordScapesData {
         //循环单词字母
         for (i in 0..it.length - 1) {
             //需要占领的位置有数据存在 并且数据和当前单词的数据不相同就废弃
-            if(box[x][y] != '0' && box[x][y] != it[i]) {
+            if (box[x][y] != '0' && box[x][y] != it[i]) {
                 callback()
                 return false
             }
@@ -125,9 +125,10 @@ open class WordScapesData {
             //共用点检查
             posUseds.add(box[x][y] != '0')
             box[x][y] = it[i]
-            if (fx == 0)
+            if (fx == 0) {
                 x++
-            else
+                if(x>maxX) return false
+            }else
                 y++
         }
 

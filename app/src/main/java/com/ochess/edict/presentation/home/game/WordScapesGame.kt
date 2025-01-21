@@ -51,7 +51,6 @@ var inputWord = mutableStateOf("")
 //导航按钮是否显示
 var navButtonVisitable by  mutableStateOf(false)
 var toNextWord:()->Unit = {}
-
 /**
  * 划词游戏
  */
@@ -59,8 +58,13 @@ var toNextWord:()->Unit = {}
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun WordScapesGame() {
-    var eWord = WordExtend(book.word)
-    val flen = PageConf.getInt(PageConf.sGamePage.LetterLen)
+    //不要重复载入
+    var eWord = remember {
+        WordExtend(book.word)
+    }
+    val flen = remember {
+        PageConf.getInt(PageConf.sGamePage.LetterLen)
+    }
 
     fun isOk(): Boolean {
         if(eWord.isize + eWord.data.size > 1){
@@ -116,7 +120,10 @@ fun WordScapesGame() {
         navButtonVisitable = true
     }
     Log.d("WordScapesGame: ",allWords.joinToString(","))
-    if(isOk()) initWord() else toNextWord()
+    val init = remember {
+        if (isOk()) initWord() else toNextWord()
+        true
+    }
     sGameView(ws)
 }
 @Composable
@@ -192,7 +199,6 @@ fun sGameView(ws: WordScapes)
                   modifier = Modifier
                       .fillMaxWidth()
                       .padding(10.dp)
-
               ) {
                   Text(text = "重新开始", modifier = Modifier.clickable {
                       ws.refrash()

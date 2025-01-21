@@ -70,7 +70,7 @@ class HomeEvents {
         fun onNextWordBefore():Boolean{
             val modeNow = MenuConf.modeNow()
             //如果保持当前模式开启并且当前模式不等于默认模式则不进入下一个而是直接修改显示模式
-            if(!PageConf.getBoolean(PageConf.homePage.RemainViewMode) && viewMode!= MenuConf.mode.chapterPage && viewMode!=modeNow){
+            if(!PageConf.getBoolean(PageConf.homePage.RemainViewMode,true) && viewMode!= MenuConf.mode.chapterPage && viewMode!=modeNow){
                 viewMode = modeNow
                 return false
             }

@@ -45,16 +45,20 @@ import java.util.Locale
 
 @Composable
 fun study_word(){
+    var box:ViewGroup?=null
+    BookConf.onWordChange{
+        if(box!=null) {
+            StudyWord(box!!, book.wordMode!!)
+        }
+    }
     book = BookConf.instance
     if(book.name.isEmpty()) {
         NavScreen.openJdc(0)
         return
     }
+
     LayoutJdc.view(layouts.home) { it ->
-        val box = it
-        BookConf.onWordChange{
-            StudyWord(box, book.wordMode!!)
-        }
+        box = it
         book.next(0)
         //val statusVal = upstatus.value
         it.apply {
@@ -160,8 +164,14 @@ class StudyWord(box: ViewGroup, vItem: WordModel) : tabs(box, vItem) {
 
             //加入生词本
             findViewById<View>(R.id.fl_vocab).setOnClickListener {
-                GlobalVal.wordViewModel.insertBookmark(vItem)
-                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+                if(!book.next(true)){
+                    msg("已经是最后一个了")
+                }
+                MainRun(100) {
+                    StudyWord(box, book.wordMode!!)
+                }
+//                GlobalVal.wordViewModel.insertBookmark(vItem)
+//                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
             }
             //口语评测
             findViewById<View>(R.id.kypc).apply {

@@ -260,6 +260,7 @@ class HistroyFilter{
                         a.add(it)
                         hViewModel.selectLevels.value = a
                         wordViewModel.suggestions.value = emptyList()
+
 //                        textValue.value = TextFieldValue()
                     },
                     itemContent = {

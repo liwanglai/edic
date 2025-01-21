@@ -239,9 +239,8 @@ data class BookConf (
             this.ch = word.ch!!
         }
         //保存单词进度
-        if (index > 0) {
-            BookHistroy.lastWord(word.word)
-        }
+        BookHistroy.lastWord(word.word,index)
+
         event.onWordChange.invoke(instance, word)
     }
 

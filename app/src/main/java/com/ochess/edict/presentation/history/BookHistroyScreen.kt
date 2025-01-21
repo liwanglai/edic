@@ -42,7 +42,7 @@ class BookHistroy {
     companion object {
         val sname = "BookHistorys"
         val wname = "BookHistorysLastWord"
-
+        var lastWord = ""
         val key = mutableStateOf("")
         val date: MutableState<TimeStampScope?> = mutableStateOf(null)
         fun search(): List<Item> {
@@ -75,13 +75,15 @@ class BookHistroy {
             }
         }
 
-        fun lastWord(word: String?=null) :String{
+        fun lastWord(word: String?=null,index:Int=0) :String{
             if(word!=null) {
-                UserStatus().set(wname,word)
+                if(index==0 && lastWord.length==0) return ""
+                lastWord = word
+                UserStatus().set(wname, lastWord)
             }else{
-                return UserStatus().getString(wname)
+                lastWord = UserStatus().getString(wname)
             }
-            return ""
+            return lastWord
         }
     }
 

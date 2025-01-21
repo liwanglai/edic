@@ -50,6 +50,16 @@ var textValue: String = "test"
 @OptIn(ExperimentalUnitApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) -> Unit) {
+    remember {
+        val type = arg!!.getInt("type")
+        if (type == 0) {
+            viewModel.search(type = 0, date = DateUtil.abhsDays())
+        } else {
+            viewModel.search(type = type)
+        }
+        type
+    }
+    var boxVisable by remember{ mutableStateOf(PageConf.getInt(PageConf.HistoryPage.defaultHistoryView)) }
     val history by viewModel.history.collectAsState()
     val showPrint by viewModel.showPrintDialog.collectAsState()
 
@@ -61,13 +71,6 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
     val dateIndex = selectDateIndex
     val toastMessage = message
 
-    val type = arg!!.getInt("type")
-    var boxVisable by remember{ mutableStateOf(PageConf.getInt(PageConf.HistoryPage.defaultHistoryView)) }
-    if(type==0) {
-        viewModel.search(type = 0,date= DateUtil.abhsDays())
-    }else {
-        viewModel.search(type = type)
-    }
     //var textValue = "test"
     val mPrinter by  rememberUpdatedState(newValue = MPrinter.printer.status)
     MPrinter.printer.onStatusChange { statusName:String->
