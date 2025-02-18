@@ -23,7 +23,7 @@ data class WordModel(
     var isStudyed:Boolean = false
     fun toBookmarkEntity(): BookmarkEntity {
         return BookmarkEntity(meanings, word, wordsetId,
-            ch=ch!!, intime = System.currentTimeMillis()
+            ch=ch?:"", intime = System.currentTimeMillis()
         )
     }
 

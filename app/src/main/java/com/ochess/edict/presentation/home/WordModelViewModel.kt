@@ -10,6 +10,7 @@ import com.google.accompanist.glide.rememberGlidePainter
 import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.BookConf
+import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.data.local.entity.DictionaryEntity
 import com.ochess.edict.data.local.entity.DictionarySubEntity
 import com.ochess.edict.data.model.Article
@@ -149,17 +150,19 @@ class WordModelViewModel @Inject constructor(
         clearSuggestions()
         prefixMatchJob?.cancel()
         prefixMatchJob = viewModelScope.launch(IO) {
-            if (!searchWords) {
+            if (!searchWords || query.startsWith(":")) {
+                val queryKey = if(searchWords)  query.substring(1) else query;
                 val sugs = arrayListOf<String>()
-                val aQuery = Article.self.query.like("name",query).build()
-                val cQuery = Category.self.query.like("name",query).build()
-                val lQuery = Query(Db.dictionary,"levelTable").like("name",query).build()
+                val aQuery = Article.self.query.like("name",queryKey).build()
+                val cQuery = Category.self.query.like("name",queryKey).build()
+                val lQuery = Query(Db.dictionary,"levelTable").like("name",queryKey).build()
                 val a = Db.user.article.select(aQuery).map { "article.${it.id}:${it.name}" }
                 val c = Db.user.category.select(cQuery).map { "category.${it.id}:${it.name}" }
                 val l = Db.dictionary.levelDao.select(lQuery).map { "level.${it.id}:${it.name}" }
                 sugs.addAll(a); sugs.addAll(c); sugs.addAll(l)
                 suggestions.value = sugs
             } else  if(query.matches(Regex("[\u4E00-\u9FA5]+"))) {
+
                 dictRepository.searchByCh(query).collect { matches ->
                     suggestions.value = matches.map{ it.word+":"+it.ch}
                 }
@@ -246,6 +249,10 @@ class WordModelViewModel @Inject constructor(
                 currentDictionarySub.value = DictionarySubEntity(word = it.word, wordsetId = it.wordsetId, level = it.level)
                 BookConf.instance.next(wordState.value.wordModel!!)
                 if (isWordClick) insertHistory(it.toWordModel())
+                //当前视图是单词列表做一步返回
+                if(viewMode.equals(MenuConf.mode.chapterPage)){
+                    HomeEvents.onback(true)
+                }
             }
         }
     }

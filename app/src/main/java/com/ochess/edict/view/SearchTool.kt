@@ -27,6 +27,7 @@ import com.ochess.edict.presentation.home.HomeEvents
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.WordState
 import com.ochess.edict.presentation.home.components.AutoCompleteTextField
+import com.ochess.edict.presentation.home.viewMode
 import com.ochess.edict.util.ActivityRun
 
 @Composable
