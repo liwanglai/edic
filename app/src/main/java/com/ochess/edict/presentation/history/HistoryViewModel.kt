@@ -184,7 +184,7 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
 
     }
 
-    fun search(type: Int, date: TimeStampScope?=null, levels: ArrayList<String>?=null,callback:(q:Query)->Unit={query->
+    fun search(type: Int, date: TimeStampScope?=null, levels: ArrayList<String>?=null,key:String="",callback:(q:Query)->Unit={query->
         history.value = Db.user.wordModelDao.getHistoryList(query.build()).map{
             it.toWordModel()
         }
@@ -192,6 +192,9 @@ class HistoryViewModel @Inject constructor(private val wordRepo: WordRepository)
         val query = Query(Db.user,"historyTable").order("time desc")
         if(type != -1) {
             query.where("status", type)
+        }
+        if(key!=null && key.length>0){
+            query.like("word",key);
         }
         if(date!=null) {
             if(date.lists.size>0){

@@ -260,7 +260,15 @@ class WordModelViewModel @Inject constructor(
     fun clearSuggestions() {
         suggestions.value = emptyList()
     }
-
+    //是否在保存的记录中
+    suspend fun isInBookmark() :Boolean{
+        val word = wordState.value.wordModel?.word;
+        if(word!=null) {
+            val rt = Db.user.wordModelDao.findBookmarkByWord(word).firstOrNull();
+            if(rt!=null) return true;
+        }
+        return false;
+    }
     fun insertBookmark(wordModel: WordModel) {
         viewModelScope.launch(IO) {
             wordRepo.insertBookmark(wordModel.toBookmarkEntity())

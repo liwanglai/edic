@@ -25,6 +25,9 @@ interface WordModelDao {
     @Query("SELECT * FROM bookmarkTable limit 500")
     fun getBookmark500(): Flow<List<BookmarkEntity>>
 
+    @Query("SELECT * FROM bookmarkTable where word=:word")
+    fun findBookmarkByWord(word:String): Flow<BookmarkEntity>
+
     @Query("SELECT * FROM historyTable")
     fun getAllHistory(): Flow<List<HistoryEntity>>
 

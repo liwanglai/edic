@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.TextField
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
@@ -70,6 +71,7 @@ class HistroyFilter{
                      key:String)->Unit = {a,b,c,d-> }
 
         fun upTypes(newTypes:List<types> = listOf(
+            types.key,
             types.type,
             types.date,
             types.level)
@@ -134,7 +136,7 @@ class HistroyFilter{
             val typeIndex = hViewModel.selectTypeIndex.collectAsState()
             val dateIndex = hViewModel.selectDateIndex.collectAsState()
             val levelIndexs = hViewModel.selectLevels.collectAsState()
-            LaunchedEffect(typeIndex.value,dateIndex.value,levelIndexs.value,timeRange){
+            LaunchedEffect(typeIndex.value,dateIndex.value,levelIndexs.value,timeRange,key.value){
                 val timeStamp:TimeStampScope? = when(dateIndex.value) {
                     1 ->  DateUtil.today()
                     2 ->  DateUtil.thisWeek()
@@ -156,7 +158,8 @@ class HistroyFilter{
                     .alpha(0.85f),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                if(types.key in showTypes) {
+                if(types.
+                    key in showTypes) {
                     filterKey(key)
                 }
                 if(types.type in showTypes) {
@@ -220,7 +223,9 @@ class HistroyFilter{
                     modifier = Modifier
                         .width(4.dp)
                 )
-                Text(key.value)
+                TextField(value=key.value, onValueChange = {
+                    key.value = it;
+                })
             }
         }
         @Composable

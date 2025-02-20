@@ -203,7 +203,7 @@ fun HistoryScreen(arg: Bundle?, viewModel: HistoryViewModel, onItemClick: (Int) 
                                 viewModel.deleteHistory(it)
                             }
                             HistroyFilter.eventChange{type,date,levels,key->
-                                viewModel.search(type=type,date = date,levels=levels)
+                                viewModel.search(type=type,date = date,levels=levels,key=key)
                             }
                         }
                         1-> {

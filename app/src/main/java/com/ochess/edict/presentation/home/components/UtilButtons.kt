@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -21,11 +23,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
+import com.ochess.edict.data.Db
 import com.ochess.edict.data.GlobalVal
 import com.ochess.edict.data.config.SpeakConf
 import com.ochess.edict.data.plug.SpeakSet
@@ -33,6 +37,7 @@ import com.ochess.edict.presentation.home.TTSListener
 import com.ochess.edict.presentation.home.WordModelViewModel
 import com.ochess.edict.presentation.home.dictionaryStringBuilder
 import com.ochess.edict.presentation.main.components.Display.mt
+import com.ochess.edict.presentation.main.extend.bgRun
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.print.MPrinter
 import com.ochess.edict.view.MPopMenu
@@ -194,9 +199,7 @@ fun UtilButtons( viewModel: WordModelViewModel) {
                 }
             }
         )
-    ) {
-
-    }
+    )
 }
 
     Row (
