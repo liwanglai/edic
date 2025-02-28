@@ -87,7 +87,8 @@ fun SearchTool(wordViewModel :WordModelViewModel,defaultText:String=""){
                     val run = {
                         wordViewModel.prefixMatcher(it) {
                             wordViewModel.searcher(it)
-                            wordViewModel.clearSuggestions()
+                            wordViewModel.prefixMatcher(it,false)
+//                            wordViewModel.clearSuggestions()
                             false
                         }
                     }
@@ -129,6 +130,10 @@ fun SearchTool(wordViewModel :WordModelViewModel,defaultText:String=""){
                 onDoneActionClick = {
                     keyboardController?.hide()
                     visible = false
+                    val wordModel = wordViewModel.wordState.value.wordModel
+                    if(wordModel==null){
+                        wordViewModel.searchByOnline(it)
+                    }
                 },
                 //条目单击
                 onItemClick = {

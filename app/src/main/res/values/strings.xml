@@ -322,5 +322,9 @@
     <string name="backToWordList">Back To Word List</string>
     <string name="WordHistory">Word History</string>
 
-
+    <string name="statisticsing">In statistics</string>
+    <string name="stat">Word Frequency Count</string>
+    <string name="listen">Listen Book</string>
+    <string name="read">Read Book</string>
+    <string name="AutoSpeak">Auto Speak</string>
 </resources>

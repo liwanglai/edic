@@ -31,7 +31,11 @@ data class ArticleEntity(
     constructor() : this("")
     fun findWords(text:String=""): List<String> {
         var rt = arrayListOf<String>()
-        val ct = if(text.length>0) text else content
+        var ct = if(text.length>0) text else content
+        /**
+         * 大文件兼容不要读取所有信息
+         */
+        if(ct.length > 50000) ct = ct.substring(0,50000)
         val sections = ct.split(Regex("[\n\r]+")).map{ it.trim() }
         sections.forEach{
             if(! it.matches(Regex("[?\\.!;]+"))){

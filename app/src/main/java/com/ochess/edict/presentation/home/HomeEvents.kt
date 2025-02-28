@@ -13,12 +13,15 @@ import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.config.PathConf
 import com.ochess.edict.data.model.Book
 import com.ochess.edict.domain.model.WordModel
+import com.ochess.edict.presentation.bookmark.BookMarkEvent
 import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.history.HistoryWords
 import com.ochess.edict.presentation.history.components.HistroyFilter
+import com.ochess.edict.presentation.home.HomeEvents.GroupInfoPage.beforMode
 import com.ochess.edict.presentation.home.game.inputWord
 import com.ochess.edict.presentation.main.components.Display.mt
 import com.ochess.edict.presentation.main.components.InputDialog
+import com.ochess.edict.presentation.main.extend.MainRun
 import com.ochess.edict.presentation.main.extend.bgRun
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
@@ -62,7 +65,15 @@ class HomeEvents {
                     }
                 }
                 "book_shows" -> {
-                    viewMode = GroupInfoPage.beforMode
+                    if(GroupInfoPage.beforMode!=null) {
+                        viewMode = GroupInfoPage.beforMode!!
+                    }else {
+                        MainRun(100) {
+                            val pid = Book.cid()
+                            BookMarkEvent.bookId = BookConf.instance.id
+                            NavScreen.BookmarkScreen.open("?pid=${pid}")
+                        }
+                    }
                 }
                 else -> {}
             }
@@ -142,7 +153,7 @@ class HomeEvents {
     }
 
     object GroupInfoPage {
-        lateinit var beforMode: MenuConf.mode
+        var beforMode: MenuConf.mode?=null
         var filterType:Int = -1
         var filterLevels:List<String> =listOf<String>()
 
@@ -153,7 +164,8 @@ class HomeEvents {
             GlobalVal.wordViewModel.upList(BookConf.words)
             HistoryWords.reset()
 //            showMainPage("")
-            viewMode = beforMode
+            if(beforMode!=null)
+            viewMode = beforMode!!
         }
 
         fun onChapterClick(it: String) {
@@ -244,7 +256,9 @@ class HomeEvents {
 
         fun onHistoryWordClick(it: WordModel) {
             GlobalVal.wordViewModel.searcher(it.word)
-            viewMode = beforMode
+            if(beforMode!=null) {
+                viewMode = beforMode!!
+            }
         }
     }
 

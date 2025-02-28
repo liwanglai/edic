@@ -56,7 +56,7 @@ fun AutoCompleteTextField(
     suggestions: MutableStateFlow<List<String>>,
     onSearch: (String) -> Unit,
     onClear: () -> Unit,
-    onDoneActionClick: () -> Unit = {},
+    onDoneActionClick: (t:String) -> Unit = {},
     onItemClick: (t:String) -> Unit = {},
     autoFocus :Boolean = true,
     itemContent: @Composable (t:String) -> Unit = {}
@@ -119,7 +119,7 @@ fun AutoCompleteTextField(
                 unfocusedIndicatorColor = Color.Transparent
             ),
             keyboardActions = KeyboardActions(onDone = {
-                onDoneActionClick()
+                onDoneActionClick(searchQuery.text)
             }),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,

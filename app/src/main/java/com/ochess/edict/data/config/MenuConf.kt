@@ -19,7 +19,8 @@ class MenuConf {
 
         title_book_shows,
         chapterPage,
-        listenBook,
+        listenBook,   //单词统计单独一行
+       // showBook,     //书本原始内容
         findGame,
 //        editBook,
 //        print,

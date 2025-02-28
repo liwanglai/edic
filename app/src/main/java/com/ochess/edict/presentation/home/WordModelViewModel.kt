@@ -25,6 +25,7 @@ import com.ochess.edict.presentation.home.components.OverJump
 import com.ochess.edict.presentation.main.components.InfoDialog
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.util.ActivityRun
+import com.ochess.edict.util.NetDicUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
@@ -146,7 +147,7 @@ class WordModelViewModel @Inject constructor(
         }
     }
 
-    fun prefixMatcher(query: String,searchWords:Boolean=true,onMatch:(word:String)->Boolean) {
+    fun prefixMatcher(query: String,searchWords:Boolean=true,onMatch:(word:String)->Boolean={ false }) {
         clearSuggestions()
         prefixMatchJob?.cancel()
         prefixMatchJob = viewModelScope.launch(IO) {
@@ -162,7 +163,6 @@ class WordModelViewModel @Inject constructor(
                 sugs.addAll(a); sugs.addAll(c); sugs.addAll(l)
                 suggestions.value = sugs
             } else  if(query.matches(Regex("[\u4E00-\u9FA5]+"))) {
-
                 dictRepository.searchByCh(query).collect { matches ->
                     suggestions.value = matches.map{ it.word+":"+it.ch}
                 }
@@ -324,6 +324,16 @@ class WordModelViewModel @Inject constructor(
         var wordList = if(BookConf.instance.index+1 == wordModelList.size || wordModelList.size==0) arrayListOf<WordModel>() else wordModelList.subList(BookConf.instance.index+1,wordModelList.size)
         dictRepository.setWords(wordList)
         //setWordState(0)
+    }
+
+    fun searchByOnline(word: String) {
+        NetDicUtil.youdaoGet(word){
+            val meanings = getMeanings()
+            val ch = getCh()
+            val w = DictionaryEntity(meanings, word, "tmpByNet:" + word, ch, 0)
+            wordState.value = WordState(w.toWordModel())
+            detailState.value = true;
+        }
     }
 
 

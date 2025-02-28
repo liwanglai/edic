@@ -132,6 +132,7 @@ data class BookConf (
             if(it.size==0) return@finds
             val a = it.first()
             doc = a.content
+            if(doc.length>50000) doc = doc.substring(0,50000)
             initByData(doc)
             //usBook(this)
         }
@@ -256,6 +257,10 @@ data class BookConf (
             it.key +"\n"+ it.value.joinToString ( "," )
         }.joinToString ("\n\n" )
         initByData(rows)
+    }
+
+    fun pid(): Int {
+        return Article.find(id)!!.cid
     }
 
 }

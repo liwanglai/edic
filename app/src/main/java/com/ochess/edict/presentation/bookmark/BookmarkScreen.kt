@@ -57,6 +57,7 @@ fun BookmarkScreen() {
                 return@onChangePid
             }
             val ps = Category.getParents(pid)
+            if(ps.size==0) return@onChangePid
             val nowMenu = ps[0]
             val bmChild = arrayListOf<MPopMenu.dataClass>()
             title = nowMenu.name

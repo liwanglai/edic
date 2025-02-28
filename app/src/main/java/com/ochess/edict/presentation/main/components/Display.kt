@@ -73,6 +73,7 @@ object Display {
             if(w>0 && w<h && w<img.width){
                 img = utilImage.cut(img,w,0,0,rt.width,h*(rt.width/w))
             }
+            if(img!=null)
             rt = img.asImageBitmap()
         }
 

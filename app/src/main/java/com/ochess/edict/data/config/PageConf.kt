@@ -3,6 +3,8 @@ package com.ochess.edict.data.config
 import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.SettingConf.Companion
 import com.ochess.edict.presentation.home.viewMode
+import com.ochess.edict.presentation.listenbook.ListenBookData
+import com.ochess.edict.presentation.listenbook.ListenBookScreen
 import com.ochess.edict.presentation.navigation.NavScreen
 import com.ochess.edict.view.MPopMenu
 
@@ -15,7 +17,7 @@ class PageConf {
         DicType,                 //词典类型
         RemainViewMode,          //下一个单词保持当前的视图模式
         viewMode,               //首页默认显示方式
-        SortWords
+        SortWords,               //单词按照字母排序
     }
 
 
@@ -41,7 +43,7 @@ class PageConf {
             "LetterLen" to listOf(0,2,3,4,5,6,7,8,9,10,11).map { it.toString() },
             "DicType" to DicType.values().map { it.name },
             "viewMode" to MPopMenu.ViewModeMenu(),
-            "defaultHistoryView" to MPopMenu.HistoryTypes()
+            "defaultHistoryView" to MPopMenu.HistoryTypes(),
         )
         val default = linkedMapOf(
             "InLetter" to true,
@@ -49,7 +51,7 @@ class PageConf {
             "DefaultShowDetails" to true,
             "DicType" to 2,
             "SortWords" to true,
-            "RemainViewMode" to true,
+            "RemainViewMode" to true
         )
 
 //        public var ViewMode

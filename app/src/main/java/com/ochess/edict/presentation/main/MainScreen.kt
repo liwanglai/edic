@@ -53,6 +53,7 @@ import com.ochess.edict.presentation.home.game.LineGameScreen
 import com.ochess.edict.presentation.home.homescreen.SwitchMainPage
 import com.ochess.edict.presentation.level.LevelScreen
 import com.ochess.edict.presentation.level.LevelViewModel
+import com.ochess.edict.presentation.listenbook.BookShowScreen
 import com.ochess.edict.presentation.listenbook.ListenBookScreen
 import com.ochess.edict.presentation.listenbook.ListenScreen
 import com.ochess.edict.presentation.main.components.Display
@@ -392,6 +393,15 @@ fun MainScreen(
                 "" -> AboutScreen()
                 "privacy" -> PrivacyScreen()
             }
+        }
+
+        composable(route = NavScreen.routes.showBook + "?bid={bid}",arguments = listOf(
+            navArgument("bid") {
+                type = NavType.IntType
+                defaultValue = 0 })
+        ) {
+            val bid = it.arguments!!.getInt("bid",0)
+            BookShowScreen(bid)
         }
     }
     }

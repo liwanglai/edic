@@ -58,6 +58,9 @@ import com.ochess.edict.util.FileUtil
 var showDialog by mutableStateOf(false)
 val TAG: String = "ListenScreen"
 
+/**
+ * 文章列表
+ */
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

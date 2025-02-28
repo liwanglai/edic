@@ -5,23 +5,26 @@ import android.net.Uri
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.speech.tts.Voice
-import android.view.LayoutInflater
-import androidx.activity.ComponentActivity
+import androidx.collection.arrayMapOf
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -33,35 +36,52 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ochess.edict.R
+import com.ochess.edict.data.UserStatus
 import com.ochess.edict.data.config.NetConf
+import com.ochess.edict.data.config.PageConf
 import com.ochess.edict.data.model.Article
+import com.ochess.edict.presentation.home.viewMode
+import com.ochess.edict.presentation.listenbook.BookTools.Companion.ListenControl
+import com.ochess.edict.presentation.listenbook.BookTools.Companion.ShowPage
+import com.ochess.edict.presentation.listenbook.BookTools.Companion.StatPage
+import com.ochess.edict.presentation.listenbook.BookTools.Companion.goBack
 import com.ochess.edict.presentation.main.components.Display.mt
+import com.ochess.edict.presentation.main.extend.MainRun
+import com.ochess.edict.presentation.main.extend.bgRun
 import com.ochess.edict.util.ActivityRun
-import com.ochess.edict.util.ActivityRun.Companion.onBackPressed
 import com.ochess.edict.util.FileUtil
+import com.ochess.edict.view.ClickAbelText
+import com.ochess.edict.view.MPopMenu
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.internal.userAgent
 import java.io.IOException
 import java.util.Locale
 import java.util.UUID
 
+/**
+ * 书本单词列表 带统计信息
+ * 模拟多看的听书功能
+ */
+val lbd =  ListenBookData()
 @Composable
 fun ListenBookScreen(words: List<String>) {
-    val lbd = remember {  ListenBookData() }
-    val args = words
 
+    val args = words
     lbd.apply {
         if (args.size == 1) {
             if(sampleFileUrl != args[0]) {
@@ -72,65 +92,122 @@ fun ListenBookScreen(words: List<String>) {
             textToRead = args.map { it }
         }
         LaunchedEffect(textToRead) {
-            initData()
+            if(textToRead.size>0) {
+                bgRun {
+                    initData(textToRead)
+                }
+            }
         }
         LaunchedEffect(dIndex) {
-            scrollState.animateScrollToItem(dIndex, -500)
+            if(scrollState!=null) {
+                scrollState!!.animateScrollToItem(dIndex, -500)
+                if(dIndex>0)
+                UserStatus.defInterface.set("bookPos",dIndex)
+            }
         }
-
+        if(UserStatus.defInterface.get("bookPos")>0){
+            MainRun(2000){
+                dIndex = UserStatus.defInterface.get("bookPos")
+            }
+        }
 
         bColor = MaterialTheme.colorScheme.background
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+//                verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier
                     .fillMaxSize() // Remove padding
                     .padding(5.dp)
             ) {
-                Row {
-                    var buttonTitle by remember { mutableStateOf("Speak") }
-                    Button(onClick = {
-                        isOpenSpeaking = !isOpenSpeaking
-                        if (buttonTitle == "Speak") {
-                            buttonTitle = "Speaking"
-                            speakOut()
-                        } else {
-                            buttonTitle = "Speak"
-                            tts.stop()
-                        }
-                    }) {
-                        Text(mt(buttonTitle)) // Set text color to soft white
-                    }
-                    Column (modifier = Modifier.padding(10.dp,1.dp)){
-                        Text(
-                            mt("播放速度")+": ${
-                                String.format(
-                                    "%.1f",
-                                    speechRate
-                                )
-                            }"
-                        ) // Set text color to soft white
-                        Slider(
-                            value = speechRate,
-                            onValueChange = {
-                                speechRate = it
-                                tts.setSpeechRate(speechRate)
-                                if (isInitialized && tts.isSpeaking) {
-                                    // Stop speaking the current sentence
-                                    tts.stop()
-                                    // Reinitialize TTS with the new voice
-                                    // Continue speaking from the current index
-                                    continueSpeakingFromIndex(currentSentenceIndex)
+                var menu = MPopMenu(ListenBookData.viewModes.values().map {
+                    MPopMenu.dataClass(it.name,it.name,it)
+                }).upMtTitle()
+                var title by remember { mutableStateOf(UserStatus.get("ShowBookType","read")) }
+                vMode = ListenBookData.viewModes.getByName(title)
+                Row(modifier = Modifier.padding(10.dp,15.dp)) {
+                    Text(
+                        mt(title),
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.clickable {
+                            menu.show { k, v ->
+                                vMode = v.value as ListenBookData.viewModes
+                                title=v.name
+                                UserStatus.set{
+                                    it.putString("ShowBookType",title)
+                                    "ShowBookType"
                                 }
-                            },
-                            valueRange = 0.1f..2.0f, // Extend the range to 5
-                            steps = 30
-                        )
-                    }
+                            }
+                        }
+                    )
+                    menu.add()
                 }
-//                        Row{
+                if(vMode == ListenBookData.viewModes.listen) {
+                    if(sentencesQueue.size==0 && textToRead.size>0) bgRun {  initData(textToRead)}
+                    ListenControl()
+                }
+
+               if(vMode != ListenBookData.viewModes.stat) {
+                   ShowPage()
+               }else{
+                   if(sortedList.value.size==0 && textToRead.size>0) bgRun {  initData(textToRead)}
+                   StatPage()
+               }
+                goBack()
+            }
+        }
+    }
+}
+
+class BookTools {
+    companion object {
+        @Composable
+        fun ListenBookData.ListenControl() {
+            Row (modifier = Modifier.alpha(0.8f).height(50.dp)){
+                var buttonTitle by remember { mutableStateOf("AutoSpeak") }
+                Button(onClick = {
+                    isOpenSpeaking = !isOpenSpeaking
+                    if (buttonTitle == "AutoSpeak") {
+                        buttonTitle = "Speaking"
+                        speakOut()
+                    } else {
+                        buttonTitle = "AutoSpeak"
+                        tts.stop()
+                    }
+                }) {
+                    Text(mt(buttonTitle)) // Set text color to soft white
+                }
+                Column(modifier = Modifier.padding(5.dp)) {
+                    Text(
+                        mt("播放速度") + ": ${
+                            String.format(
+                                "%.1f",
+                                speechRate
+                            )
+                        }"
+                    ) // Set text color to soft white
+                    Slider(
+                        value = speechRate,
+                        onValueChange = {
+                            speechRate = it
+                            tts.setSpeechRate(speechRate)
+                            if (isInitialized && tts.isSpeaking) {
+                                // Stop speaking the current sentence
+                                tts.stop()
+                                // Reinitialize TTS with the new voice
+                                // Continue speaking from the current index
+                                continueSpeakingFromIndex(currentSentenceIndex)
+                            }
+                        },
+                        valueRange = 0.1f..5.0f, // Extend the range to 5
+                        steps = 50
+                    )
+                }
+            }
+
+            //                        Row{
 //                            Column (modifier = Modifier.padding(1.dp)){
 //                                Text(
 //                                    "播放频率: ${
@@ -151,16 +228,35 @@ fun ListenBookScreen(words: List<String>) {
 //                                )
 //                            }
 //                        }
-                Box {
-                    scrollState = rememberLazyListState()
-                    LazyColumn(
-                        state = scrollState,
-                        modifier = Modifier
-                            .fillMaxSize() // Remove padding
 
-                    ) {
-                        items(textToRead.size) {
-                            textColors.add(bColor)
+        }
+
+        /**
+         * 文章内容
+         */
+        @Composable
+        fun ListenBookData.ShowPage() {
+            Box {
+                scrollState = rememberLazyListState()
+                LazyColumn(
+                    state = scrollState!!,
+                    modifier = Modifier
+                        .fillMaxSize() // Remove padding
+                            .background(bColor)
+
+                ) {
+                    //每一段的输出
+                    items(textToRead.size) {
+                        textColors.add(bColor)
+                        if (vMode == ListenBookData.viewModes.read) {
+                            ClickAbelText(text = textToRead[it],
+                                style = MaterialTheme.typography.titleSmall,
+                                lineHeight = TextUnit(18f, TextUnitType.Sp),
+                                fontSize = 18.sp,
+                                color = MaterialTheme.colorScheme.onBackground,
+//                                modifier = Modifier.background(textColors[it])
+                            )
+                        } else {
                             Text(
                                 text = textToRead[it],
                                 modifier = Modifier
@@ -172,8 +268,12 @@ fun ListenBookScreen(words: List<String>) {
                             )
                         }
                     }
+                }
+            }
+        }
 
-
+        @Composable
+        fun goBack() {
 //                    IconButton(onClick = { onBackPressed() }, modifier = Modifier
 //                        .background(MaterialTheme.colorScheme.background)
 //                        .alpha(0.8f)
@@ -184,14 +284,46 @@ fun ListenBookScreen(words: List<String>) {
 //                            contentDescription = null,
 //                            tint = Color.Red)
 //                    }
+        }
+        /**
+         * 词频统计页
+         */
+        @Composable
+        fun ListenBookData.StatPage() {
+            Box {
+                if(sortedList.value.size==0){
+                    Column {
+                        Text(mt("statisticsing")+"...",Modifier.padding(10.dp))
+                        LinearProgressIndicator(
+                            //0.0表示没有进度，1.0表示已完成进度
+                            progress = progress.value,
+                            modifier = Modifier.padding(10.dp).fillMaxWidth(),
+                            color = Color.Green,
+                        )
+                    }
+                }else {
+                    LazyColumn(
+                        state = rememberLazyListState(),
+                        modifier = androidx.compose.ui.Modifier
+                            .fillMaxSize() // Remove padding
+
+                    ) {
+                        //每一段的输出
+                        items(sortedList.value) {
+                            Row (modifier = Modifier.clickable {
+                                tts.speak(it.first,TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
+                            }){
+                                Text(it.first)
+                                Spacer(modifier = Modifier.weight(1f))
+                                Text(it.second.toString())
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
-
-
-
 class ListenBookData :TextToSpeech.OnInitListener {
 
      var isOpenSpeaking: Boolean = false
@@ -199,7 +331,8 @@ class ListenBookData :TextToSpeech.OnInitListener {
 
      var tts: TextToSpeech = TextToSpeech(ActivityRun.context, this)
      val sentencesQueue = arrayListOf<String>()
-     var textToRead by mutableStateOf(listOf<String>())
+     //段落
+     var textToRead  =listOf<String>()
 
      var speechRate by mutableStateOf(1.0f) // Normal speed is 1.0
      var speechVolume by mutableStateOf(1.0f) // Normal speed is 1.0
@@ -214,20 +347,81 @@ class ListenBookData :TextToSpeech.OnInitListener {
 
      var textColors by mutableStateOf(arrayListOf<Color>())
      var dIndex by mutableStateOf(0)
-     var j2dMap = arrayListOf(0)
+     var j2dMap = arrayListOf(0)   //段落到首单词的hash映射
      var bColor: Color = Color.White
-     lateinit var scrollState: LazyListState
+     var scrollState: LazyListState?=null
 
-    fun initData() {
-        if(sentencesQueue.isEmpty()){
-            textToRead.forEach{text->
-                val sentenceDelimiterRegex = Regex("[,.;?!，。；？！]")
-                val rows = sentenceDelimiterRegex.split(text)  //.filter { it.isNotBlank() }
-                sentencesQueue.addAll(rows)
-                j2dMap.add(sentencesQueue.size)
+     val sortedList = mutableStateOf(listOf<Pair<String,Int>>())
+     val progress =  mutableStateOf(0f)
+     enum class viewModes{
+         listen,  //听书
+         read,    //看书
+         stat ;   //词频统计
+
+         companion object {
+             fun getByName(title: String): viewModes {
+                for(m in viewModes.values()){
+                    if(m.name.equals(title)) return m;
+                }
+                 return listen
+             }
+         }
+     }
+     //查看模式
+     var vMode by mutableStateOf( viewModes.listen);
+
+    fun statRun(textToRead:List<String>){
+        var docWordCount = 0;
+        var docWordSum = textToRead.size.toFloat()
+        val words = arrayMapOf<String, Int>()
+        textToRead.forEach {
+            val allWords = it.split(Regex(",|，|\\s+|\\.|!|\"|:")).map {
+                it.replace(Regex("^\\W+|\\W+$"), "")
+            }.filter {
+                it.length > 0 && !it.matches(Regex("^\\d.+"))
             }
-            tts.setSpeechRate(speechRate)
-            tts.voice = selectedVoice ?: tts.defaultVoice
+
+            allWords.forEach {
+                if (!(it in words)) {
+                    words[it] = 0;
+                }
+                words[it] = words[it]!! + 1
+            }
+            progress.value = (docWordCount++ / docWordSum).toFloat()
+        }
+        val sortArray = words.filter {
+            it.value > 1
+        }.toList().sortedByDescending {
+            it.second
+        }
+        sortedList.value = if (sortArray.size > 3000)
+            sortArray.subList(0, 3000)
+        else
+            sortArray
+    }
+
+    fun initData(textToRead:List<String>) {
+        tts.setSpeechRate(speechRate)
+        tts.voice = selectedVoice ?: tts.defaultVoice
+        when(vMode){
+            viewModes.listen -> {
+                if(sentencesQueue.isEmpty()){
+                    textToRead.forEach{text->
+                        val sentenceDelimiterRegex = Regex("[,.;?!，。；？！]")
+                        val rows = sentenceDelimiterRegex.split(text)  //.filter { it.isNotBlank() }
+                        sentencesQueue.addAll(rows)
+                        j2dMap.add(sentencesQueue.size)
+                    }
+                }
+            }
+            viewModes.stat -> {
+                if(sortedList.value.size==0) {
+                    statRun(textToRead)
+                }
+            }
+            else ->{
+
+            }
         }
     }
 
@@ -285,11 +479,13 @@ class ListenBookData :TextToSpeech.OnInitListener {
         if(url.startsWith("content://")) {
             val uri = Uri.parse(url)
             val textData =  FileUtil.readTextFile(uri)
-            textToRead = textData.split(Regex("[\\r\\n]"))
+            textToRead = textData.split(Regex("[\\r\\n]+"))
             return
         }else if(url.matches(Regex("^\\d+$"))){
             Article.getContent(url.toInt()) { textData->
-                textToRead = textData.split(Regex("[\\r\\n]"))
+//                val tData = if(textData.length<500000) textData else textData.substring(0,500000)
+                textToRead = textData.split(Regex("[\\r\\n]+"))
+               // MainRun { ActivityRun.msg("article read ok perCount:"+textData.length) }
             }
             return
         }
@@ -308,7 +504,8 @@ class ListenBookData :TextToSpeech.OnInitListener {
                     var textData = response.body?.string() ?: ""
                     textData = textData.convertANSIToUTF8()
                     withContext(Dispatchers.Main) {
-                        textToRead = textData.split(Regex("[\\r\\n]"))
+//                        if(textData.length>500000) textData = textData.substring(0,500000)
+                        textToRead = textData.split(Regex("[\\r\\n]+"))
                     }
                 }
             } catch (e: Exception) {

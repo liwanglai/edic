@@ -167,6 +167,9 @@ class UserStatus() {
             editor.remove(key + KEY_EXPIRATION_TIME)
             editor.apply()
         }
+        fun <T> get(key:String,defv: T) :T {
+            return (defInterface.config.all.get(key)?: defv) as T
+        }
         fun <T> get(key:String,getf: SharedPreferences.(k:String)->T) :T {
             val expirationTime: Long = defInterface.config.getLong(key + KEY_EXPIRATION_TIME, -1)
             if (expirationTime != -1L && Date().time > expirationTime) {

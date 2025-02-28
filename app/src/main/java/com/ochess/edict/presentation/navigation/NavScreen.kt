@@ -34,6 +34,7 @@ sealed class NavScreen(val route: String) {
         const val Quit="quit"
         const val Setup="Setup"
         const val History = "History"
+        const val showBook = "ShowBook"
         const val HistorySearchByEdinhouse = "History?type=0"
     }
     fun open(s: String="") {

@@ -223,4 +223,10 @@
     <string name="backToWordList">返回单词列表</string>
     <string name="WordHistory">历史单词</string>
 
+
+    <string name="statisticsing">统计中</string>
+    <string name="stat">词频统计</string>
+    <string name="listen">听书</string>
+    <string name="read">看书</string>
+    <string name="AutoSpeak">自动播放</string>
 </resources>

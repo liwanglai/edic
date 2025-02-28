@@ -114,6 +114,7 @@ dependencies {
     // Bugly
     implementation("com.tencent.bugly:crashreport:latest.release")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("org.jsoup:jsoup:1.15.3")
 
     implementation(mapOf( "group" to "com.fasterxml.jackson.core", "name" to "jackson-core", "version" to "2.13.3"))
     implementation(mapOf( "group" to "com.fasterxml.jackson.core", "name" to "jackson-databind", "version" to "2.13.3"))

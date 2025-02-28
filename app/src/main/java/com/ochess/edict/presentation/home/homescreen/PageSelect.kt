@@ -15,6 +15,7 @@ import com.ochess.edict.data.config.BookConf
 import com.ochess.edict.data.config.MenuConf
 import com.ochess.edict.data.config.MenuConf.mode.*
 import com.ochess.edict.data.local.entity.DictionarySubEntity
+import com.ochess.edict.data.model.Book
 import com.ochess.edict.presentation.bookmark.data.BookItem
 import com.ochess.edict.presentation.history.HistoryViewModel
 import com.ochess.edict.presentation.home.HomeEvents
@@ -26,6 +27,7 @@ import com.ochess.edict.presentation.home.jdc.study_word
 import com.ochess.edict.presentation.home.jdc.write_word
 import com.ochess.edict.presentation.home.nowBookShowType
 import com.ochess.edict.presentation.home.viewMode
+import com.ochess.edict.presentation.listenbook.BookShowScreen
 import com.ochess.edict.presentation.listenbook.ListenBookScreen
 import com.ochess.edict.presentation.main.components.Display
 import com.ochess.edict.presentation.main.components.InputDialog
@@ -75,10 +77,9 @@ fun PageSelect(
                 ExtGame()
             }
             listenBook -> {
-                ListenBookScreen(words)
+                ListenBookScreen(if(words.size==0) listOf(BookConf.instance.id.toString()) else words)
 //                viewMode = wordStudy
             }
-
             findGame -> {
                 HomeEvents.status.enableDrowUp = false
                 LineGameScreen(words)
@@ -116,7 +117,6 @@ fun PageSelect(
                 val ap = remember {  mutableStateOf(1f) }
                 GroupInfoPage(ap)
             }
-
             else ->{
 
             }

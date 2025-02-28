@@ -11,9 +11,11 @@ import kotlinx.coroutines.withContext
 
 
 fun bgRun(run:()->Unit)  {
-    runBlocking{
-        withContext(Dispatchers.IO) {
+    CoroutineScope(Dispatchers.IO).launch {
+        runBlocking {
+            withContext(Dispatchers.IO) {
                 run()
+            }
         }
     }
 }
