@@ -177,21 +177,22 @@ class WordModelViewModel @Inject constructor(
                                 val setSug = onMatch(query)
                                 if(setSug) {
                                     val moreSug = arrayListOf<String>()
-                                    moreSug.addAll(sublist)
-                                    moreSug.addAll(
-                                        Article.grep(query).map { "article.${it.id}:${it.name}" })
-                                    val queryObj =
-                                        Query(Db.user, "historyTable").like("word", query).build()
+
+                                    val queryObj = Query(Db.user, "historyTable").like("word", query).build()
                                     moreSug.addAll(
                                         Db.user.wordModelDao.getHistoryList(queryObj).map {
-                                            val date =
-                                                SimpleDateFormat("yyyy-MM-dd").format(Date(it.time))
+                                            val date = SimpleDateFormat("yyyy-MM-dd").format(Date(it.time))
                                             "history:${date}"
                                         })
-//                                if(it.level>0) {
-//                                    val levelEntity = Db.dictionary.levelDao.queryName(it.level)
-//                                    moreSug.add("level.${it.level}:" + levelEntity.name)
-//                                }
+                                    val bQuery = Query(Db.user, "bookmarkTable").like("word", query).build()
+                                    moreSug.addAll(
+                                        Db.user.wordModelDao.getBookMarkList(bQuery).map {
+                                            val date = SimpleDateFormat("yyyy-MM-dd").format(Date(it.intime))
+                                            "bookmark:${date}"
+                                        })
+
+                                    moreSug.addAll(Article.grep(query).map { "article.${it.id}:${it.name}" })
+//                                    moreSug.addAll(sublist)
                                     suggestions.value = moreSug
                                 }
                             }
@@ -219,6 +220,9 @@ class WordModelViewModel @Inject constructor(
                     "level" -> {
 //                        changeLevelAndGetNewRandomDictionary(id)
                         NavScreen.openHome(PAGE_FROM_LEVEL,0,id)
+                    }
+                    "bookmark" -> {
+                        NavScreen.BookmarkScreen.open();
                     }
                     "history" ->{
                         HistoryViewModel.searchDay(value)

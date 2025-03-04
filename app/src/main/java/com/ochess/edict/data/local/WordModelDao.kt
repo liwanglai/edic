@@ -38,6 +38,9 @@ interface WordModelDao {
     fun getHistoryList(start: Long, end: Long): Flow<List<HistoryEntity>>
     @RawQuery
     fun getHistoryList(query: SupportSQLiteQuery): List<HistoryEntity>
+
+    @RawQuery
+    fun getBookMarkList(query: SupportSQLiteQuery): List<BookmarkEntity>
     @RawQuery
     fun count(query: SupportSQLiteQuery): Int
 

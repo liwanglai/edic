@@ -65,6 +65,13 @@ fun SwitchMainPage(
             val i = p.indexOf(MenuConf.mode.wordExtGame)
             p.removeAt(i)
         }
+    }else{
+        //单词数量大于100个就不要滑词游戏了
+        if(BookConf.words.size>100){
+            val p = itemGroups["book_shows"]
+            val i = p!!.indexOf(MenuConf.mode.findGame)
+            p.removeAt(i)
+        }
     }
 
     LazyColumn (

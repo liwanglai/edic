@@ -192,7 +192,7 @@ fun ClickAbelText(
             it.setTypeface(null, Typeface.ITALIC)
         }
         it.setTextColor(colorInt)
-        //it.setTextSize(18f)
+        it.setTextSize(fontSize.value)
         it.movementMethod = LinkMovementMethod.getInstance()
     }
 

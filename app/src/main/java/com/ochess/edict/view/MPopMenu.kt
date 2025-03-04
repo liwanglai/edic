@@ -221,9 +221,10 @@ class MPopMenu(var items: ArrayList<dataClass>) {
 //                dataClass("Print","Print",MenuConf.mode.print),
             ))
             val itemGroups = MenuConf.modeGroups()
+            var index=0
             itemGroups?.forEach {
                 it.value.forEach {
-                    rt.items.add(dataClass(it.name, it.name, it.ordinal))
+                    rt.items.add(dataClass(it.name, it.name, index++))
                 }
             }
             return rt

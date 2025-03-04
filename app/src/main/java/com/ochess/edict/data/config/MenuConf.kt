@@ -74,21 +74,13 @@ class MenuConf {
             return nMap[UserStatus.defInterface.get("menu")]?:""
         }
 
-        fun modeNow(id:Int=-1): mode {
-            if(id == -1) {
-                var index = UserStatus.get{
-                    it.getInt("viewMode",1)
-                }
-                val m = mode.values().get(index)
-                return m
+        fun modeNow(): mode {
+            var index = UserStatus.get{
+                it.getInt("viewMode",0)
             }
 
-            UserStatus.set{
-                it.putInt("viewMode",id)
-                "viewMode"
-            }
-
-            return mode.values().get(id)
+            val m = mode.values().filter {!it.name.startsWith("title_")  }.get(index)
+            return m
         }
 
         fun modeGroups(): LinkedHashMap<String, ArrayList<mode>> {

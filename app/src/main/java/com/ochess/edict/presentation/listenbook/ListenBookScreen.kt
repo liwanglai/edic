@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material3.Button
@@ -135,10 +136,10 @@ fun ListenBookScreen(words: List<String>) {
                             menu.show { k, v ->
                                 vMode = v.value as ListenBookData.viewModes
                                 title=v.name
-                                UserStatus.set{
-                                    it.putString("ShowBookType",title)
-                                    "ShowBookType"
-                                }
+//                                UserStatus.set{
+//                                    it.putString("ShowBookType",title)
+//                                    "ShowBookType"
+//                                }
                             }
                         }
                     )
@@ -152,7 +153,9 @@ fun ListenBookScreen(words: List<String>) {
                if(vMode != ListenBookData.viewModes.stat) {
                    ShowPage()
                }else{
-                   if(sortedList.value.size==0 && textToRead.size>0) bgRun {  initData(textToRead)}
+                   if(sortedList.value.size==0 && textToRead.size>0) bgRun {
+                       initData(textToRead)
+                   }
                    StatPage()
                }
                 goBack()
@@ -251,7 +254,7 @@ class BookTools {
                         if (vMode == ListenBookData.viewModes.read) {
                             ClickAbelText(text = textToRead[it],
                                 style = MaterialTheme.typography.titleSmall,
-                                lineHeight = TextUnit(18f, TextUnitType.Sp),
+                                lineHeight = 30.sp,
                                 fontSize = 18.sp,
                                 color = MaterialTheme.colorScheme.onBackground,
 //                                modifier = Modifier.background(textColors[it])
@@ -302,20 +305,25 @@ class BookTools {
                         )
                     }
                 }else {
+
                     LazyColumn(
                         state = rememberLazyListState(),
                         modifier = androidx.compose.ui.Modifier
                             .fillMaxSize() // Remove padding
 
                     ) {
-                        //每一段的输出
-                        items(sortedList.value) {
+                        var sum = 0f
+                        itemsIndexed(sortedList.value) {index,it->
                             Row (modifier = Modifier.clickable {
                                 tts.speak(it.first,TextToSpeech.QUEUE_FLUSH, null, UUID.randomUUID().toString())
                             }){
+                                if(index==0) sum =0f;
+                                sum+=it.second
+                                val num = String.format("%.2f%%--%.2f%%(%d)",(it.second.toFloat()/docWordSum*100),(sum/docWordSum*100), it.second);
+                                Text((index+1).toString()+".", modifier = Modifier.padding(0.dp,0.dp,5.dp,0.dp))
                                 Text(it.first)
                                 Spacer(modifier = Modifier.weight(1f))
-                                Text(it.second.toString())
+                                Text(num)
                             }
                         }
                     }
@@ -352,6 +360,7 @@ class ListenBookData :TextToSpeech.OnInitListener {
      var scrollState: LazyListState?=null
 
      val sortedList = mutableStateOf(listOf<Pair<String,Int>>())
+     var docWordSum = 0
      val progress =  mutableStateOf(0f)
      enum class viewModes{
          listen,  //听书
@@ -371,10 +380,14 @@ class ListenBookData :TextToSpeech.OnInitListener {
      var vMode by mutableStateOf( viewModes.listen);
 
     fun statRun(textToRead:List<String>){
-        var docWordCount = 0;
-        var docWordSum = textToRead.size.toFloat()
+        var docPerCount = 0;
+        val docPerSum = textToRead.size.toFloat()
         val words = arrayMapOf<String, Int>()
-        textToRead.forEach {
+        docWordSum = 0
+        textToRead.//去掉中文内容
+            filter {
+                !it.matches(Regex(".+[\u4E00-\u9FA5]+.+"))
+            }.forEach {
             val allWords = it.split(Regex(",|，|\\s+|\\.|!|\"|:")).map {
                 it.replace(Regex("^\\W+|\\W+$"), "")
             }.filter {
@@ -387,20 +400,26 @@ class ListenBookData :TextToSpeech.OnInitListener {
                 }
                 words[it] = words[it]!! + 1
             }
-            progress.value = (docWordCount++ / docWordSum).toFloat()
+            docWordSum+=allWords.size
+            progress.value = (docPerCount++ / docPerSum).toFloat()
         }
         val sortArray = words.filter {
             it.value > 1
         }.toList().sortedByDescending {
             it.second
         }
+
         sortedList.value = if (sortArray.size > 3000)
             sortArray.subList(0, 3000)
-        else
+        else if(sortArray.size>0)
             sortArray
+        else
+            words.toList()
     }
-
+    var runOneceInit = arrayMapOf(viewModes.listen to false,viewModes.stat to false,viewModes.read to false);
     fun initData(textToRead:List<String>) {
+       if(runOneceInit[vMode]!!) return;
+        runOneceInit[vMode] = true;
         tts.setSpeechRate(speechRate)
         tts.voice = selectedVoice ?: tts.defaultVoice
         when(vMode){

@@ -87,9 +87,7 @@ fun SearchTool(wordViewModel :WordModelViewModel,defaultText:String=""){
                     val run = {
                         wordViewModel.prefixMatcher(it) {
                             wordViewModel.searcher(it)
-                            wordViewModel.prefixMatcher(it,false)
-//                            wordViewModel.clearSuggestions()
-                            false
+                            true
                         }
                     }
                     //延迟执行 不要输入一次就搜索一次

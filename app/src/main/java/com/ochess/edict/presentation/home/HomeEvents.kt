@@ -164,8 +164,11 @@ class HomeEvents {
             GlobalVal.wordViewModel.upList(BookConf.words)
             HistoryWords.reset()
 //            showMainPage("")
-            if(beforMode!=null)
-            viewMode = beforMode!!
+            if(beforMode!=null) {
+                viewMode = beforMode!!
+            }else{
+                viewMode = MenuConf.mode.wordStudy
+            }
         }
 
         fun onChapterClick(it: String) {

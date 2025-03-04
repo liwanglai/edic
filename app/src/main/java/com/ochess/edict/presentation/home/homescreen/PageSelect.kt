@@ -77,7 +77,8 @@ fun PageSelect(
                 ExtGame()
             }
             listenBook -> {
-                ListenBookScreen(if(words.size==0) listOf(BookConf.instance.id.toString()) else words)
+//                ListenBookScreen(if(words.size==0) listOf(BookConf.instance.id.toString()) else words)
+                ListenBookScreen(listOf(BookConf.instance.id.toString()))
 //                viewMode = wordStudy
             }
             findGame -> {

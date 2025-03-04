@@ -137,6 +137,35 @@ data class BookConf (
             //usBook(this)
         }
     }
+    //文章类型是不是单词列表
+    fun typeIsWordList():Boolean{
+        return !doc.matches(Regex("[\\.;\"]"))
+    }
+    //是不是中文段落
+    fun perIsCh(per:String):Boolean{
+        return per.matches(Regex("[\u4E00-\u9FA5]+"))
+    }
+    //获取到段落中单词
+    fun gPerWords(mapWords:String) : List<String>{
+        if(typeIsWordList()) {
+            return mapWords.split(Regex(",|，|\\s+"))
+                .map{
+                    it.trim()
+                }.filter {
+                    it.length>0
+                }.toHashSet().toList()
+        }else {
+            var rt = mapWords.split(Regex(",|，|\\s+|\\.|!|\"|:"))
+                .map {
+                    it.trim()
+                    it.replace(Regex("^\\W+|\\W+$"), "")
+                }.filter {
+                    it.length > 0 && !it.matches(Regex("^\\d.+"))
+                }
+            rt = rt.toHashSet().toList()
+            return rt;
+        }
+    }
     private fun initByData(doc:String){
         var beforeLine = ""
         var beforeChapter = ""
@@ -145,21 +174,25 @@ data class BookConf (
         chapters.clear()
         chapterMapWords.clear()
         index=0
-        doc.split(Regex("[\\r\\n]")).map{it.trim()}.forEach{
-            if(beforeLine.length ==0 && it.length>0) {
-                if(mapWords.length>0) {
-                    chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，|\\s+")).map{it.trim()}.filter { it.length>0 }//a.findWords(mapWords)
-                    mapWords = ""
+        doc.split(Regex("\\r\\n|\\r|\\n")).map{it.trim()}.forEach{
+            if(it.length>0) {
+                //当前行的长度大于0 并且上面是个空行长度小于50或Chapter开头就认为是一个章节
+                if ((beforeLine.length == 0 && it.length<50)|| it.startsWith("Chapter ")) {
+                    if (mapWords.length > 0) {
+                        chapterMapWords[beforeChapter] = gPerWords(mapWords)
+                        mapWords = ""
+                    }
+                    chapters.add(it)
+                    beforeChapter = it
+                } else {
+                    if(!perIsCh(it))
+                    mapWords += "," + it
                 }
-                chapters.add(it)
-                beforeChapter = it
-            }else{
-                mapWords += ",$it"
             }
             beforeLine = it
         }
         if(mapWords.length>0) {
-            chapterMapWords[beforeChapter] = mapWords.split(Regex(",|，|\\s+")).map{it.trim()}.filter{it.length>0}
+            chapterMapWords[beforeChapter] = gPerWords(mapWords)
         }
         if(chapters.size ==1 && name!="历史记录页"){
             val first = chapters[0]
@@ -172,7 +205,7 @@ data class BookConf (
             chapterMapWords[chapters[0]] = newList
             chapterMapWords.remove(first)
         }
-        if(!chapters.contains(chapterName)) {
+        if(chapters.size>0 && !chapters.contains(chapterName)) {
             chapterName = chapters[0]
         }
         save(chapterName,false)

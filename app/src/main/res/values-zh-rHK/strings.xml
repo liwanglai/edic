@@ -73,11 +73,11 @@
     <string name="jdc_main">學單詞</string>
     <string name="jdc_select">選單詞</string>
     <string name="jdc_write">寫單詞</string>
-    <string name="listenBook">看單詞</string>
+    <string name="listenBook">書本原文</string>
     <string name="editBook">編輯單詞列表</string>
     <string name="print">打印單詞列表</string>
     <string name="game">遊戲</string>
-    <string name="findGame">找單詞</string>
+    <string name="findGame">找單詞(滑詞遊戲)</string>
     <string name="wordScapesGame">同字母單詞</string>
     <string name="wordExtGame">擴展詞</string>
 
