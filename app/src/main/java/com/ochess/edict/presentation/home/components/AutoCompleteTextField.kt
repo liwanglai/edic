@@ -1,5 +1,6 @@
 package com.ochess.edict.presentation.home.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.ScrollableState
@@ -15,6 +16,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -144,6 +147,7 @@ fun AutoCompleteTextField(
                 .padding(5.dp)
                 .alpha( 0.8f )
                 .verticalScroll(rememberScrollState())
+//                , colors = CardDefaults.cardColors(containerColor = Color(0x99aaaaaa), contentColor = Color.Black)
             ) {
                 sug.forEach {
                     var word = it
@@ -155,7 +159,10 @@ fun AutoCompleteTextField(
                     }
                     Row(modifier = Modifier.clickable {
                         onItemClick(word)
-                    }.fillMaxWidth().height(30.dp).padding(start = 10.dp, bottom = 10.dp)){
+                    }.fillMaxWidth()
+                        .height(30.dp)
+                        .padding(start = 10.dp, bottom = 10.dp)
+                    ){
                         Text(word, modifier = Modifier.weight(1f))
                         if(ch.length>0){
                             Text(ch, color = Color.Gray)

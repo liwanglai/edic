@@ -258,7 +258,11 @@ class HomeEvents {
         }
 
         fun onHistoryWordClick(it: WordModel) {
-            GlobalVal.wordViewModel.searcher(it.word)
+            GlobalVal.wordViewModel.apply {
+                searcher(it.word)
+                wordState.value = WordState(it)
+            }
+
             if(beforMode!=null) {
                 viewMode = beforMode!!
             }

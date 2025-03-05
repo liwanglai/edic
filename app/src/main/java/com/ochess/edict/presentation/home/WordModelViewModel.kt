@@ -191,7 +191,7 @@ class WordModelViewModel @Inject constructor(
                                             "bookmark:${date}"
                                         })
 
-                                    moreSug.addAll(Article.grep(query).map { "article.${it.id}:${it.name}" })
+//                                    moreSug.addAll(Article.grep(query).map { "article.${it.id}:${it.name}" })
 //                                    moreSug.addAll(sublist)
                                     suggestions.value = moreSug
                                 }
